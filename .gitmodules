@@ -1,0 +1,3 @@
+[submodule "appcompat"]
+	path = appcompat
+	url = ssh://git@fh-config.de/appcompat
