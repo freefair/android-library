@@ -1,6 +1,6 @@
 package de.larsgrefer.android.library.injection.annotation;
 
-import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,13 +8,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by larsgrefer on 23.11.14.
+ * Created by larsgrefer on 24.11.14.
  */
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface XmlView {
-	@IdRes
-	public int id() default DEFAULT_ID;
+public @interface XmlLayout {
+	@LayoutRes
+	public int id();
 
-	public static final int DEFAULT_ID = -1;
+	public Class<?> r();
 }

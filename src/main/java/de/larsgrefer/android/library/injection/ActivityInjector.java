@@ -1,6 +1,8 @@
 package de.larsgrefer.android.library.injection;
 
 import android.app.Activity;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.view.View;
 
 import java.lang.reflect.Field;
@@ -8,18 +10,23 @@ import java.lang.reflect.Field;
 /**
  * Created by larsgrefer on 23.11.14.
  */
-public class ActivityInjector<T extends Activity> extends Injector {
+public class ActivityInjector extends Injector<Activity> {
 
-	T activity;
-	Class<T> activityClass;
+	public ActivityInjector(Activity activity){
+		super(activity);
+	}
 
-	public ActivityInjector(T activity){
-		this.activity = activity;
-		this.activityClass = (Class<T>) activity.getClass();
+	public ActivityInjector(Activity activity, Class<?> rClass){
+		super(activity, rClass);
 	}
 
 	@Override
-	protected View findViewId(Field field) {
-		return null;
+	protected void setLayout(@LayoutRes int layoutId) {
+		getObject().setContentView(layoutId);
+	}
+
+	@Override
+	protected View findViewById(@IdRes int id) {
+		return getObject().findViewById(id);
 	}
 }
