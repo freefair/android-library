@@ -19,6 +19,7 @@ public class InjectionActionBarActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		injector = new ActivityInjector(this);
+		injector.tryInjectLayout();
 	}
 
 	@Override

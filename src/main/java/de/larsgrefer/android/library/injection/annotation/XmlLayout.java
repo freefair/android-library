@@ -16,5 +16,5 @@ public @interface XmlLayout {
 	@LayoutRes
 	public int id();
 
-	public Class<?> r();
+	public Class<?> rClass();
 }

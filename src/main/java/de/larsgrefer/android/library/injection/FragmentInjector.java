@@ -22,10 +22,6 @@ public class FragmentInjector extends Injector<Fragment> {
 	}
 
 	@Override
-	protected void setLayout(@LayoutRes int id) {
-	}
-
-	@Override
 	protected View findViewById(@IdRes int viewId) {
 		View view = null;
 		if( getObject().getView() != null){

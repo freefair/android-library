@@ -12,6 +12,8 @@ import java.lang.reflect.Field;
  */
 public class ActivityInjector extends Injector<Activity> {
 
+
+
 	public ActivityInjector(Activity activity){
 		super(activity);
 	}
@@ -20,9 +22,12 @@ public class ActivityInjector extends Injector<Activity> {
 		super(activity, rClass);
 	}
 
-	@Override
-	protected void setLayout(@LayoutRes int layoutId) {
-		getObject().setContentView(layoutId);
+	public boolean tryInjectLayout(){
+		if(getLayoutId() != 0){
+			getObject().setContentView(getLayoutId());
+			return true;
+		}
+		return false;
 	}
 
 	@Override
