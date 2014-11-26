@@ -26,3 +26,5 @@ proguard/
 
 # Log Files
 *.log
+
+android-library.iml
