@@ -28,3 +28,4 @@ proguard/
 *.log
 
 *.iml
+android-library.iml
