@@ -2,23 +2,22 @@ package de.larsgrefer.android.library.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
 
-import de.larsgrefer.android.library.injection.ActivityInjector;
-import de.larsgrefer.android.library.injection.Injector;
+import de.larsgrefer.android.library.injection.ActivityXmlInjector;
 import de.larsgrefer.android.library.injection.ViewIdNotFoundException;
-import de.larsgrefer.android.library.injection.annotation.XmlLayout;
 
 /**
  * Created by larsgrefer on 23.11.14.
  */
 public class InjectionActionBarActivity extends ActionBarActivity {
 
-	ActivityInjector injector;
+	ActivityXmlInjector injector;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		injector = new ActivityInjector(this);
+		injector = new ActivityXmlInjector(this);
 		injector.tryInjectLayout();
 	}
 
@@ -30,5 +29,15 @@ public class InjectionActionBarActivity extends ActionBarActivity {
 		} catch (ViewIdNotFoundException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		if(injector.getMenuId() != 0){
+			getMenuInflater().inflate(injector.getMenuId(), menu);
+			super.onCreateOptionsMenu(menu);
+			return true;
+		}
+		return super.onCreateOptionsMenu(menu);
 	}
 }

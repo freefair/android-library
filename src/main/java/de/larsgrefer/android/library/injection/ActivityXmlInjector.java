@@ -2,23 +2,18 @@ package de.larsgrefer.android.library.injection;
 
 import android.app.Activity;
 import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
 import android.view.View;
-
-import java.lang.reflect.Field;
 
 /**
  * Created by larsgrefer on 23.11.14.
  */
-public class ActivityInjector extends Injector<Activity> {
+public class ActivityXmlInjector extends XmlInjector<Activity> {
 
-
-
-	public ActivityInjector(Activity activity){
-		super(activity);
+	public ActivityXmlInjector(Activity activity){
+		super(activity, RClassHelper.getRClassFromActivity(activity));
 	}
 
-	public ActivityInjector(Activity activity, Class<?> rClass){
+	public ActivityXmlInjector(Activity activity, Class<?> rClass){
 		super(activity, rClass);
 	}
 
@@ -34,4 +29,5 @@ public class ActivityInjector extends Injector<Activity> {
 	protected View findViewById(@IdRes int id) {
 		return getObject().findViewById(id);
 	}
+
 }

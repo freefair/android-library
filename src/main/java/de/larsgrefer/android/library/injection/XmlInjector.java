@@ -2,29 +2,26 @@ package de.larsgrefer.android.library.injection;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.MenuRes;
 import android.view.View;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-import de.larsgrefer.android.library.Logger;
 import de.larsgrefer.android.library.injection.annotation.XmlLayout;
+import de.larsgrefer.android.library.injection.annotation.XmlMenu;
 import de.larsgrefer.android.library.injection.annotation.XmlView;
 import de.larsgrefer.android.library.reflection.Reflection;
 
 /**
  * Created by larsgrefer on 23.11.14.
  */
-public abstract class Injector<T> {
+public abstract class XmlInjector<T> {
 
 	private T object;
 	private Class<?> rClass;
 
-	public Injector(T object) {
-		this.setObject(object);
-	}
-
-	public Injector(T object, Class<?> rClass){
+	public XmlInjector(T object, Class<?> rClass){
 		this.setObject(object);
 		this.rClass = rClass;
 	}
@@ -59,9 +56,10 @@ public abstract class Injector<T> {
 	protected void setObject(T object){
 		this.object = object;
 		if(getObjectClass().isAnnotationPresent(XmlLayout.class)){
-			XmlLayout xmlLayoutAnnotation = getObjectClass().getAnnotation(XmlLayout.class);
-			setR(xmlLayoutAnnotation.rClass());
-			setLayoutId(xmlLayoutAnnotation.id());
+			setLayoutId(getObjectClass().getAnnotation(XmlLayout.class).value());
+		}
+		if(getObjectClass().isAnnotationPresent(XmlMenu.class)){
+			setMenuId(getObjectClass().getAnnotation(XmlMenu.class).value());
 		}
 	}
 
@@ -77,9 +75,20 @@ public abstract class Injector<T> {
 		return this.layoutId;
 	}
 
+	@MenuRes
+	private int menuId;
+
+	public void setMenuId(@MenuRes int menuId){
+		this.menuId = menuId;
+	}
+
+	@MenuRes
+	public int getMenuId(){
+		return this.menuId;
+	}
 
 	public void injectViews() throws ViewIdNotFoundException {
-		List<Field> viewFields = Reflection.getFieldsWithAnnotationPresent(getObjectClass(), XmlView.class);
+		List<Field> viewFields = Reflection.getDeclaredFieldsWithAnnotationPresent(getObjectClass(), XmlView.class);
 
 		for(Field field : viewFields){
 			field.setAccessible(true);
@@ -103,9 +112,9 @@ public abstract class Injector<T> {
 		if(field.isAnnotationPresent(XmlView.class))
 		{
 			XmlView xmlViewAnnotation = field.getAnnotation(XmlView.class);
-			if(xmlViewAnnotation.id() != XmlView.DEFAULT_ID)
+			if(xmlViewAnnotation.value() != XmlView.DEFAULT_ID)
 			{
-				viewId = xmlViewAnnotation.id();
+				viewId = xmlViewAnnotation.value();
 			}
 		}
 
@@ -127,4 +136,5 @@ public abstract class Injector<T> {
 		}
 		return viewId;
 	}
+
 }

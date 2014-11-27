@@ -5,32 +5,34 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import de.larsgrefer.android.library.injection.FragmentInjector;
+import de.larsgrefer.android.library.injection.FragmentXmlInjector;
 import de.larsgrefer.android.library.injection.IViewFinder;
 import de.larsgrefer.android.library.injection.ViewIdNotFoundException;
-import de.larsgrefer.android.library.injection.annotation.XmlLayout;
 
 /**
  * Created by larsgrefer on 24.11.14.
  */
 public class InjectionFragment extends Fragment {
 
-	FragmentInjector injector;
+	FragmentXmlInjector injector;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		injector = new FragmentInjector(this);
+		injector = new FragmentXmlInjector(this);
+		if(injector.getMenuId() != 0){
+			setHasOptionsMenu(true);
+		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		Class<? extends InjectionFragment> clazz = this.getClass();
-		if(clazz.isAnnotationPresent(XmlLayout.class)){
-			XmlLayout xmlLayoutAnnotation = clazz.getAnnotation(XmlLayout.class);
-			final View view = inflater.inflate(xmlLayoutAnnotation.id(), container, false);
+		if (injector.getLayoutId() != 0) {
+			final View view = inflater.inflate(injector.getLayoutId(), container, false);
 
 			injector.setViewFinder(new IViewFinder() {
 				@Override
@@ -46,6 +48,14 @@ public class InjectionFragment extends Fragment {
 
 			return view;
 		}
-		return super.onCreateView(inflater,container,savedInstanceState);
+		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		if (injector.getMenuId() != 0) {
+			inflater.inflate(injector.getMenuId(), menu);
+		}
+		super.onCreateOptionsMenu(menu, inflater);
 	}
 }

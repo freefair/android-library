@@ -18,38 +18,56 @@ public class Logger {
 	}
 
 	public static void verbose(Object tag, String text){
-		Log.v(tag.getClass().getSimpleName(), text);
+		verbose(tag.getClass(), text);
 	}
+
+	public static void verbose(Class<?> tag, String text) { Log.v(tag.getSimpleName(), text); }
 
 	public void info(String text){
 		info(object, text);
 	}
 
-	public static void info(Object tag, String text){
-		Log.i(tag.getClass().getSimpleName(), text);
+	private void info(Object object, String text) {
+		info(object.getClass(), text);
+	}
+
+	public static void info(Class<?> tag, String text){
+		Log.i(tag.getSimpleName(), text);
 	}
 
 	public void warn(String text){
 		warn(object, text);
 	}
 
-	public static void warn(Object tag, String text){
-		Log.w(tag.getClass().getSimpleName(), text);
+	private void warn(Object object, String text) {
+		warn(object.getClass(), text);
+	}
+
+	public static void warn(Class<?> tag, String text){
+		Log.w(tag.getSimpleName(), text);
 	}
 
 	public void debug(String text){
 		debug(object, text);
 	}
 
-	public static void debug(Object tag, String text){
-		Log.d(tag.getClass().getSimpleName(), text);
+	private void debug(Object object, String text) {
+		debug(object.getClass(), text);
+	}
+
+	public static void debug(Class<?> tag, String text){
+		Log.d(tag.getSimpleName(), text);
 	}
 
 	public void error(String text){
 		error(object, text);
 	}
 
-	public static void error(Object tag, String text){
-		Log.e(tag.getClass().getSimpleName(), text);
+	private void error(Object object, String text) {
+		error(object.getClass(), text);
+	}
+
+	public static void error(Class<?> tag, String text){
+		Log.e(tag.getSimpleName(), text);
 	}
 }

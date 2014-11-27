@@ -10,12 +10,11 @@ import java.util.List;
  */
 public class Reflection {
 
-	public static List<Field> getFieldsWithAnnotationPresent(Class<?> clazz, Class<? extends Annotation> annotation)
-	{
+	public static List<Field> getDeclaredFieldsWithAnnotationPresent(Class<?> clazz, Class<? extends Annotation> annotation) {
 		List<Field> fields = new ArrayList<>();
 
-		for(Field field : clazz.getDeclaredFields()){
-			if(field.isAnnotationPresent(annotation)){
+		for (Field field : clazz.getDeclaredFields()) {
+			if (field.isAnnotationPresent(annotation)) {
 				fields.add(field);
 			}
 		}
@@ -23,11 +22,9 @@ public class Reflection {
 		return fields;
 	}
 
-	public static Class<?> getClassInClass(Class<?> rootClass, String innerClassName)
-	{
-		for(Class<?> clazz : rootClass.getClasses())
-		{
-			if(clazz.getSimpleName().equals(innerClassName)){
+	public static Class<?> getClassInClass(Class<?> rootClass, String innerClassName) {
+		for (Class<?> clazz : rootClass.getClasses()) {
+			if (clazz.getSimpleName().equals(innerClassName)) {
 				return clazz;
 			}
 		}
