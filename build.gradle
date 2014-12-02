@@ -1,5 +1,11 @@
 apply plugin: 'com.android.library'
 
+ext {
+    PUBLISH_GROUP_ID = 'de.larsgrefer'
+    PUBLISH_ARTIFACT_ID = 'android-library'
+    PUBLISH_VERSION = '0.1'
+}
+
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.0"
@@ -25,6 +31,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:appcompat-v7:21.0.2'
     compile 'com.google.guava:guava:18.0'
 }
+
+apply from: 'android-release-aar.gradle'
