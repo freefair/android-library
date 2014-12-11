@@ -18,5 +18,9 @@ limitations under the License.
         <attr name="floatLabelTextAppearance" format="reference" />
         <attr name="floatLabelSidePadding" format="reference|dimension" />
     </declare-styleable>
-
+    <declare-styleable name="QuickReturnFrameLayout">
+        <attr name="qrflScrollViewId" format="reference" />
+        <attr name="qrflQuickReturnViewId" format="reference" />
+        <attr name="qrflPlaceholderViewId" format="reference" />
+    </declare-styleable>
 </resources>
