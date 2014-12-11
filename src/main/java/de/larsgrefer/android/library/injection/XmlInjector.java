@@ -130,7 +130,7 @@ public abstract class XmlInjector<T> {
 		}
 
 		if( viewId == 0 ){
-			throw new ViewIdNotFoundException("The ViewId for the field '" + field.toString() + "' could not be found.");
+			throw new ViewIdNotFoundException(fieldName);
 		}
 		return viewId;
 	}

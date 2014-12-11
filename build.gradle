@@ -11,7 +11,7 @@ android {
     buildToolsVersion "21.1.0"
 
     defaultConfig {
-        applicationId "de.larsgrefer.android.library"
+        //applicationId "de.larsgrefer.android.library"
         minSdkVersion 7
         targetSdkVersion 21
         versionCode 1
@@ -19,7 +19,7 @@ android {
     }
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

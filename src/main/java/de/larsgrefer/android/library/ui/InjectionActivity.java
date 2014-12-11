@@ -9,7 +9,6 @@ import de.larsgrefer.android.library.injection.ActivityXmlInjector;
 import de.larsgrefer.android.library.injection.exceptions.ViewIdNotFoundException;
 
 public class InjectionActivity extends ActionBarActivity {
-
 	ActivityXmlInjector injector;
 
 	@Override
