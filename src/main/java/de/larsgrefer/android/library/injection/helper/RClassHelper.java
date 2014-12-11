@@ -1,9 +1,8 @@
-package de.larsgrefer.android.library.injection;
+package de.larsgrefer.android.library.injection.helper;
 
 import android.app.Activity;
 import android.app.Application;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import de.larsgrefer.android.library.Logger;
 import de.larsgrefer.android.library.injection.annotation.RClass;

@@ -11,11 +11,9 @@ import java.util.List;
 import de.larsgrefer.android.library.injection.annotation.XmlLayout;
 import de.larsgrefer.android.library.injection.annotation.XmlMenu;
 import de.larsgrefer.android.library.injection.annotation.XmlView;
+import de.larsgrefer.android.library.injection.exceptions.ViewIdNotFoundException;
 import de.larsgrefer.android.library.reflection.Reflection;
 
-/**
- * Created by larsgrefer on 23.11.14.
- */
 public abstract class XmlInjector<T> {
 
 	private T object;

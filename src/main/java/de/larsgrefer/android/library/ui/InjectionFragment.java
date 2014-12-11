@@ -1,5 +1,6 @@
 package de.larsgrefer.android.library.ui;
 
+import android.app.Application;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -12,7 +13,7 @@ import android.view.ViewGroup;
 
 import de.larsgrefer.android.library.injection.FragmentXmlInjector;
 import de.larsgrefer.android.library.injection.IViewFinder;
-import de.larsgrefer.android.library.injection.ViewIdNotFoundException;
+import de.larsgrefer.android.library.injection.exceptions.ViewIdNotFoundException;
 
 /**
  * Created by larsgrefer on 24.11.14.
@@ -27,6 +28,10 @@ public class InjectionFragment extends Fragment {
 		if(injector.getMenuId() != 0){
 			setHasOptionsMenu(true);
 		}
+
+		Application app = getActivity().getApplication();
+		if(app instanceof InjectionApplication)
+			((InjectionApplication)app).getInjector().inject(this);
 	}
 
 	@Override

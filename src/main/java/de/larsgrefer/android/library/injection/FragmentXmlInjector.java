@@ -3,6 +3,7 @@ package de.larsgrefer.android.library.injection;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import de.larsgrefer.android.library.injection.helper.RClassHelper;
 
 /**
  * Created by larsgrefer on 24.11.14.

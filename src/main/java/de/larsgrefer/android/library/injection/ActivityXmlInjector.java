@@ -3,6 +3,7 @@ package de.larsgrefer.android.library.injection;
 import android.app.Activity;
 import android.support.annotation.IdRes;
 import android.view.View;
+import de.larsgrefer.android.library.injection.helper.RClassHelper;
 
 /**
  * Created by larsgrefer on 23.11.14.
@@ -18,8 +19,9 @@ public class ActivityXmlInjector extends XmlInjector<Activity> {
 	}
 
 	public boolean tryInjectLayout(){
-		if(getLayoutId() != 0){
-			getObject().setContentView(getLayoutId());
+		int layoutId = getLayoutId();
+		if(layoutId != 0){
+			getObject().setContentView(layoutId);
 			return true;
 		}
 		return false;

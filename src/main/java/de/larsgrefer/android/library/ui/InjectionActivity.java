@@ -1,16 +1,14 @@
 package de.larsgrefer.android.library.ui;
 
+import android.app.Application;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 
 import de.larsgrefer.android.library.injection.ActivityXmlInjector;
-import de.larsgrefer.android.library.injection.ViewIdNotFoundException;
+import de.larsgrefer.android.library.injection.exceptions.ViewIdNotFoundException;
 
-/**
- * Created by larsgrefer on 23.11.14.
- */
-public class InjectionActionBarActivity extends ActionBarActivity {
+public class InjectionActivity extends ActionBarActivity {
 
 	ActivityXmlInjector injector;
 
@@ -19,6 +17,10 @@ public class InjectionActionBarActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		injector = new ActivityXmlInjector(this);
 		injector.tryInjectLayout();
+
+		Application app = getApplication();
+		if(app instanceof InjectionApplication)
+			((InjectionApplication)app).getInjector().inject(this);
 	}
 
 	@Override

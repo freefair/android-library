@@ -1,4 +1,4 @@
-package de.larsgrefer.android.library.injection;
+package de.larsgrefer.android.library.injection.exceptions;
 
 /**
  * Created by larsgrefer on 23.11.14.
