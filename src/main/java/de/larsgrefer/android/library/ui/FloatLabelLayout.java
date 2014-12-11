@@ -45,7 +45,7 @@ import de.larsgrefer.android.library.R;
  * @see <a href="https://dribbble.com/shots/1254439--GIF-Mobile-Form-Interaction">Matt D. Smith on Dribble</a>
  * @see <a href="http://bradfrostweb.com/blog/post/float-label-pattern/">Brad Frost's blog post</a>
  */
-public final class FloatLabelLayout extends FrameLayout {
+public class FloatLabelLayout extends FrameLayout {
 
 	private static final long ANIMATION_DURATION = 150;
 
