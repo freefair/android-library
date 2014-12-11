@@ -8,12 +8,16 @@ public class ViewIdNotFoundException extends Exception {
 	public ViewIdNotFoundException() {
 	}
 
-	public ViewIdNotFoundException(String detailMessage) {
-		super(detailMessage);
+	private static String formatFieldName(String fieldName) {
+		return String.format("The ViewId for the field '%s' could not be found.", fieldName);
 	}
 
-	public ViewIdNotFoundException(String detailMessage, Throwable throwable) {
-		super(detailMessage, throwable);
+	public ViewIdNotFoundException(String fieldName) {
+		super(formatFieldName(fieldName));
+	}
+
+	public ViewIdNotFoundException(String fieldName, Throwable throwable) {
+		super(formatFieldName(fieldName), throwable);
 	}
 
 	public ViewIdNotFoundException(Throwable throwable) {

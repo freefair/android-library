@@ -7,9 +7,6 @@ import android.view.Menu;
 import de.larsgrefer.android.library.injection.ActivityXmlInjector;
 import de.larsgrefer.android.library.injection.ViewIdNotFoundException;
 
-/**
- * Created by larsgrefer on 23.11.14.
- */
 public class InjectionActionBarActivity extends ActionBarActivity {
 
 	ActivityXmlInjector injector;
