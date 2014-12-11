@@ -1,13 +1,10 @@
 package gueei.binding.collections;
 
-import gueei.binding.AttributeBinder;
-import gueei.binding.Binder;
-import gueei.binding.BindingLog;
-import gueei.binding.CollectionChangedEventArg;
-import gueei.binding.CollectionObserver;
-import gueei.binding.IObservable;
-import gueei.binding.IObservableCollection;
+import android.view.Gravity;
+import android.widget.*;
+import gueei.binding.*;
 import gueei.binding.ISyntaxResolver.SyntaxResolveException;
+import gueei.binding.observables.BooleanObservable;
 import gueei.binding.utility.CachedModelReflector;
 import gueei.binding.utility.EventMarkerHelper;
 import gueei.binding.utility.IModelReflector;
@@ -20,13 +17,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
 
 public class CollectionAdapter extends BaseAdapter implements CollectionObserver, Filterable, LazyLoadAdapter {
-
 	@Override
 	public int getViewTypeCount() {
 		return mLayout.getTemplateCount();
@@ -43,9 +35,13 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 	protected final IObservableCollection<?> mCollection;
 	protected final IModelReflector mReflector;
 	protected final Filter mFilter;
+	protected final Command mLastShown;
+	protected final BooleanObservable mHasMore;
+
+	private Boolean hasMoreValue;
 
 	public CollectionAdapter(Context context, IModelReflector reflector, IObservableCollection<?> collection, Layout layout, Layout dropDownLayout,
-			Filter filter, String enableItemStatement) throws Exception {
+			Filter filter, String enableItemStatement, Command lastShown, BooleanObservable hasMore) throws Exception {
 		mHandler = new Handler();
 		mContext = context;
 		mLayout = layout;
@@ -55,17 +51,32 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 		mFilter = filter;
 		mEnableItemStatement = enableItemStatement;
 		mCollection.subscribe(this);
+		mLastShown = lastShown;
+		mHasMore = hasMore;
+
+		if(mHasMore != null)
+		{
+			mHasMore.subscribe(new Observer() {
+				@Override
+				public void onPropertyChanged(IObservable<?> prop, Collection<Object> initiators) {
+					try {
+						hasMoreValue = (Boolean) prop.get();
+					}
+					catch (Exception ex) {}
+				}
+			});
+		}
 	}
 
 	public CollectionAdapter(Context context, IModelReflector reflector, IObservableCollection<?> collection, Layout layout, Layout dropDownLayout,
 			String enableItemStatement) throws Exception {
-		this(context, reflector, collection, layout, dropDownLayout, null, enableItemStatement);
+		this(context, reflector, collection, layout, dropDownLayout, null, enableItemStatement, null, null);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public CollectionAdapter(Context context, IObservableCollection<?> collection, Layout layout, Layout dropDownLayout, Filter filter,
-			String enableItemStatement) throws Exception {
-		this(context, new CachedModelReflector(collection.getComponentType()), collection, layout, dropDownLayout, filter, enableItemStatement);
+			String enableItemStatement, Command lastShown, BooleanObservable hasMore) throws Exception {
+		this(context, new CachedModelReflector(collection.getComponentType()), collection, layout, dropDownLayout, filter, enableItemStatement, lastShown, hasMore);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -97,7 +108,15 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 	private View getView(int position, View convertView, ViewGroup parent, Layout layout) {
 		View returnView = convertView;
 		if (position >= mCollection.size())
+		{
+			if(mLastShown != null)
+				mLastShown.Invoke(convertView);
+			if(hasMoreValue)
+			{
+				return new SpinnerView(mContext);
+			}
 			return returnView;
+		}
 		try {
 			ObservableMapper mapper;
 
@@ -106,7 +125,7 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 			Object item = mCollection.getItem(position);
 
 			if ((convertView == null) || ((mapper = getAttachedMapper(convertView)) == null)) {
-				Binder.InflateResult result = 
+				Binder.InflateResult result =
 						Binder.inflateView(mContext, layout.getLayoutId(position), parent, false);
 				layout.onAfterInflate(result, position);
 				ItemViewEventMark mark = new ItemViewEventMark(parent, position, mCollection.getItemId(position));
@@ -130,7 +149,7 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 			mapper.changeMapping(mReflector, item);
 			if (mHelper != null && !mHelper.isBusy()) {
 				if (item instanceof ILazyLoadRowModel){
-					//((LazyLoadRowModel) item).display(mCollection, position);
+					((ILazyLoadRowModel) item).display(mCollection, position);
 				}
 			}
 
@@ -184,10 +203,10 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 		if (total>lastTotal){
 			mCollection.setVisibleChildrenCount(this, total);
 		}
-		
+
 		int actualCollectionSize = mCollection.size();
 		if (0 == actualCollectionSize) {
-			// nothing to show, nothing to hide, reset last* 
+			// nothing to show, nothing to hide, reset last*
 			lastDisplayingFirst = -1;
 			lastTotal = 0;
 			return;
@@ -269,7 +288,7 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 	}
 
 	/**
-	 * Make individual item enable/disable possible. 
+	 * Make individual item enable/disable possible.
 	 * This is not possible to do in Item level, but only from ListView's level since
 	 * items are rendered by listView and listview seems to omit this value
 	 */
@@ -285,7 +304,7 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 			BindingLog.exception("CollectionAdapter.isEnabled", e);
 			return false;
 		}
-		// Even if the obs is null, or it's value is null, it is enabled by default 
+		// Even if the obs is null, or it's value is null, it is enabled by default
 		return obs == null || !Boolean.FALSE.equals(obs.get());
 	}
 
@@ -293,5 +312,20 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 	public void onCollectionChanged(IObservableCollection<?> collection,
 			CollectionChangedEventArg args, Collection<Object> initiators) {
 				notifyDataSetChanged();
+	}
+
+	private class SpinnerView extends LinearLayout {
+		public SpinnerView(Context context) {
+			super(context);
+
+			this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+			this.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+
+			ProgressBar progressBar = new ProgressBar(mContext);
+			progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+			progressBar.setIndeterminate(true);
+
+			this.addView(progressBar);
+		}
 	}
 }

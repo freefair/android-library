@@ -3,6 +3,7 @@ package gueei.binding.v30.actionbar.attributes;
 import gueei.binding.BindingType;
 import gueei.binding.ViewAttribute;
 import gueei.binding.v30.actionbar.BindableActionBar;
+import gueei.binding.v30.toolbar.BindableToolbar;
 
 public class ListNavigationSelectedItem extends ViewAttribute<BindableActionBar, Object> {
 

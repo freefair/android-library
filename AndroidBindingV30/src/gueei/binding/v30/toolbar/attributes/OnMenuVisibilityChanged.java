@@ -1,4 +1,4 @@
-package gueei.binding.v30.actionbar.attributes;
+package gueei.binding.v30.toolbar.attributes;
 
 import android.support.v7.app.ActionBar.OnMenuVisibilityListener;
 import gueei.binding.Binder;
@@ -8,15 +8,15 @@ import gueei.binding.v30.toolbar.BindableToolbar;
 import gueei.binding.viewAttributes.ViewEventAttribute;
 
 public class OnMenuVisibilityChanged 
-	extends ViewEventAttribute<BindableActionBar>
+	extends ViewEventAttribute<BindableToolbar>
 	implements OnMenuVisibilityListener {
 
-	public OnMenuVisibilityChanged(BindableActionBar view) {
+	public OnMenuVisibilityChanged(BindableToolbar view) {
 		super(view, "onMenuVisibilityChanged");
 	}
 
 	@Override
-	protected void registerToListener(BindableActionBar view) {
+	protected void registerToListener(BindableToolbar view) {
 		Binder.getMulticastListenerForView(view, OnMenuVisibilityListenerMulticast.class)
 			.register(this);
 	}

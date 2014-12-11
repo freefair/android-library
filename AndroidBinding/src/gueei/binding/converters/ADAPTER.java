@@ -1,9 +1,11 @@
 package gueei.binding.converters;
 
+import gueei.binding.Command;
 import gueei.binding.Converter;
 import gueei.binding.DynamicObject;
 import gueei.binding.IObservable;
 import gueei.binding.collections.Utility;
+import gueei.binding.observables.BooleanObservable;
 import gueei.binding.viewAttributes.templates.Layout;
 import android.widget.Adapter;
 import android.widget.Filter;
@@ -59,7 +61,20 @@ public class ADAPTER extends Converter<Adapter> {
 					filter = (Filter)(object.getObservableByName("filter").get());
 				}catch(Exception e){}
 			}
-			return Utility.getSimpleAdapter(getContext(), source, template, spinnerTemplate, filter, enableStatement);
+			Command lastshown = null;
+			if(object.observableExists("lastshown")) {
+				try{
+					lastshown = (Command)(object.getObservableByName("lastshown")).get();
+				}catch(Exception e) {}
+			}
+			BooleanObservable hasmore = null;
+			if(object.observableExists("hasmore")){
+				try{
+					hasmore = (BooleanObservable)(object.getObservableByName("hasmore"));
+				} catch (Exception e) {}
+			}
+
+			return Utility.getSimpleAdapter(getContext(), source, template, spinnerTemplate, filter, enableStatement, lastshown, hasmore);
 		}catch(Exception e){
 			return null;
 		}

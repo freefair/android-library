@@ -1,13 +1,14 @@
 package gueei.binding.v30.actionbar.attributes;
 
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBar.OnNavigationListener;
+import android.widget.Adapter;
+import android.widget.SpinnerAdapter;
 import gueei.binding.Binder;
 import gueei.binding.BindingType;
 import gueei.binding.ViewAttribute;
 import gueei.binding.v30.actionbar.BindableActionBar;
-import android.support.v7.app.ActionBar.OnNavigationListener;
-import android.support.v7.app.ActionBar;
-import android.widget.Adapter;
-import android.widget.SpinnerAdapter;
+import gueei.binding.v30.toolbar.BindableToolbar;
 
 public class ListNavigationAdapter extends ViewAttribute<BindableActionBar, SpinnerAdapter> {
 
@@ -47,11 +48,11 @@ public class ListNavigationAdapter extends ViewAttribute<BindableActionBar, Spin
 		public boolean onNavigationItemSelected(
 				int itemPosition, long itemId) {
 			try {
-				ListNavigationSelectedItem selectedItem = 
+				ListNavigationSelectedItem selectedItem =
 						(ListNavigationSelectedItem)Binder.getAttributeForView(getView(), "listNavigationSelectedItem");
 				selectedItem.set(mAdapter.getItem(itemPosition));
 				
-				ListNavigationOnItemSelected onItemSelected = 
+				ListNavigationOnItemSelected onItemSelected =
 						(ListNavigationOnItemSelected)Binder.getAttributeForView(getView(), "listNavigationOnItemSelected");
 				onItemSelected.invokeCommand(getView(), itemPosition, itemId);
 			} catch (Exception e) {
@@ -63,11 +64,11 @@ public class ListNavigationAdapter extends ViewAttribute<BindableActionBar, Spin
 
 	public boolean onNavigationItemSelected(int position, long itemId) {
 		try {
-			ListNavigationSelectedItem selectedItem = 
+			ListNavigationSelectedItem selectedItem =
 					(ListNavigationSelectedItem)Binder.getAttributeForView(getView(), "ListNavigationSelectedItem");
 			selectedItem.set(mAdapter.getItem(position));
 			
-			ListNavigationOnItemSelected onItemSelected = 
+			ListNavigationOnItemSelected onItemSelected =
 					(ListNavigationOnItemSelected)Binder.getAttributeForView(getView(), "ListNavigationOnItemSelected");
 			onItemSelected.invokeCommand(getView(), position, itemId);
 		} catch (Exception e) {

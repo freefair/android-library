@@ -13,8 +13,8 @@ public class OnTouchViewEvent extends ViewEventAttribute<View> implements View.O
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		TouchEventResult result = new TouchEventResult();			
-		this.invokeCommand(v, event, result);		
+		TouchEventResult result = new TouchEventResult();
+		this.invokeCommand(v, event, result);
 		return result.eventConsumed;
 	}
 	
@@ -22,5 +22,4 @@ public class OnTouchViewEvent extends ViewEventAttribute<View> implements View.O
 	protected void registerToListener(View view) {
 		Binder.getMulticastListenerForView(view, OnTouchListenerMulticast.class).register(this);
 	}
-	
 }

@@ -192,7 +192,7 @@ public class BindableLinearLayout extends LinearLayout implements IBindableView<
 	private ViewAttribute<BindableLinearLayout, Object> ItemLayoutAttribute =
 			new ViewAttribute<BindableLinearLayout, Object>(Object.class, BindableLinearLayout.this, "ItemLayout"){
 				@Override
-				protected void doSetAttributeValue(Object newValue) {	
+				protected void doSetAttributeValue(Object newValue) {
 					layout = null;
 					if( newValue instanceof LayoutItem ) {
 						layout = (LayoutItem) newValue;

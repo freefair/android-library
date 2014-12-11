@@ -42,10 +42,10 @@ public class BindableFrameLayout extends FrameLayout implements IBindableView<Bi
 
 	private ViewAttribute<?, Object> LayoutIdViewAttribute =
 		new ViewAttribute<BindableFrameLayout, Object>(Object.class, BindableFrameLayout.this, "LayoutId"){
-			@Override				
+			@Override
 			protected void doSetAttributeValue(Object newValue) {
 				int newLayoutId = 0;
-				
+
 				if( newValue instanceof SingleTemplateLayout) {
 					SingleTemplateLayout layout = (SingleTemplateLayout)newValue;
 					newLayoutId = layout.getDefaultLayoutId();
@@ -54,11 +54,11 @@ public class BindableFrameLayout extends FrameLayout implements IBindableView<Bi
 						try {
 							newLayoutId = Integer.parseInt(newValue.toString());
 						} catch( Exception e ) {}
-					}					 
-				}					
-				BindableFrameLayout.this.setLayoutId(newLayoutId);																							
+					}
+				}
+				BindableFrameLayout.this.setLayoutId(newLayoutId);
 			}
-							
+
 			@Override
 			public Object get() {
 				return LayoutId;
@@ -86,11 +86,11 @@ public class BindableFrameLayout extends FrameLayout implements IBindableView<Bi
 			protected void doSetAttributeValue(Object newValue) {
 				if (newValue instanceof Command){
 					Command loadCmd = (Command)newValue;
-					loadCmd.Invoke(BindableFrameLayout.this, new ILayoutLoadEvent() {							
+					loadCmd.Invoke(BindableFrameLayout.this, new ILayoutLoadEvent() {
 						@Override
 						public void setLayoutId(int layoutId) {
 							BindableFrameLayout.this.setLayoutId(layoutId);								
-						}							
+						}
 						@Override
 						public void setDatasource(Object... dataSource) {
 							BindableFrameLayout.this.setDatasource(dataSource);								
@@ -170,13 +170,24 @@ public class BindableFrameLayout extends FrameLayout implements IBindableView<Bi
 			refreshDrawableState();
 		}		
 	}
-	
+
+	protected void preBind(Object dataSource)
+	{
+
+	}
+
+	protected void postBind(Object dataSource, InflateResult inflateResult)
+	{
+
+	}
+
 	protected void rebind(){
 		Log.d("BindableFrameLayout", "source: " + dataSource);
+		preBind(dataSource);
 		BindableFrameLayout.this.removeAllViews();
 		if (LayoutId<=0) return;
 		if(inflateResult==null||dataSource==null)
-			inflateResult= Binder.inflateView(BindableFrameLayout.this.getContext(), LayoutId, BindableFrameLayout.this, false);							
+			inflateResult= Binder.inflateView(BindableFrameLayout.this.getContext(), LayoutId, BindableFrameLayout.this, false);
 		BindableFrameLayout.this.addView(inflateResult.rootView);
 		if (dataSource==null){
 			Binder.bindView(BindableFrameLayout.this.getContext(), inflateResult, null);
@@ -188,6 +199,7 @@ public class BindableFrameLayout extends FrameLayout implements IBindableView<Bi
 		}else{
 			Binder.bindView(BindableFrameLayout.this.getContext(), inflateResult, dataSource);
 		}
+		postBind(dataSource, inflateResult);
 	}
 }
 

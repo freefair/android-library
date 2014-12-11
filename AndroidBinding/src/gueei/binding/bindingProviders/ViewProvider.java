@@ -1,23 +1,7 @@
 package gueei.binding.bindingProviders;
 
 import gueei.binding.ViewAttribute;
-import gueei.binding.viewAttributes.view.AnimationViewAttribute;
-import gueei.binding.viewAttributes.view.AssignViewAttribute;
-import gueei.binding.viewAttributes.view.BackgroundColorViewAttribute;
-import gueei.binding.viewAttributes.view.BackgroundViewAttribute;
-import gueei.binding.viewAttributes.view.ContextMenuViewAttribute;
-import gueei.binding.viewAttributes.view.EnabledViewAttribute;
-import gueei.binding.viewAttributes.view.Layout_HeightViewAttribute;
-import gueei.binding.viewAttributes.view.Layout_WidthViewAttribute;
-import gueei.binding.viewAttributes.view.OnBindViewAttribute;
-import gueei.binding.viewAttributes.view.OnClickViewEvent;
-import gueei.binding.viewAttributes.view.OnGainFocusViewEvent;
-import gueei.binding.viewAttributes.view.OnKeyViewEvent;
-import gueei.binding.viewAttributes.view.OnLongClickViewEvent;
-import gueei.binding.viewAttributes.view.OnLostFocusViewEvent;
-import gueei.binding.viewAttributes.view.OnTouchViewEvent;
-import gueei.binding.viewAttributes.view.SelectedViewAttribute;
-import gueei.binding.viewAttributes.view.VisibilityViewAttribute;
+import gueei.binding.viewAttributes.view.*;
 import android.view.View;
 
 
@@ -50,7 +34,7 @@ public class ViewProvider extends BindingProvider {
 		}else if (attributeId.equals("onKey")){
 			return new OnKeyViewEvent(view);
 		}else if (attributeId.equals("onTouch")){
-			return new OnTouchViewEvent(view);			
+			return new OnTouchViewEvent(view);
 		}else if (attributeId.equals("layout_height")){
 			return new Layout_HeightViewAttribute(view);
 		}else if (attributeId.equals("layout_width")){
@@ -59,6 +43,8 @@ public class ViewProvider extends BindingProvider {
 			return new OnBindViewAttribute(view);
 		}else if (attributeId.equals("assign")){
 			return new AssignViewAttribute(view);
+		}else if (attributeId.equals("disallowIntercept")){
+			return new DisallowInterceptAttribute(view);
 		}
 		return null;
 	}

@@ -1,6 +1,7 @@
 package gueei.binding.v30.actionbar.attributes;
 
 import gueei.binding.v30.actionbar.BindableActionBar;
+import gueei.binding.v30.toolbar.BindableToolbar;
 import gueei.binding.viewAttributes.ViewEventAttribute;
 
 public class ListNavigationOnItemSelected 

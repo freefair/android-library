@@ -1,13 +1,13 @@
-package gueei.binding.v30.actionbar.attributes;
+package gueei.binding.v30.toolbar.attributes;
 
 import android.support.v7.app.ActionBar;
 import gueei.binding.ViewAttribute;
 import gueei.binding.v30.actionbar.BindableActionBar;
 import gueei.binding.v30.toolbar.BindableToolbar;
 
-public class DisplayHomeAsUp extends ViewAttribute<BindableActionBar, Boolean> {
+public class DisplayHomeAsUp extends ViewAttribute<BindableToolbar, Boolean> {
 
-	public DisplayHomeAsUp(BindableActionBar view) {
+	public DisplayHomeAsUp(BindableToolbar view) {
 		super(Boolean.class, view, "displayHomeAsUp");
 	}
 

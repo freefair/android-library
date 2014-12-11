@@ -42,7 +42,6 @@ public class ClickedItemViewAttribute extends ViewAttribute<AdapterView<?>, Obje
 		return value;
 	}
 
-
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		if (!getView().equals(parent)) return;
 		try{

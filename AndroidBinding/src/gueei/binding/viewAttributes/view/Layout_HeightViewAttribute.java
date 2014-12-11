@@ -1,6 +1,9 @@
 package gueei.binding.viewAttributes.view;
 
+import android.util.Log;
+import android.util.TypedValue;
 import gueei.binding.BindingType;
+import gueei.binding.R;
 import gueei.binding.ViewAttribute;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;

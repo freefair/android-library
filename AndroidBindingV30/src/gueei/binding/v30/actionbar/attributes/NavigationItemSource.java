@@ -4,6 +4,7 @@ import gueei.binding.BindingType;
 import gueei.binding.IObservableCollection;
 import gueei.binding.ViewAttribute;
 import gueei.binding.v30.actionbar.BindableActionBar;
+import gueei.binding.v30.toolbar.BindableToolbar;
 
 @SuppressWarnings("rawtypes")
 public class NavigationItemSource extends ViewAttribute<BindableActionBar, IObservableCollection> {
