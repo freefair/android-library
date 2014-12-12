@@ -4,6 +4,7 @@ android-library
 Latest available Version: [ ![Download](https://api.bintray.com/packages/larsgrefer/maven/android-library/images/download.svg) ](https://bintray.com/larsgrefer/maven/android-library/_latestVersion)
 
 ##How to include:
+<h7>Gradle:</h7>
 ```gradle
 dependencies {
     ...
