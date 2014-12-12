@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import com.j256.ormlite.android.AndroidConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import de.larsgrefer.android.library.ui.DatabaseHelper;
+import de.larsgrefer.android.library.ui.injection.DatabaseHelper;
 
 import java.sql.SQLException;
 

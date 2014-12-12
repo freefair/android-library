@@ -1,5 +1,6 @@
 package de.larsgrefer.android.library.ui.quick_return;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -24,6 +25,7 @@ public class QuickReturnListView extends ListView implements IObservableScrollVi
 		super(context, attrs, defStyleAttr);
 	}
 
+	@TargetApi(21)
 	public QuickReturnListView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 	}

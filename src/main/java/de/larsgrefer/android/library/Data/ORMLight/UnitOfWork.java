@@ -3,7 +3,7 @@ package de.larsgrefer.android.library.data.ormlight;
 
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
-import de.larsgrefer.android.library.ui.DatabaseHelper;
+import de.larsgrefer.android.library.ui.injection.DatabaseHelper;
 import de.larsgrefer.android.library.data.IUnitOfWork;
 
 import java.sql.Savepoint;

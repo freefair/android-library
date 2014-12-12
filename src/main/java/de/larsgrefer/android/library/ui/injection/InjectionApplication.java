@@ -1,4 +1,4 @@
-package de.larsgrefer.android.library.ui;
+package de.larsgrefer.android.library.ui.injection;
 
 import android.app.Application;
 import de.larsgrefer.android.library.data.OpenHelper;

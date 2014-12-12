@@ -1,4 +1,4 @@
-package de.larsgrefer.android.library.ui;
+package de.larsgrefer.android.library.ui.injection;
 
 import com.j256.ormlite.android.AndroidConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;

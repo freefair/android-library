@@ -1,4 +1,4 @@
-package de.larsgrefer.android.library.ui;
+package de.larsgrefer.android.library.ui.injection;
 
 import gueei.binding.Binder;
 import gueei.binding.v30.DefaultKernelV30;

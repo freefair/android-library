@@ -1,4 +1,4 @@
-package de.larsgrefer.android.library.ui;
+package de.larsgrefer.android.library.ui.injection;
 
 import de.larsgrefer.android.library.data.IRepositoryFactory;
 import de.larsgrefer.android.library.data.IUnitOfWorkFactory;
