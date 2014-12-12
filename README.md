@@ -1,8 +1,7 @@
 android-library
 ===============
 
-Latest available Version: [ ![Download](https://api.bintray.com/packages/larsgrefer/maven/android-library/images/download.svg) ](https://bintray.com/larsgrefer/maven/android-library/_latestVersion)
-
+by
 <table>
 	<tr>
 		<td><img src="https://de.gravatar.com/userimage/63287007/45a67c3e3d367da058c3f3a8d61b3a5b.jpg" /></td>
@@ -13,6 +12,8 @@ Latest available Version: [ ![Download](https://api.bintray.com/packages/larsgre
 		<td>Lars Grefer</td>
 	</tr>
 </table>
+
+Latest available Version: [ ![Download](https://api.bintray.com/packages/larsgrefer/maven/android-library/images/download.svg) ](https://bintray.com/larsgrefer/maven/android-library/_latestVersion)
 
 ##How to include:
 <h6>Gradle:</h6>
