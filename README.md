@@ -3,6 +3,8 @@ android-library
 
 Latest available Version: [ ![Download](https://api.bintray.com/packages/larsgrefer/maven/android-library/images/download.svg) ](https://bintray.com/larsgrefer/maven/android-library/_latestVersion)
 
+by Dennis Fricke <img src="https://de.gravatar.com/userimage/63287007/45a67c3e3d367da058c3f3a8d61b3a5b.jpg" /> and Lars Grefer <img src="http://0.gravatar.com/avatar/0bc5394f410f232a835c831656b2c542"/>
+
 ##How to include:
 <h6>Gradle:</h6>
 ```gradle
