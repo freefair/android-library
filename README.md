@@ -12,10 +12,10 @@ dependencies {
 }
 ```
 ##Features:
-<h3>All material colors (via "@color/material_red_A200" )</h3>
-<h3>minSdk 7 (it´s based on AppCompat)</h3>
-<h3>Dependency injection with annotations:</h3>
-<h4>Acitivy:</h4>
+<h4>All material colors (via "@color/material_red_A200" )</h4>
+<h4>minSdk 7 (it´s based on AppCompat)</h4>
+<h4>Dependency injection with annotations:</h4>
+<h5>Acitivy:</h5>
 ```java
 @XmlLayout(R.layout.my_awesome_layout)
 @XmlMenu(R.menu.my_awesome_menu)
@@ -28,7 +28,7 @@ public class MyAwesomeActivty extends InjectionActionBarActivity{
 	Button my_awesome_button_id;
 }
 ```
-<h4>Fragment:</h4>
+<h5>Fragment:</h5>
 ```java
 @XmlLayout(R.layout.my_awesome_layout)
 @XmlMenu(R.menu.my_awesome_menu)
@@ -41,7 +41,7 @@ public class MyAwesomeFragment extends InjectionFragment{
 	Button my_awesome_button_id;
 }
 ```
-<h4>Non-UI Classes:</h4>
+<h5>Non-UI Classes:</h5>
 ```java
 public class MyModule extends RoboModule {
 	@Override
