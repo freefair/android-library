@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -165,84 +166,65 @@ public class FloatLabelLayout extends FrameLayout {
 	 */
 	private void showLabel() {
 		mLabel.setVisibility(View.VISIBLE);
-		if (Build.VERSION.SDK_INT >= 14) {
-			//This is Chris' Code
-			mLabel.setAlpha(0f);
-			mLabel.setTranslationY(mLabel.getHeight());
-			mLabel.animate()
-					.alpha(1f)
-					.translationY(0f)
-					.setDuration(ANIMATION_DURATION)
-					.setListener(null).start();
-		} else {
-			//Code from: https://gist.github.com/chrisbanes/11247418#comment-1220415
-			AnimationSet animationSet = new AnimationSet(true);
+		//Code from: https://gist.github.com/chrisbanes/11247418#comment-1220415
+		AnimationSet animationSet = new AnimationSet(true);
 
-			TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-																				  Animation.ABSOLUTE, mLabel.getHeight(), Animation.ABSOLUTE, 0);
-			translateAnimation.setDuration(300);
-			animationSet.addAnimation(translateAnimation);
+		TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+																			  Animation.ABSOLUTE, mLabel.getHeight(), Animation.ABSOLUTE, 0);
+		translateAnimation.setDuration(ANIMATION_DURATION);
+		animationSet.addAnimation(translateAnimation);
 
-			AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
-			alphaAnimation.setDuration(300);
-			animationSet.addAnimation(alphaAnimation);
+		AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
+		alphaAnimation.setDuration(ANIMATION_DURATION);
+		animationSet.addAnimation(alphaAnimation);
 
-			mLabel.startAnimation(animationSet);
-		}
+		ScaleAnimation scaleAnimation = new ScaleAnimation(1.5f, 1f, 1.5f, 1f);
+		scaleAnimation.setDuration(ANIMATION_DURATION);
+		animationSet.addAnimation(scaleAnimation);
+
+		mLabel.startAnimation(animationSet);
 	}
 
 	/**
 	 * Hide the label using an animation
 	 */
 	private void hideLabel() {
-		if (Build.VERSION.SDK_INT >= 14) {
-			//This is Chris' code
-			mLabel.setAlpha(1f);
-			mLabel.setTranslationY(0f);
-			mLabel.animate()
-					.alpha(0f)
-					.translationY(mLabel.getHeight())
-					.setDuration(ANIMATION_DURATION)
-					.setListener(new AnimatorListenerAdapter() {
-						@Override
-						public void onAnimationEnd(Animator animation) {
-							mLabel.setVisibility(View.GONE);
-						}
-					}).start();
-		} else {
-			//Code from: https://gist.github.com/chrisbanes/11247418#comment-1220415
-			AnimationSet animationSet = new AnimationSet(true);
+		//Code from: https://gist.github.com/chrisbanes/11247418#comment-1220415
+		AnimationSet animationSet = new AnimationSet(true);
 
-			TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-																				  Animation.ABSOLUTE, 0, Animation.ABSOLUTE, mLabel.getHeight());
-			translateAnimation.setDuration(300);
-			animationSet.addAnimation(translateAnimation);
+		TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+																			  Animation.ABSOLUTE, 0, Animation.ABSOLUTE, mLabel.getHeight());
+		translateAnimation.setDuration(ANIMATION_DURATION);
+		animationSet.addAnimation(translateAnimation);
 
-			AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
-			alphaAnimation.setDuration(300);
-			animationSet.addAnimation(alphaAnimation);
+		AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
+		alphaAnimation.setDuration(ANIMATION_DURATION);
+		animationSet.addAnimation(alphaAnimation);
+
+		ScaleAnimation scaleAnimation = new ScaleAnimation(1f, 1.5f, 1f, 1.5f);
+		scaleAnimation.setDuration(ANIMATION_DURATION);
+		animationSet.addAnimation(scaleAnimation);
 
 
-			animationSet.setAnimationListener(new Animation.AnimationListener() {
-				@Override
-				public void onAnimationStart(Animation animation) {
+		animationSet.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
 
-				}
+			}
 
-				@Override
-				public void onAnimationEnd(Animation animation) {
-					mLabel.setVisibility(View.GONE);
-				}
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				mLabel.setVisibility(View.GONE);
+			}
 
-				@Override
-				public void onAnimationRepeat(Animation animation) {
+			@Override
+			public void onAnimationRepeat(Animation animation) {
 
-				}
-			});
+			}
+		});
 
 
-			mLabel.startAnimation(animationSet);
-		}
+		mLabel.startAnimation(animationSet);
 	}
 
 	/**
