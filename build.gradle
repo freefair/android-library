@@ -8,10 +8,9 @@ ext {
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.0"
+    buildToolsVersion "21.1.1"
 
     defaultConfig {
-        applicationId "de.fhconfig.android.binding"
         minSdkVersion 7
         targetSdkVersion 21
         versionCode 1
@@ -19,7 +18,7 @@ android {
     }
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
