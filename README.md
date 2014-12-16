@@ -4,8 +4,8 @@ android-library
 by
 <table>
 	<tr>
-		<td><img src="https://de.gravatar.com/userimage/63287007/45a67c3e3d367da058c3f3a8d61b3a5b.jpg" /></td>
-		<td><img src="http://0.gravatar.com/avatar/0bc5394f410f232a835c831656b2c542"/></td>
+		<td><a href="//github.com/Frisch12/"><img src="https://de.gravatar.com/userimage/63287007/45a67c3e3d367da058c3f3a8d61b3a5b.jpg" /></a></td>
+		<td><a href="//github.com/larsgrefer/"><img src="http://0.gravatar.com/avatar/0bc5394f410f232a835c831656b2c542"/></a></td>
 	</tr>
 	<tr>
 		<td>Dennis Fricke</td>
