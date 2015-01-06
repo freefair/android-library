@@ -4,8 +4,8 @@ android-library
 by
 <table>
 	<tr>
-		<td><img src="https://de.gravatar.com/userimage/63287007/45a67c3e3d367da058c3f3a8d61b3a5b.jpg" /></td>
-		<td><img src="http://0.gravatar.com/avatar/0bc5394f410f232a835c831656b2c542"/></td>
+		<td><a href="//github.com/Frisch12/" target="_blank"><img src="https://de.gravatar.com/userimage/63287007/45a67c3e3d367da058c3f3a8d61b3a5b.jpg" /></a></td>
+		<td><a href="//github.com/larsgrefer/" target="_blank"><img src="http://0.gravatar.com/avatar/0bc5394f410f232a835c831656b2c542"/></a></td>
 	</tr>
 	<tr>
 		<td>Dennis Fricke</td>
@@ -79,12 +79,14 @@ public class MyActivity extends InjectionActivity {
 ```
 
 ## Copyright
-<pre>Copyright (C) 2014 Dennis Fricke (dennis-fricke.de) and Lars Grefer (larsgrefer.de)
+<pre>Copyright (c) 2014 Dennis Fricke (dennis-fricke.de) and Lars Grefer (larsgrefer.de)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-http://www.apache.org/licenses/LICENSE-2.0
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.

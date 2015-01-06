@@ -3,6 +3,8 @@ package de.larsgrefer.android.library.ui.injection;
 import android.app.Application;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
 
 import de.larsgrefer.android.library.injection.ActivityXmlInjector;
 import de.larsgrefer.android.library.injection.exceptions.ViewIdNotFoundException;
@@ -25,11 +27,27 @@ public class InjectionBindingActivity extends BindingActivityV30 {
 	@Override
 	public void setContentView(int layoutResID) {
 		super.setContentView(layoutResID);
+		tryInjectViews();
+	}
+
+	private void tryInjectViews() {
 		try {
 			injector.injectViews();
 		} catch (ViewIdNotFoundException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public void setContentView(View view) {
+		super.setContentView(view);
+		tryInjectViews();
+	}
+
+	@Override
+	public void setContentView(View view, ViewGroup.LayoutParams params) {
+		super.setContentView(view, params);
+		tryInjectViews();
 	}
 
 	@Override
