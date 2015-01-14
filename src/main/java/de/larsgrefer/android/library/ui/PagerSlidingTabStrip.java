@@ -439,7 +439,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 	public Boolean setResourceId(int resourceId)
 	{
 		Log.d("com.youtube.channel.news.UI.Widgets.PagerSlidingTabStrip", "Load ViewPager from Resource id: " + resourceId);
-		ViewPager viewById = (ViewPager) ((Activity) getContext()).findViewById(resourceId);
+		ViewPager viewById = (ViewPager) ((View) getParent()).findViewById(resourceId);
 		if(viewById != null)
 			setViewPager(viewById);
 		Log.d("com.youtube.challen.news.UI.Widgets.PagerSlidingTabStrip", "Pager found: " + pager);
