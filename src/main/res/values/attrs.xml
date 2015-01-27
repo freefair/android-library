@@ -38,4 +38,7 @@
 		<attr name="pstsTextAllCaps" format="boolean" />
 		<attr name="pstsResourceId" format="reference" />
 	</declare-styleable>
+    <declare-styleable name="MaxHeightScrollView">
+        <attr name="maxHeight" format="dimension" />
+    </declare-styleable>
 </resources>
