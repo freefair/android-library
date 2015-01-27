@@ -1,4 +1,4 @@
-package de.larsgrefer.android.library.ui.navigation_drawer;
+package de.larsgrefer.android.library.ui;
 
 import android.app.Activity;
 import android.content.Context;
