@@ -3,6 +3,7 @@ package de.larsgrefer.android.library.injection.helper;
 import android.app.Activity;
 import android.app.Application;
 import android.support.v4.app.Fragment;
+import android.view.ViewGroup;
 
 import de.larsgrefer.android.library.Logger;
 import de.larsgrefer.android.library.injection.annotation.RClass;
@@ -52,4 +53,10 @@ public class RClassHelper {
 		}
 		return null;
 	}
+
+    public static Class<?> getRClassFromViewGroup(ViewGroup object) {
+        Class<?> rClass = getRClassFromAnnotation(object);
+        if (rClass != null) return rClass;
+        return getRClassFromActivity((Activity) object.getContext());
+    }
 }
