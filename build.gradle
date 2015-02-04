@@ -1,9 +1,5 @@
 apply plugin: 'com.android.library'
 
-repositories {
-	jcenter()
-}
-
 ext {
     PUBLISH_GROUP_ID = 'de.larsgrefer'
     PUBLISH_ARTIFACT_ID = 'android-library'
