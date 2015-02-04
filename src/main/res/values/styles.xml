@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.TextAppearance.FloatLabel" parent="android:TextAppearance.Small">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.FloatLabel" parent="Base.TextAppearance.FloatLabel">
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
+</resources>

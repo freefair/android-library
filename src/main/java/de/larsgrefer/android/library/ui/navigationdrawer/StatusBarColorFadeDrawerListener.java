@@ -1,16 +1,16 @@
 package de.larsgrefer.android.library.ui.navigationdrawer;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Build;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 
-import de.larsgrefer.android.library.ui.ColorFader;
+import de.larsgrefer.android.library.fader.ColorFader;
 
 /**
  * Created by larsgrefer on 30.01.15.
  */
-public class StatusBarColorFadeDrawerListener extends MultiDrawerListener {
+public class StatusBarColorFadeDrawerListener implements DrawerLayout.DrawerListener {
 	private Activity activity;
 	private ColorFader colorFader;
 
@@ -23,16 +23,13 @@ public class StatusBarColorFadeDrawerListener extends MultiDrawerListener {
 
 	@Override
 	public void onDrawerSlide(View drawerView, float slideOffset) {
-		super.onDrawerSlide(drawerView, slideOffset);
 			if (Build.VERSION.SDK_INT >= 21) {
-				activity.getWindow().setStatusBarColor(colorFader.getColor(slideOffset));
+				activity.getWindow().setStatusBarColor(colorFader.getValue(slideOffset));
 			}
-
 	}
 
 	@Override
 	public void onDrawerOpened(View drawerView) {
-		super.onDrawerOpened(drawerView);
 		if (Build.VERSION.SDK_INT >= 21) {
 			activity.getWindow().setStatusBarColor(colorFader.getTo());
 		}
@@ -40,10 +37,14 @@ public class StatusBarColorFadeDrawerListener extends MultiDrawerListener {
 
 	@Override
 	public void onDrawerClosed(View drawerView) {
-		super.onDrawerClosed(drawerView);
 		if (Build.VERSION.SDK_INT >= 21) {
 			activity.getWindow().setStatusBarColor(colorFader.getFrom());
 		}
+	}
+
+	@Override
+	public void onDrawerStateChanged(int newState) {
+
 	}
 
 	public void setActivity(Activity activity) {
@@ -67,6 +68,6 @@ public class StatusBarColorFadeDrawerListener extends MultiDrawerListener {
 	}
 
 	public void setColors(int colorClosed, int colorOpened){
-		colorFader.setColors(colorClosed, colorOpened);
+		colorFader.setBounds(colorClosed, colorOpened);
 	}
 }

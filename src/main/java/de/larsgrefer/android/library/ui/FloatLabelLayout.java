@@ -15,8 +15,6 @@ package de.larsgrefer.android.library.ui;
  * limitations under the License.
  */
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
@@ -24,36 +22,50 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import de.larsgrefer.android.library.Logger;
 import de.larsgrefer.android.library.R;
+import de.larsgrefer.android.library.ui.animation.TextColorAnimation;
+import de.larsgrefer.android.library.ui.animation.TextSizeAnimation;
 
 /**
  * Layout which an {@link android.widget.EditText} to show a floating label when the hint is hidden
  * due to the user inputting text.
+ * <p/>
+ * <p>This is an modification based on <a href="https://gist.github.com/chrisbanes/11247418#comment-1220415">this suggestion</a>
+ * which is based on <a href="https://gist.github.com/chrisbanes/11247418">this implementation</a> by Chris Banes.</p>
  *
  * @see <a href="https://dribbble.com/shots/1254439--GIF-Mobile-Form-Interaction">Matt D. Smith on Dribble</a>
  * @see <a href="http://bradfrostweb.com/blog/post/float-label-pattern/">Brad Frost's blog post</a>
+ * @see <a href="https://gist.github.com/chrisbanes/11247418">Chris Banes gist</a>
+ * @see <a href="http://www.google.com/design/spec/components/text-fields.html#text-fields-floating-labels">Material Design specification</a>
  */
 public class FloatLabelLayout extends FrameLayout {
 
-	private static final long ANIMATION_DURATION = 150;
-
 	private static final float DEFAULT_PADDING_LEFT_RIGHT_DP = 4f;
 
-	private EditText mEditText;
-	private TextView mLabel;
+	private Logger log = new Logger(this);
+	private Convert convert = new Convert(this.getResources());
+
+	private float labelTextSize = 12f;
+	private float labelHeight;
+
+	private long animationDuration = 200;
+	private int labelColor;
+	private int labelActiveColor;
+
+	private EditText editText;
+	private TextView label;
 
 	public FloatLabelLayout(Context context) {
 		this(context, null);
@@ -69,15 +81,22 @@ public class FloatLabelLayout extends FrameLayout {
 		final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatLabelLayout);
 
 		final int sidePadding = a.getDimensionPixelSize(R.styleable.FloatLabelLayout_floatLabelSidePadding,
-															   dipsToPix(DEFAULT_PADDING_LEFT_RIGHT_DP));
-		mLabel = new TextView(context);
-		mLabel.setPadding(sidePadding, 0, sidePadding, 0);
-		mLabel.setVisibility(INVISIBLE);
+															   convert.dipToPx(DEFAULT_PADDING_LEFT_RIGHT_DP));
+		label = new TextView(context);
+		label.setPadding(sidePadding, convert.dipToPx(8), sidePadding, 0);
+		label.setVisibility(INVISIBLE);
 
-		mLabel.setTextAppearance(context, a.getResourceId(R.styleable.FloatLabelLayout_floatLabelTextAppearance,
-																 android.R.style.TextAppearance_Small));
+		label.setTextAppearance(context, a.getResourceId(R.styleable.FloatLabelLayout_floatLabelTextAppearance,
+																R.style.TextAppearance_FloatLabel));
+		labelTextSize = label.getTextSize();
 
-		addView(mLabel, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.colorControlActivated});
+		labelActiveColor = typedArray.getColor(0, 0);
+		labelColor = label.getTextColors().getDefaultColor();
+
+		addView(label, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+
+		this.setMinimumHeight(convert.dipToPx(69.333336f));
 
 		a.recycle();
 	}
@@ -86,7 +105,7 @@ public class FloatLabelLayout extends FrameLayout {
 	public final void addView(View child, int index, ViewGroup.LayoutParams params) {
 		if (child instanceof EditText) {
 			// If we already have an EditText, throw an exception
-			if (mEditText != null) {
+			if (editText != null) {
 				throw new IllegalArgumentException("We already have an EditText, can only have one");
 			}
 
@@ -94,7 +113,7 @@ public class FloatLabelLayout extends FrameLayout {
 			// margin to show the label
 			final LayoutParams lp = new LayoutParams(params);
 			lp.gravity = Gravity.BOTTOM;
-			lp.topMargin = (int) mLabel.getTextSize();
+			lp.topMargin = (int) label.getTextSize() + convert.dipToPx(16);
 			params = lp;
 
 			setEditText((EditText) child);
@@ -105,21 +124,21 @@ public class FloatLabelLayout extends FrameLayout {
 	}
 
 	private void setEditText(EditText editText) {
-		mEditText = editText;
+		this.editText = editText;
 
 		// Add a TextWatcher so that we know when the text input has changed
-		mEditText.addTextChangedListener(new TextWatcher() {
+		this.editText.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void afterTextChanged(Editable s) {
 				if (TextUtils.isEmpty(s)) {
 					// The text is empty, so hide the label if it is visible
-					if (mLabel.getVisibility() == View.VISIBLE) {
+					if (label.getVisibility() == View.VISIBLE) {
 						hideLabel();
 					}
 				} else {
 					// The text is not empty, so show the label if it is not visible
-					if (mLabel.getVisibility() != View.VISIBLE) {
+					if (label.getVisibility() != View.VISIBLE) {
 						showLabel();
 					}
 				}
@@ -136,85 +155,54 @@ public class FloatLabelLayout extends FrameLayout {
 
 		// Add focus listener to the EditText so that we can notify the label that it is activated.
 		// Allows the use of a ColorStateList for the text color on the label
-		mEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+		this.editText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View view, boolean focused) {
 				if (Build.VERSION.SDK_INT >= 11)
-					mLabel.setActivated(focused);
+					label.setActivated(focused);
+				updateLabelTextColor();
 			}
 		});
 
-		mLabel.setText(mEditText.getHint());
-	}
-
-	/**
-	 * @return the {@link android.widget.EditText} text input
-	 */
-	public EditText getEditText() {
-		return mEditText;
-	}
-
-	/**
-	 * @return the {@link android.widget.TextView} label
-	 */
-	public TextView getLabel() {
-		return mLabel;
+		label.setText(this.editText.getHint());
 	}
 
 	/**
 	 * Show the label using an animation
 	 */
 	private void showLabel() {
-		mLabel.setVisibility(View.VISIBLE);
-		//Code from: https://gist.github.com/chrisbanes/11247418#comment-1220415
+
 		AnimationSet animationSet = new AnimationSet(true);
 
-		TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-																			  Animation.ABSOLUTE, mLabel.getHeight(), Animation.ABSOLUTE, 0);
-		translateAnimation.setDuration(ANIMATION_DURATION);
+		if (labelHeight == 0) {
+			labelHeight = label.getHeight();
+		}
+
+		TranslateAnimation translateAnimation = new TranslateAnimation(Animation.ABSOLUTE, 0, Animation.RELATIVE_TO_SELF, 0,
+																			  Animation.ABSOLUTE, labelHeight, Animation.ABSOLUTE, 0);
+		translateAnimation.setDuration(animationDuration);
 		animationSet.addAnimation(translateAnimation);
 
-		AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
-		alphaAnimation.setDuration(ANIMATION_DURATION);
-		animationSet.addAnimation(alphaAnimation);
-
-		ScaleAnimation scaleAnimation = new ScaleAnimation(1.5f, 1f, 1.5f, 1f);
-		scaleAnimation.setDuration(ANIMATION_DURATION);
-		animationSet.addAnimation(scaleAnimation);
-
-		mLabel.startAnimation(animationSet);
-	}
-
-	/**
-	 * Hide the label using an animation
-	 */
-	private void hideLabel() {
-		//Code from: https://gist.github.com/chrisbanes/11247418#comment-1220415
-		AnimationSet animationSet = new AnimationSet(true);
-
-		TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-																			  Animation.ABSOLUTE, 0, Animation.ABSOLUTE, mLabel.getHeight());
-		translateAnimation.setDuration(ANIMATION_DURATION);
-		animationSet.addAnimation(translateAnimation);
-
-		AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
-		alphaAnimation.setDuration(ANIMATION_DURATION);
-		animationSet.addAnimation(alphaAnimation);
-
-		ScaleAnimation scaleAnimation = new ScaleAnimation(1f, 1.5f, 1f, 1.5f);
-		scaleAnimation.setDuration(ANIMATION_DURATION);
-		animationSet.addAnimation(scaleAnimation);
+		TextColorAnimation tcAnimation = new TextColorAnimation(label, editText.getCurrentHintTextColor(), editText.isFocused() ? labelActiveColor : labelColor);
+		tcAnimation.setDuration(animationDuration);
+		animationSet.addAnimation(tcAnimation);
 
 
+		TextSizeAnimation textSizeAnimation = new TextSizeAnimation(label, editText.getTextSize(), labelTextSize);
+		textSizeAnimation.setDuration(animationDuration);
+		textSizeAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+		animationSet.addAnimation(textSizeAnimation);
 		animationSet.setAnimationListener(new Animation.AnimationListener() {
+
 			@Override
 			public void onAnimationStart(Animation animation) {
-
+				label.setText(editText.getHint());
+				label.setVisibility(VISIBLE);
 			}
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				mLabel.setVisibility(View.GONE);
+				updateLabelTextColor();
 			}
 
 			@Override
@@ -223,14 +211,91 @@ public class FloatLabelLayout extends FrameLayout {
 			}
 		});
 
+		label.startAnimation(animationSet);
+	}
 
-		mLabel.startAnimation(animationSet);
+	private void updateLabelTextColor() {
+		label.setTextColor(editText.isFocused() ? labelActiveColor : labelColor);
 	}
 
 	/**
-	 * Helper method to convert dips to pixels.
+	 * Hide the label using an animation
 	 */
-	private int dipsToPix(float dps) {
-		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dps, getResources().getDisplayMetrics());
+	private void hideLabel() {
+		AnimationSet animationSet = new AnimationSet(true);
+
+		TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+																			  Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1);
+		translateAnimation.setDuration(animationDuration);
+		animationSet.addAnimation(translateAnimation);
+
+		TextSizeAnimation textSizeAnimation = new TextSizeAnimation(label, labelTextSize, editText.getTextSize());
+		textSizeAnimation.setDuration(animationDuration);
+		textSizeAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+		animationSet.addAnimation(textSizeAnimation);
+
+		TextColorAnimation textColorAnimation = new TextColorAnimation(label, label.getCurrentTextColor(), editText.getCurrentHintTextColor());
+		textColorAnimation.setDuration(animationDuration);
+		animationSet.addAnimation(textColorAnimation);
+
+		animationSet.setAnimationListener(new Animation.AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+				label.setText(editText.getHint());
+				editText.setHint("");
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				editText.setHint(label.getText());
+				label.setVisibility(INVISIBLE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+
+			}
+		});
+
+		label.startAnimation(animationSet);
+	}
+
+	/**
+	 * @return the {@link android.widget.EditText} text input
+	 */
+	public EditText getEditText() {
+		return editText;
+	}
+
+	/**
+	 * @return the {@link android.widget.TextView} label
+	 */
+	public TextView getLabel() {
+		return label;
+	}
+
+	public long getAnimationDuration() {
+		return animationDuration;
+	}
+
+	public void setAnimationDuration(long animationDuration) {
+		this.animationDuration = animationDuration;
+	}
+
+	public int getLabelColor() {
+		return labelColor;
+	}
+
+	public void setLabelColor(int labelColor) {
+		this.labelColor = labelColor;
+	}
+
+	public int getLabelActiveColor() {
+		return labelActiveColor;
+	}
+
+	public void setLabelActiveColor(int labelActiveColor) {
+		this.labelActiveColor = labelActiveColor;
 	}
 }
