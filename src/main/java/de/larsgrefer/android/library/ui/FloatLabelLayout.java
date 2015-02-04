@@ -15,6 +15,7 @@ package de.larsgrefer.android.library.ui;
  * limitations under the License.
  */
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
@@ -158,13 +159,19 @@ public class FloatLabelLayout extends FrameLayout {
 		this.editText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View view, boolean focused) {
-				if (Build.VERSION.SDK_INT >= 11)
-					label.setActivated(focused);
+				setLabelActivated(focused);
 				updateLabelTextColor();
 			}
 		});
 
 		label.setText(this.editText.getHint());
+	}
+
+	@TargetApi(11)
+	private void setLabelActivated(boolean focused) {
+		if (Build.VERSION.SDK_INT >= 11) {
+			label.setActivated(focused);
+		}
 	}
 
 	/**
