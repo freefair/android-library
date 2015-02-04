@@ -4,6 +4,8 @@ import android.graphics.Color;
 
 import junit.framework.TestCase;
 
+import de.larsgrefer.android.library.fader.ColorFader;
+
 public class ColorFaderTest extends TestCase {
 
 	public void testGetSet() throws Exception {
