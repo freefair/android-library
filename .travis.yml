@@ -4,7 +4,7 @@ jdk:
   - oraclejdk7
   - oraclejdk8
 install:
-  - git pull -X theirs --no-edit https://github.com/larsgrefer/android-module-travis-helper.git
+  - git pull -X theirs --no-commit https://github.com/larsgrefer/android-module-travis-helper.git
   - git submodule init
   - git submodule update
 script:
