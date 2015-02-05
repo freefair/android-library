@@ -1,1 +1,7 @@
 language: android
+jdk:
+  - openjdk7
+  - oraclejdk7
+  - oraclejdk8
+script:
+  - gradle --init-script travis.gradle build check
