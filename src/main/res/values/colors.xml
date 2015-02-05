@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+           tools:ignore="UnusedResources">
 
     <!--Red 500 #f44336-->
     <color name="material_red_50">#ffebee</color>
