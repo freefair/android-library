@@ -4,4 +4,4 @@ jdk:
   - oraclejdk7
   - oraclejdk8
 script:
-  - gradle --init-script travis.gradle build check
+  - gradle travis.gradle build check
