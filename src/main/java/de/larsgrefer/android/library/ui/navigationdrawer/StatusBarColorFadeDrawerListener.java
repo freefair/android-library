@@ -1,11 +1,15 @@
 package de.larsgrefer.android.library.ui.navigationdrawer;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
-import android.os.Build;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 
 import de.larsgrefer.android.library.fader.ColorFader;
+
+import static android.graphics.Color.BLACK;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
 /**
  * Created by larsgrefer on 30.01.15.
@@ -14,32 +18,40 @@ public class StatusBarColorFadeDrawerListener implements DrawerLayout.DrawerList
 	private Activity activity;
 	private ColorFader colorFader;
 
-	public StatusBarColorFadeDrawerListener(Activity activity, int endColor){
+	public StatusBarColorFadeDrawerListener(Activity activity, int endColor) {
 		this.activity = activity;
-		if(Build.VERSION.SDK_INT >= 21){
-			this.colorFader = new ColorFader(activity.getWindow().getStatusBarColor(), endColor);
+		this.colorFader = new ColorFader(getStatusBarColor(), endColor);
+	}
+
+	@TargetApi(LOLLIPOP)
+	private void setStatusBarColor(int color) {
+		if (SDK_INT >= LOLLIPOP) {
+			activity.getWindow().setStatusBarColor(color);
+		}
+	}
+
+	@TargetApi(LOLLIPOP)
+	private int getStatusBarColor() {
+		if (SDK_INT >= LOLLIPOP) {
+			return activity.getWindow().getStatusBarColor();
+		} else {
+			return BLACK;
 		}
 	}
 
 	@Override
 	public void onDrawerSlide(View drawerView, float slideOffset) {
-			if (Build.VERSION.SDK_INT >= 21) {
-				activity.getWindow().setStatusBarColor(colorFader.getValue(slideOffset));
-			}
+		setStatusBarColor(colorFader.getValue(slideOffset));
 	}
 
 	@Override
 	public void onDrawerOpened(View drawerView) {
-		if (Build.VERSION.SDK_INT >= 21) {
-			activity.getWindow().setStatusBarColor(colorFader.getTo());
-		}
+		setStatusBarColor(colorFader.getTo());
 	}
 
 	@Override
 	public void onDrawerClosed(View drawerView) {
-		if (Build.VERSION.SDK_INT >= 21) {
-			activity.getWindow().setStatusBarColor(colorFader.getFrom());
-		}
+		setStatusBarColor(colorFader.getFrom());
 	}
 
 	@Override
@@ -67,7 +79,7 @@ public class StatusBarColorFadeDrawerListener implements DrawerLayout.DrawerList
 		colorFader.setTo(colorOpened);
 	}
 
-	public void setColors(int colorClosed, int colorOpened){
+	public void setColors(int colorClosed, int colorOpened) {
 		colorFader.setBounds(colorClosed, colorOpened);
 	}
 }
