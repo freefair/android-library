@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<string name="qr_error">Error while connecting to camera: %s</string>
-</resources>
