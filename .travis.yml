@@ -1,0 +1,11 @@
+language: android
+jdk:
+  - openjdk7
+  - oraclejdk7
+  - oraclejdk8
+install:
+  - git config user.name "Travis CI"
+  - git config user.email "travis@ci.example"
+  - git pull -X theirs --no-commit --no-edit https://github.com/larsgrefer/android-module-travis-helper.git
+script:
+  - ./gradlew -b travis.gradle build check
