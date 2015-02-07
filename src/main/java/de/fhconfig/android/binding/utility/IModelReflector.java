@@ -8,7 +8,7 @@ public interface IModelReflector {
 			throws Exception;
 
 	public abstract IObservable<?> getObservableByName(String name,
-			Object object) throws Exception;
+	                                                   Object object) throws Exception;
 
 	public abstract Object getValueByName(String name, Object object)
 			throws Exception;

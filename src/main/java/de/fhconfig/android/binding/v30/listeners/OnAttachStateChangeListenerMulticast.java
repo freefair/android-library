@@ -15,14 +15,14 @@ public class OnAttachStateChangeListenerMulticast extends ViewMulticastListener<
 	}
 
 	public void onViewAttachedToWindow(View v) {
-		for (View.OnAttachStateChangeListener l: listeners){
+		for (View.OnAttachStateChangeListener l : listeners) {
 			l.onViewAttachedToWindow(v);
 		}
 	}
 
 	public void onViewDetachedFromWindow(View v) {
-		for (View.OnAttachStateChangeListener l: listeners){
+		for (View.OnAttachStateChangeListener l : listeners) {
 			l.onViewDetachedFromWindow(v);
-		}	
+		}
 	}
 }

@@ -5,12 +5,10 @@ import de.fhconfig.android.binding.IObservable;
 
 /**
  * Constant converter that always returns null
- * @usage
- * 
- * @return null
- * 
- * @author andy
  *
+ * @author andy
+ * @usage
+ * @return null
  */
 public class NULL extends Converter<Object> {
 

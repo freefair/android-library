@@ -5,18 +5,20 @@ import android.content.Context;
 public interface ISyntaxResolver {
 
 	public IObservable<?> constructObservableFromStatement(
-	        final Context context, final String bindingStatement,
-	        final Object model, final IReferenceObservableProvider refProvider)
-	        throws SyntaxResolveException;
+			final Context context, final String bindingStatement,
+			final Object model, final IReferenceObservableProvider refProvider)
+			throws SyntaxResolveException;
 
 	public IObservable<?> constructObservableFromStatement(
-	        final Context context, final String bindingStatement,
-	        final Object model) throws SyntaxResolveException;
+			final Context context, final String bindingStatement,
+			final Object model) throws SyntaxResolveException;
 
 	public abstract Object getFieldForModel(String fieldName, Object model)
-            throws SyntaxResolveException;
+			throws SyntaxResolveException;
 
-	public static class SyntaxResolveException extends Exception{
+	public <T> T tryEvaluateValue(Context context, String statement, Object model, T defaultValue);
+
+	public static class SyntaxResolveException extends Exception {
 		private static final long serialVersionUID = -5339580312141946507L;
 
 		public SyntaxResolveException() {
@@ -24,7 +26,7 @@ public interface ISyntaxResolver {
 		}
 
 		public SyntaxResolveException(String detailMessage,
-				Throwable throwable) {
+		                              Throwable throwable) {
 			super(detailMessage, throwable);
 		}
 
@@ -34,8 +36,6 @@ public interface ISyntaxResolver {
 
 		public SyntaxResolveException(Throwable throwable) {
 			super(throwable);
-		}		
+		}
 	}
-	
-	public <T> T tryEvaluateValue(Context context, String statement, Object model, T defaultValue);
 }

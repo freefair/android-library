@@ -1,11 +1,12 @@
 package de.fhconfig.android.binding.viewAttributes.imageView;
 
-import de.fhconfig.android.binding.BindingType;
-import de.fhconfig.android.binding.ViewAttribute;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
+
+import de.fhconfig.android.binding.BindingType;
+import de.fhconfig.android.binding.ViewAttribute;
 
 /**
  * Source for Image View
@@ -16,20 +17,17 @@ import android.widget.ImageView;
  * - Drawable
  * - Bitmap
  * to this, but it is "Set" only attribute meaning you cannot get any return from it
- * 
+ *
+ * @author andy
  * @name source
  * @widget ImageView
  * @type Object
- * 
- * @accepts	Drawable
+ * @accepts Drawable
  * @accepts Bitmap
  * @accepts Uri
  * @accepts Integer
- * 
  * @category simple
  * @related http://developer.android.com/reference/android/widget/ImageView.html
- * 
- * @author andy
  */
 public class SourceViewAttribute extends ViewAttribute<ImageView, Object> {
 
@@ -39,24 +37,24 @@ public class SourceViewAttribute extends ViewAttribute<ImageView, Object> {
 
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
-		if(getView()==null) return;
-		if (newValue==null){
+		if (getView() == null) return;
+		if (newValue == null) {
 			getView().setImageDrawable(null);
 			return;
 		}
-		if (newValue instanceof Integer){
-			getView().setImageResource((Integer)newValue);
+		if (newValue instanceof Integer) {
+			getView().setImageResource((Integer) newValue);
 		}
-		if (newValue instanceof Uri){
-			getView().setImageURI((Uri)newValue);
+		if (newValue instanceof Uri) {
+			getView().setImageURI((Uri) newValue);
 			return;
 		}
-		if (newValue instanceof Drawable){
-			getView().setImageDrawable((Drawable)newValue);
+		if (newValue instanceof Drawable) {
+			getView().setImageDrawable((Drawable) newValue);
 			return;
 		}
-		if (newValue instanceof Bitmap){
-			getView().setImageBitmap((Bitmap)newValue);
+		if (newValue instanceof Bitmap) {
+			getView().setImageBitmap((Bitmap) newValue);
 			return;
 		}
 	}

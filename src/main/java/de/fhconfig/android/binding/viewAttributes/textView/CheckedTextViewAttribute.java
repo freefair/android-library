@@ -1,7 +1,8 @@
 package de.fhconfig.android.binding.viewAttributes.textView;
 
-import de.fhconfig.android.binding.ViewAttribute;
 import android.widget.CheckedTextView;
+
+import de.fhconfig.android.binding.ViewAttribute;
 
 public class CheckedTextViewAttribute extends ViewAttribute<CheckedTextView, Boolean> {
 	public CheckedTextViewAttribute(CheckedTextView view) {
@@ -10,25 +11,25 @@ public class CheckedTextViewAttribute extends ViewAttribute<CheckedTextView, Boo
 
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
-		if(getView()==null) return;
+		if (getView() == null) return;
 		boolean changeTo = getView().isChecked();
-		if (newValue==null){
+		if (newValue == null) {
 			changeTo = false;
 		}
-		if (newValue instanceof Boolean){
-			changeTo = (Boolean)newValue;
+		if (newValue instanceof Boolean) {
+			changeTo = (Boolean) newValue;
 		}
-		if (newValue instanceof Number){
-			changeTo = !((Number)newValue).equals(0);
+		if (newValue instanceof Number) {
+			changeTo = !((Number) newValue).equals(0);
 		}
-		if (changeTo != getView().isChecked()){
+		if (changeTo != getView().isChecked()) {
 			getView().setChecked(changeTo);
 		}
 	}
 
 	@Override
 	public Boolean get() {
-		if(getView()==null) return false;
+		if (getView() == null) return false;
 		return getView().isChecked();
 	}
 }

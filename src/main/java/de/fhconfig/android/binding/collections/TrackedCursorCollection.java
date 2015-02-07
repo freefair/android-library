@@ -1,13 +1,15 @@
 package de.fhconfig.android.binding.collections;
 
-import de.fhconfig.android.binding.cursor.ICursorRowModel;
-import de.fhconfig.android.binding.cursor.IRowModelFactory;
-import java.lang.ref.WeakReference;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
+
+import java.lang.ref.WeakReference;
+
+import de.fhconfig.android.binding.cursor.ICursorRowModel;
+import de.fhconfig.android.binding.cursor.IRowModelFactory;
 
 /**
  * User: =ra=
@@ -16,17 +18,19 @@ import android.os.Handler;
  */
 public class TrackedCursorCollection<T extends ICursorRowModel> extends CursorCollection<T> {
 
+	private CollectionContentObserver mCursorContentObserver;
+
 	public TrackedCursorCollection(Class<T> rowModelType, de.fhconfig.android.binding.collections.CursorCollection.ICursorCacheManager<T> cacheManager) {
 		super(rowModelType, cacheManager);
 	}
 
 	public TrackedCursorCollection(Class<T> rowModelType, IRowModelFactory<T> factory,
-			de.fhconfig.android.binding.collections.CursorCollection.ICursorCacheManager<T> cacheManager, Cursor cursor) {
+	                               de.fhconfig.android.binding.collections.CursorCollection.ICursorCacheManager<T> cacheManager, Cursor cursor) {
 		super(rowModelType, factory, cacheManager, cursor);
 	}
 
 	public TrackedCursorCollection(Class<T> rowModelType, IRowModelFactory<T> factory,
-			de.fhconfig.android.binding.collections.CursorCollection.ICursorCacheManager<T> cacheManager) {
+	                               de.fhconfig.android.binding.collections.CursorCollection.ICursorCacheManager<T> cacheManager) {
 		super(rowModelType, factory, cacheManager);
 	}
 
@@ -95,7 +99,19 @@ public class TrackedCursorCollection<T extends ICursorRowModel> extends CursorCo
 		setContentObserverTrackingUri(context, uri, false);
 	}
 
+	protected void finalize() throws Throwable {
+		try {
+			mCursorContentObserver.unregisterUri();
+			mCursorContentObserver = null;
+		} catch (Exception ignored) {
+		} finally {
+			super.finalize();
+		}
+	}
+
 	protected class CollectionContentObserver extends ContentObserver {
+
+		protected WeakReference<Context> mContextWeakReference = null;
 
 		public CollectionContentObserver(Handler handler) {
 			super(handler);
@@ -122,20 +138,6 @@ public class TrackedCursorCollection<T extends ICursorRowModel> extends CursorCo
 				context.getContentResolver().unregisterContentObserver(this);
 				mContextWeakReference = null;
 			}
-		}
-
-		protected WeakReference<Context> mContextWeakReference = null;
-	}
-
-	private CollectionContentObserver mCursorContentObserver;
-
-	protected void finalize() throws Throwable {
-		try {
-			mCursorContentObserver.unregisterUri();
-			mCursorContentObserver = null;
-		} catch (Exception ignored) {
-		} finally {
-			super.finalize();
 		}
 	}
 }

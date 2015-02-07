@@ -2,8 +2,8 @@ package de.fhconfig.android.binding.listeners;
 
 import android.view.View;
 
-public class OnLongClickListenerMulticast extends ViewMulticastListener<View.OnLongClickListener> 
-	implements View.OnLongClickListener {
+public class OnLongClickListenerMulticast extends ViewMulticastListener<View.OnLongClickListener>
+		implements View.OnLongClickListener {
 
 	@Override
 	public void registerToView(View v) {
@@ -12,8 +12,8 @@ public class OnLongClickListenerMulticast extends ViewMulticastListener<View.OnL
 
 	public boolean onLongClick(View v) {
 		boolean returnValue = false;
-		for(View.OnLongClickListener l : listeners){
-			if (l.onLongClick(v)){
+		for (View.OnLongClickListener l : listeners) {
+			if (l.onLongClick(v)) {
 				returnValue = true;
 			}
 		}

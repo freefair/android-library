@@ -1,34 +1,34 @@
 package de.fhconfig.android.binding.viewAttributes.adapterView;
 
+import android.view.View;
+import android.widget.ExpandableListView;
+
 import de.fhconfig.android.binding.Binder;
 import de.fhconfig.android.binding.ViewAttribute;
 import de.fhconfig.android.binding.listeners.OnChildClickListenerMulticast;
-import android.view.View;
-import android.widget.ExpandableListView;
 
 /**
  * Clicked Item of Child in Expandable List View
  * Changes at ExpandableListView.OnChildClickListener.onChildClick()
- * 
+ *
+ * @author andy
  * @name clickedChild
  * @widget ExpandableListView
  * @type Object
- * @accepts	Object
+ * @accepts Object
  * @category expandable-list
- * @related 
- * 
- * @author andy
+ * @related
  */
 public class ClickedChildViewAttribute extends ViewAttribute<ExpandableListView, Object>
-	implements ExpandableListView.OnChildClickListener{
+		implements ExpandableListView.OnChildClickListener {
 
 	private Object value;
-	
+
 	public ClickedChildViewAttribute(ExpandableListView view) {
 		super(Object.class, view, "clickedChild");
 		this.setReadonly(true);
 		Binder.getMulticastListenerForView(view, OnChildClickListenerMulticast.class)
-			.registerWithHighPriority(this);
+				.registerWithHighPriority(this);
 	}
 
 	@Override
@@ -42,14 +42,14 @@ public class ClickedChildViewAttribute extends ViewAttribute<ExpandableListView,
 	}
 
 	public boolean onChildClick(ExpandableListView parent, View v,
-			int groupPosition, int childPosition, long id) {
+	                            int groupPosition, int childPosition, long id) {
 		if (!getView().equals(parent)) return false;
-		try{
+		try {
 			this.value = getView().getExpandableListAdapter().getChild(groupPosition, childPosition);
 			this.notifyChanged();
-		}catch(Exception e){
+		} catch (Exception e) {
 		}
 		return true;
 	}
-	
+
 }

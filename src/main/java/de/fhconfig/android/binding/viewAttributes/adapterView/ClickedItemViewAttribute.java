@@ -1,35 +1,35 @@
 package de.fhconfig.android.binding.viewAttributes.adapterView;
 
-import de.fhconfig.android.binding.Binder;
-import de.fhconfig.android.binding.ViewAttribute;
-import de.fhconfig.android.binding.listeners.OnItemClickListenerMulticast;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import de.fhconfig.android.binding.Binder;
+import de.fhconfig.android.binding.ViewAttribute;
+import de.fhconfig.android.binding.listeners.OnItemClickListenerMulticast;
+
 /**
  * Clicked Item in ListView
  * Changes at ListView.OnItemClickListener.onItemClick()
- * 
+ *
+ * @author andy
  * @name clickedItem
  * @widget AdapterView
  * @type Object
- * @accepts	Object
+ * @accepts Object
  * @category list
- * @related 
- * 
- * @author andy
+ * @related
  */
 public class ClickedItemViewAttribute extends ViewAttribute<AdapterView<?>, Object>
-	implements OnItemClickListener{
+		implements OnItemClickListener {
 
 	private Object value;
-	
+
 	public ClickedItemViewAttribute(AdapterView<?> view, String attributeName) {
 		super(Object.class, view, attributeName);
 		//this.setReadonly(true);
 		Binder.getMulticastListenerForView(view, OnItemClickListenerMulticast.class)
-			.registerWithHighPriority(this);
+				.registerWithHighPriority(this);
 	}
 
 	@Override
@@ -44,11 +44,11 @@ public class ClickedItemViewAttribute extends ViewAttribute<AdapterView<?>, Obje
 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		if (!getView().equals(parent)) return;
-		try{
+		try {
 			this.value = getView().getItemAtPosition(position);
 			this.notifyChanged();
-		}catch(Exception e){
+		} catch (Exception e) {
 		}
 	}
-	
+
 }

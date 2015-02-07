@@ -12,9 +12,9 @@ public class OnTouchListenerMulticast extends ViewMulticastListener<View.OnTouch
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		boolean result = false;
-		
-		for (View.OnTouchListener l: listeners){
-			if( l.onTouch(v, event) )
+
+		for (View.OnTouchListener l : listeners) {
+			if (l.onTouch(v, event))
 				result = true;
 		}
 

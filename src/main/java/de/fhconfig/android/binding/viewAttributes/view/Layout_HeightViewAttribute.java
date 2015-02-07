@@ -1,9 +1,10 @@
 package de.fhconfig.android.binding.viewAttributes.view;
 
-import de.fhconfig.android.binding.BindingType;
-import de.fhconfig.android.binding.ViewAttribute;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+
+import de.fhconfig.android.binding.BindingType;
+import de.fhconfig.android.binding.ViewAttribute;
 
 public class Layout_HeightViewAttribute extends ViewAttribute<View, Integer> {
 
@@ -13,24 +14,24 @@ public class Layout_HeightViewAttribute extends ViewAttribute<View, Integer> {
 
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
-		if(getView()==null) return;
+		if (getView() == null) return;
 		LayoutParams param = getView().getLayoutParams();
-		if (param==null) return;
-		
-		if (newValue==null){
+		if (param == null) return;
+
+		if (newValue == null) {
 			return;
 		}
 
 		int newHeight = 0;
-		
-		if (newValue instanceof Integer){
-			newHeight = (Integer)newValue;
-		} else if ("wrap_content".equals(newValue)){
+
+		if (newValue instanceof Integer) {
+			newHeight = (Integer) newValue;
+		} else if ("wrap_content".equals(newValue)) {
 			newHeight = LayoutParams.WRAP_CONTENT;
-		} else if ("fill_parent".equals(newValue)){
+		} else if ("fill_parent".equals(newValue)) {
 			newHeight = LayoutParams.FILL_PARENT;
 		}
-		
+
 		param.height = newHeight;
 		getView().setLayoutParams(param);
 	}
@@ -42,9 +43,9 @@ public class Layout_HeightViewAttribute extends ViewAttribute<View, Integer> {
 
 	@Override
 	public Integer get() {
-		if(getView()==null) return null;
+		if (getView() == null) return null;
 		LayoutParams param = getView().getLayoutParams();
-		if (param==null) return 0;
-		return param.height; 
+		if (param == null) return 0;
+		return param.height;
 	}
 }

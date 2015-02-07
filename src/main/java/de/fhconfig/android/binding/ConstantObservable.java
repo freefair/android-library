@@ -5,12 +5,12 @@ import java.util.Collection;
 public class ConstantObservable<T> implements IObservable<T> {
 	private final Class<T> mType;
 	private final T mValue;
-	
-	public ConstantObservable(Class<T> type, T constantValue){
+
+	public ConstantObservable(Class<T> type, T constantValue) {
 		mType = type;
 		mValue = constantValue;
 	}
-	
+
 	public Class<T> getType() {
 		return mType;
 	}
@@ -41,7 +41,7 @@ public class ConstantObservable<T> implements IObservable<T> {
 	}
 
 	public void _setObject(Object newValue,
-			Collection<Object> initiators) {
+	                       Collection<Object> initiators) {
 	}
 
 	public T get() {
@@ -50,6 +50,6 @@ public class ConstantObservable<T> implements IObservable<T> {
 
 	@Override
 	public boolean isNull() {
-		return get()==null;
+		return get() == null;
 	}
 }

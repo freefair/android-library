@@ -12,12 +12,12 @@ public class Title extends ViewAttribute<BindableToolbar, CharSequence> {
 
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
-		if (newValue==null){
+		if (newValue == null) {
 			getHost().setTitle("");
 			return;
 		}
-		if (newValue instanceof CharSequence){
-			getHost().setTitle((CharSequence)newValue);
+		if (newValue instanceof CharSequence) {
+			getHost().setTitle((CharSequence) newValue);
 			return;
 		}
 		getHost().setTitle(newValue.toString());
@@ -29,7 +29,7 @@ public class Title extends ViewAttribute<BindableToolbar, CharSequence> {
 	}
 
 	@Override
-    protected BindingType AcceptThisTypeAs(Class<?> type) {
+	protected BindingType AcceptThisTypeAs(Class<?> type) {
 		return BindingType.OneWay;
-    }
+	}
 }

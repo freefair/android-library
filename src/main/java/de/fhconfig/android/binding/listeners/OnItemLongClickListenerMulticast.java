@@ -22,7 +22,8 @@ public class OnItemLongClickListenerMulticast extends ViewMulticastListener<OnIt
 		return returnValue;
 	}
 
-	@Override public void registerToView(View v) {
+	@Override
+	public void registerToView(View v) {
 		if (!(v instanceof AdapterView<?>)) {
 			return;
 		}

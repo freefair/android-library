@@ -1,10 +1,11 @@
 package de.fhconfig.android.binding.viewAttributes.view;
 
+import android.view.MotionEvent;
+import android.view.View;
+
 import de.fhconfig.android.binding.Binder;
 import de.fhconfig.android.binding.listeners.OnTouchListenerMulticast;
 import de.fhconfig.android.binding.viewAttributes.ViewEventAttribute;
-import android.view.MotionEvent;
-import android.view.View;
 
 public class OnTouchViewEvent extends ViewEventAttribute<View> implements View.OnTouchListener {
 	public OnTouchViewEvent(View view) {
@@ -17,7 +18,7 @@ public class OnTouchViewEvent extends ViewEventAttribute<View> implements View.O
 		this.invokeCommand(v, event, result);
 		return result.eventConsumed;
 	}
-	
+
 	@Override
 	protected void registerToListener(View view) {
 		Binder.getMulticastListenerForView(view, OnTouchListenerMulticast.class).register(this);

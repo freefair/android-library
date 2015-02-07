@@ -8,22 +8,28 @@ import de.fhconfig.android.binding.IObservableCollection;
  * Time: 21:05
  */
 public class RowModel implements ICursorRowModel {
-	@Override public void onInitialize() {}
+	protected boolean mapped = false;
+	private boolean displaying = false;
 
-	@Override public long getId(int proposedId) {
+	@Override
+	public void onInitialize() {
+	}
+
+	@Override
+	public long getId(int proposedId) {
 		return proposedId;
 	}
 
-	private boolean displaying = false;
-	
-	@Override public final void display(IObservableCollection<?> collection, int index) {
+	@Override
+	public final void display(IObservableCollection<?> collection, int index) {
 		if (displaying) return;
 		// if (!mapped) return;
 		displaying = true;
 		onDisplay();
 	}
 
-	@Override public final void hide(IObservableCollection<?> collection, int index) {
+	@Override
+	public final void hide(IObservableCollection<?> collection, int index) {
 		if (!displaying) return;
 		displaying = false;
 		onHide();
@@ -35,15 +41,13 @@ public class RowModel implements ICursorRowModel {
 	public void onHide() {
 	}
 
-	protected boolean mapped = false;
-	
 	@Override
-    public void setMapped(boolean mapped) {
-		this.mapped = mapped;
-    }
+	public boolean isMapped() {
+		return this.mapped;
+	}
 
 	@Override
-    public boolean isMapped() {
-	    return this.mapped;
-    }
+	public void setMapped(boolean mapped) {
+		this.mapped = mapped;
+	}
 }

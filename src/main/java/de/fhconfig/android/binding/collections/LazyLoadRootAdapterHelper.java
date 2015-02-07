@@ -5,13 +5,13 @@ import android.widget.AbsListView.OnScrollListener;
 
 public class LazyLoadRootAdapterHelper implements OnScrollListener {
 
-	// Allow a few items which is close to the viewport to stay
-	private int extraItems = 2;
 	private final AbsListView mView;
 	private final LazyLoadAdapter mAdapter;
+	// Allow a few items which is close to the viewport to stay
+	private int extraItems = 2;
 	private LazyLoadAdapter.Mode mMode;
 	private boolean busy;
-	
+
 	private int lastFirstVisibleItem = 0;
 	private int lastVisibleItemCount = 0;
 	// private int lastScrollState = OnScrollListener.SCROLL_STATE_IDLE; // unused
@@ -27,15 +27,16 @@ public class LazyLoadRootAdapterHelper implements OnScrollListener {
 		mMode = mode;
 	}
 
-	
+
 	/**
 	 * Callback method to be invoked when the list or grid has been scrolled. This will be
 	 * called after the scroll has completed
-	 * @param view The view whose scroll state is being reported
+	 *
+	 * @param view             The view whose scroll state is being reported
 	 * @param firstVisibleItem the index of the first visible cell (ignore if
-	 *        visibleItemCount == 0)
+	 *                         visibleItemCount == 0)
 	 * @param visibleItemCount the number of visible cells
-	 * @param totalItemCount the number of items in the list adaptor
+	 * @param totalItemCount   the number of items in the list adaptor
 	 */
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
@@ -66,7 +67,6 @@ public class LazyLoadRootAdapterHelper implements OnScrollListener {
 		return busy;
 	}
 
-	
 
 	public void onGetView(int position) {
 		if (!busy) {

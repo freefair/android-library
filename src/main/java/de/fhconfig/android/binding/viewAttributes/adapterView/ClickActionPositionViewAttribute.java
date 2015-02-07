@@ -1,12 +1,13 @@
 package de.fhconfig.android.binding.viewAttributes.adapterView;
 
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+
 import de.fhconfig.android.binding.Binder;
 import de.fhconfig.android.binding.ViewAttribute;
 import de.fhconfig.android.binding.listeners.OnItemClickListenerMulticast;
 import de.fhconfig.android.binding.listeners.OnItemLongClickListenerMulticast;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * User: =ra=
@@ -16,13 +17,13 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ClickActionPositionViewAttribute extends ViewAttribute<AdapterView<?>, Integer> implements OnItemClickListener,
 		AdapterView.OnItemLongClickListener {
 
+	private int mValue;
+
 	public ClickActionPositionViewAttribute(AdapterView<?> view) {
 		super(Integer.class, view, "clickActionPosition");
 		Binder.getMulticastListenerForView(view, OnItemClickListenerMulticast.class).registerWithHighPriority(this);
 		Binder.getMulticastListenerForView(view, OnItemLongClickListenerMulticast.class).registerWithHighPriority(this);
 	}
-
-	private int mValue;
 
 	@Override
 	public Integer get() {

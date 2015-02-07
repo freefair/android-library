@@ -1,6 +1,7 @@
 package de.fhconfig.android.binding.converters;
 
 import android.view.View;
+
 import de.fhconfig.android.binding.Command;
 import de.fhconfig.android.binding.Converter;
 import de.fhconfig.android.binding.IObservable;
@@ -16,7 +17,7 @@ public class GO_UP extends Converter<Command> {
 		return new Command() {
 			@Override
 			public void Invoke(View view, Object... args) {
-				((BindableActionBar)view).getActivity().finish();
+				((BindableActionBar) view).getActivity().finish();
 			}
 		};
 	}

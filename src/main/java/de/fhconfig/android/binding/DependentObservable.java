@@ -1,63 +1,62 @@
 package de.fhconfig.android.binding;
 
-import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Collection;
 
-public abstract class DependentObservable<T> extends Observable<T> implements Observer{
+public abstract class DependentObservable<T> extends Observable<T> implements Observer {
 
 	protected IObservable<?>[] mDependents;
-	
+	private boolean dirty = false;
+
 	public DependentObservable(Class<T> type, IObservable<?>... dependents) {
 		super(type);
-		for(IObservable<?> o : dependents){
+		for (IObservable<?> o : dependents) {
 			o.subscribe(this);
 		}
 		this.mDependents = dependents;
 		this.onPropertyChanged(null, new ArrayList<Object>());
 	}
-	
-	// This is provided in case the constructor can't be used. 
+
+	// This is provided in case the constructor can't be used.
 	// Not intended for normal usage
-	public void addDependents(IObservable<?>... dependents){
+	public void addDependents(IObservable<?>... dependents) {
 		IObservable<?>[] temp = mDependents;
 		mDependents = new IObservable<?>[temp.length + dependents.length];
 		int len = temp.length;
-		for(int i=0; i<len; i++){
+		for (int i = 0; i < len; i++) {
 			mDependents[i] = temp[i];
 		}
 		int len2 = dependents.length;
-		for(int i=0; i<len2; i++){
-			mDependents[i+len] = dependents[i];
+		for (int i = 0; i < len2; i++) {
+			mDependents[i + len] = dependents[i];
 			dependents[i].subscribe(this);
 		}
 		this.onPropertyChanged(null, new ArrayList<Object>());
 	}
 
 	public abstract T calculateValue(Object... args) throws Exception;
-	
+
 	public final void onPropertyChanged(IObservable<?> prop,
-			Collection<Object> initiators) {
+	                                    Collection<Object> initiators) {
 		dirty = true;
 		initiators.add(this);
 		this.notifyChanged(initiators);
 	}
 
-	private boolean dirty = false;
-	
 	@Override
 	public T get() {
-		if (dirty){
+		if (dirty) {
 			int len = mDependents.length;
 			Object[] values = new Object[len];
-			for(int i=0; i<len; i++){
+			for (int i = 0; i < len; i++) {
 				values[i] = mDependents[i].get();
 			}
-			try{
+			try {
 				T value = this.calculateValue(values);
 				this.setWithoutNotify(value);
-			}catch(Exception e){
+			} catch (Exception e) {
 				BindingLog.exception
-					("DependentObservable.CalculateValue()", e);
+						("DependentObservable.CalculateValue()", e);
 			}
 			dirty = false;
 		}

@@ -1,25 +1,22 @@
 package de.fhconfig.android.binding.viewAttributes.textView;
 
-import de.fhconfig.android.binding.BindingType;
-import de.fhconfig.android.binding.ViewAttribute;
 import android.graphics.Typeface;
 import android.widget.TextView;
 
+import de.fhconfig.android.binding.BindingType;
+import de.fhconfig.android.binding.ViewAttribute;
+
 /**
  * Typeface of Text View
- * 
+ *
+ * @author andy
  * @name typeface
  * @widget TextView
  * @type Typeface
- * 
- * @accepts	Typeface
-
+ * @accepts Typeface
  * @category simple
  * @related http://developer.android.com/reference/android/widget/TextView.html
- * 
  * @converter TYPEFACE_FROM_ASSET
- * 
- * @author andy
  */
 public class TypefaceViewAttribute extends ViewAttribute<TextView, Typeface> {
 
@@ -29,12 +26,12 @@ public class TypefaceViewAttribute extends ViewAttribute<TextView, Typeface> {
 
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
-		if(getView()==null) return;
-		if (newValue==null){
+		if (getView() == null) return;
+		if (newValue == null) {
 			return;
 		}
-		if (newValue instanceof Typeface){
-			getView().setTypeface((Typeface)newValue);
+		if (newValue instanceof Typeface) {
+			getView().setTypeface((Typeface) newValue);
 		}
 	}
 

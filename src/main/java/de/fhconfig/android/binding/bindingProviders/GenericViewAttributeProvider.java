@@ -1,11 +1,11 @@
 package de.fhconfig.android.binding.bindingProviders;
 
-import de.fhconfig.android.binding.ViewAttribute;
-import de.fhconfig.android.binding.viewAttributes.GenericViewAttribute;
+import android.view.View;
 
 import java.lang.reflect.Method;
 
-import android.view.View;
+import de.fhconfig.android.binding.ViewAttribute;
+import de.fhconfig.android.binding.viewAttributes.GenericViewAttribute;
 
 
 public class GenericViewAttributeProvider extends BindingProvider {
@@ -15,21 +15,22 @@ public class GenericViewAttributeProvider extends BindingProvider {
 		return tryCreateGenericViewAttribute(view, attributeId);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-    private ViewAttribute<View, ?> tryCreateGenericViewAttribute(View view,
-            String attributeId) {
-		try{
+	@SuppressWarnings({"rawtypes", "unchecked"})
+	private ViewAttribute<View, ?> tryCreateGenericViewAttribute(View view,
+	                                                             String attributeId) {
+		try {
 			String capAttrib = attributeId.substring(0, 1).toUpperCase() + attributeId.substring(1);
-		
+
 			Method getter = view.getClass().getMethod("get" + capAttrib);
 			Method setter = null;
-			try{
+			try {
 				setter = view.getClass().getMethod("set" + capAttrib, getter.getReturnType());
-			}catch(Exception e){}
-			
+			} catch (Exception e) {
+			}
+
 			return new GenericViewAttribute(getter.getReturnType(), view, attributeId, getter, setter);
-		}catch(Exception e){
+		} catch (Exception e) {
 			return null;
 		}
-    }
+	}
 }

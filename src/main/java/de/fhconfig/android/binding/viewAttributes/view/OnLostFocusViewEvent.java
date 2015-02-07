@@ -1,9 +1,10 @@
 package de.fhconfig.android.binding.viewAttributes.view;
 
+import android.view.View;
+
 import de.fhconfig.android.binding.Binder;
 import de.fhconfig.android.binding.listeners.OnFocusChangeListenerMulticast;
 import de.fhconfig.android.binding.viewAttributes.ViewEventAttribute;
-import android.view.View;
 
 public class OnLostFocusViewEvent extends ViewEventAttribute<View> implements View.OnFocusChangeListener {
 	public OnLostFocusViewEvent(View view) {

@@ -2,14 +2,11 @@ package de.fhconfig.android.binding.viewAttributes.view;
 
 public class AnimationTrigger {
 
+	private TriggerListener mListener;
+	private int mAnimationId;
+
 	public AnimationTrigger() {
 	}
-
-	public interface TriggerListener{
-		public void fireAnimation(AnimationTrigger trigger);
-	}
-
-	private TriggerListener mListener;
 
 	public void setTriggerListener(TriggerListener listener) {
 		mListener = listener;
@@ -19,18 +16,8 @@ public class AnimationTrigger {
 		mListener = null;
 	}
 
-	private int mAnimationId;
-
-	public enum TriggerType{
-		True,
-		Equal, 
-		Change,
-		WhenLargerThan,
-		FireWhenLarger
-	}
-
 	public void notifyAnimationFire() {
-		if (mListener!=null)
+		if (mListener != null)
 			mListener.fireAnimation(this);
 	}
 
@@ -40,5 +27,17 @@ public class AnimationTrigger {
 
 	public void setAnimationId(int animationId) {
 		mAnimationId = animationId;
+	}
+
+	public enum TriggerType {
+		True,
+		Equal,
+		Change,
+		WhenLargerThan,
+		FireWhenLarger
+	}
+
+	public interface TriggerListener {
+		public void fireAnimation(AnimationTrigger trigger);
 	}
 }

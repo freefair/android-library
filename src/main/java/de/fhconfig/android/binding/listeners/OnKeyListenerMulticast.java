@@ -12,9 +12,9 @@ public class OnKeyListenerMulticast extends ViewMulticastListener<View.OnKeyList
 	@Override
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
 		boolean result = false;
-		
-		for (View.OnKeyListener l: listeners){
-			if( l.onKey(v, keyCode, event) )
+
+		for (View.OnKeyListener l : listeners) {
+			if (l.onKey(v, keyCode, event))
 				result = true;
 		}
 

@@ -3,7 +3,7 @@ package de.fhconfig.android.binding.exception;
 public class AttributeNotDefinedException extends BindingException {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 3063420613201292120L;
 
@@ -13,7 +13,7 @@ public class AttributeNotDefinedException extends BindingException {
 	}
 
 	public AttributeNotDefinedException(String detailMessage,
-			Throwable throwable) {
+	                                    Throwable throwable) {
 		super(detailMessage, throwable);
 		// TODO Auto-generated constructor stub
 	}

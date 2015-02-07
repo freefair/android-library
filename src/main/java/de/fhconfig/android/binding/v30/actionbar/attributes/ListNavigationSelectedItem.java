@@ -6,12 +6,12 @@ import de.fhconfig.android.binding.v30.actionbar.BindableActionBar;
 
 public class ListNavigationSelectedItem extends ViewAttribute<BindableActionBar, Object> {
 
+	private Object mValue;
+
 	public ListNavigationSelectedItem(BindableActionBar view) {
 		super(Object.class, view, "ListNavigationSelectedItem");
 	}
 
-	private Object mValue;
-	
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
 		this.mValue = newValue;

@@ -1,28 +1,26 @@
 package de.fhconfig.android.binding.viewAttributes.view;
 
-import de.fhconfig.android.binding.BindingType;
-import de.fhconfig.android.binding.ViewAttribute;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import de.fhconfig.android.binding.BindingType;
+import de.fhconfig.android.binding.ViewAttribute;
+
 /**
  * Background
- * Similar to "backgroundColor" attribute, 
- * but this one accepts Drawable or Drawable Resource Integer (denoted by &#64;drawable/drawableid) 
- * 
+ * Similar to "backgroundColor" attribute,
+ * but this one accepts Drawable or Drawable Resource Integer (denoted by &#64;drawable/drawableid)
+ *
+ * @author andy
  * @name background
  * @widget View
  * @type Object
- * 
- * @accepts	Integer
+ * @accepts Integer
  * @accepts Drawable
- * 
  * @category simple
  * @related http://developer.android.com/reference/android/widget/View.html
  * @related http://developer.android.com/reference/android/graphics/Color.html
  * @converter ARGB
- * 
- * @author andy
  */
 public class BackgroundViewAttribute extends ViewAttribute<View, Object> {
 
@@ -32,16 +30,16 @@ public class BackgroundViewAttribute extends ViewAttribute<View, Object> {
 
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
-		if(getView()==null) return;
-		if (newValue==null){
+		if (getView() == null) return;
+		if (newValue == null) {
 			getView().setBackgroundDrawable(null);
 			return;
 		}
-		if (newValue instanceof Integer){
-			getView().setBackgroundResource((Integer)newValue);
+		if (newValue instanceof Integer) {
+			getView().setBackgroundResource((Integer) newValue);
 		}
-		if (newValue instanceof Drawable){
-			getView().setBackgroundDrawable((Drawable)newValue);
+		if (newValue instanceof Drawable) {
+			getView().setBackgroundDrawable((Drawable) newValue);
 			return;
 		}
 	}

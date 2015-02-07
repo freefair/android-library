@@ -2,6 +2,7 @@ package de.fhconfig.android.binding.viewAttributes.adapterView;
 
 import android.view.View;
 import android.widget.AdapterView;
+
 import de.fhconfig.android.binding.Binder;
 import de.fhconfig.android.binding.listeners.OnItemLongClickListenerMulticast;
 import de.fhconfig.android.binding.viewAttributes.ViewEventAttribute;
@@ -9,19 +10,18 @@ import de.fhconfig.android.binding.viewAttributes.ViewEventAttribute;
 /**
  * Fires when Item Long-Clicked
  * Equals to listening to AdapterView.OnItemLongClickListener.onItemLongClick()
- * 
+ *
+ * @author andy
+ *         <p/>
+ *         User: =ra=
+ *         Date: 28.07.11
+ *         Time: 17:27
  * @name onItemLongClicked
  * @widget ListView
  * @type Command
- * @accepts	Command
+ * @accepts Command
  * @category list
- * @related 
- * 
- * @author andy
-
- * User: =ra=
- * Date: 28.07.11
- * Time: 17:27
+ * @related
  */
 public class OnItemLongClickedViewEvent extends ViewEventAttribute<AdapterView<?>>
 		implements AdapterView.OnItemLongClickListener {
@@ -30,7 +30,8 @@ public class OnItemLongClickedViewEvent extends ViewEventAttribute<AdapterView<?
 		super(view, "onItemLongClicked");
 	}
 
-	@Override protected void registerToListener(AdapterView<?> view) {
+	@Override
+	protected void registerToListener(AdapterView<?> view) {
 		Binder.getMulticastListenerForView(view, OnItemLongClickListenerMulticast.class).register(this);
 	}
 

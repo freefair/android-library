@@ -17,15 +17,15 @@ import static android.os.Build.VERSION_CODES.HONEYCOMB;
 /**
  * Set a null to the value to reset the list
  * TODO: implement programmatically change the selected positions
- * @author andy
  *
+ * @author andy
  */
 @TargetApi(HONEYCOMB)
 public class ModalCheckedItemPositions extends ViewAttribute<ListView, SparseBooleanArray>
-	implements AbsListView.MultiChoiceModeListener{
-	
+		implements AbsListView.MultiChoiceModeListener {
+
 	private boolean suppress = false;
-	
+
 	public ModalCheckedItemPositions(ListView view) {
 		super(SparseBooleanArray.class, view, "modalCheckedItemPositions");
 		Binder.getMulticastListenerForView(view, MultiChoiceModeListenerMulticast.class).register(this);
@@ -33,14 +33,14 @@ public class ModalCheckedItemPositions extends ViewAttribute<ListView, SparseBoo
 
 	@Override
 	public SparseBooleanArray get() {
-		if(getView()==null) return null;
+		if (getView() == null) return null;
 		return Helper.cloneSBArray((getView().getCheckedItemPositions()));
 	}
 
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
-		if(getView()==null) return;
-		if (!(newValue instanceof SparseBooleanArray)){
+		if (getView() == null) return;
+		if (!(newValue instanceof SparseBooleanArray)) {
 			getView().clearChoices();
 		}
 	}
@@ -61,12 +61,12 @@ public class ModalCheckedItemPositions extends ViewAttribute<ListView, SparseBoo
 	}
 
 	public void onItemCheckedStateChanged(ActionMode mode, int position,
-			long id, boolean checked) {
+	                                      long id, boolean checked) {
 		if (suppress) {
 			suppress = false;
 			return;
 		}
-		
+
 		this.notifyChanged();
 	}
 }

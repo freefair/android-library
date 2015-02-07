@@ -1,6 +1,7 @@
 package de.fhconfig.android.binding.v30.actionbar.attributes;
 
 import android.os.Bundle;
+
 import de.fhconfig.android.binding.labs.EventAggregator;
 import de.fhconfig.android.binding.labs.EventSubscriber;
 import de.fhconfig.android.binding.v30.actionbar.BindableActionBar;

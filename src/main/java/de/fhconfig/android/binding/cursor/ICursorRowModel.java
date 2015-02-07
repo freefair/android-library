@@ -12,6 +12,7 @@ public interface ICursorRowModel extends ILazyLoadRowModel {
 	 * The main purpose of onInitialize is to perform initialization after data is read from source Data Set
 	 */
 	void onInitialize();
+
 	/**
 	 * Returns unique record identifier in source Data Set
 	 *

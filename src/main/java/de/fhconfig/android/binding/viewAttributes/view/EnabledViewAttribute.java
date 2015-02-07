@@ -1,22 +1,20 @@
 package de.fhconfig.android.binding.viewAttributes.view;
 
-import de.fhconfig.android.binding.ViewAttribute;
 import android.view.View;
+
+import de.fhconfig.android.binding.ViewAttribute;
 
 /**
  * Enabled State of View
  * similar to android:enabled
- * 
+ *
+ * @author andy
  * @name enabled
  * @widget View
  * @type Boolean
- * 
- * @accepts	Boolean
- * 
+ * @accepts Boolean
  * @category simple
  * @related http://developer.android.com/reference/android/widget/View.html
- * 
- * @author andy
  */
 public class EnabledViewAttribute extends ViewAttribute<View, Boolean> {
 
@@ -26,19 +24,19 @@ public class EnabledViewAttribute extends ViewAttribute<View, Boolean> {
 
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
-		if(getView()==null) return;
-		if (newValue==null){
+		if (getView() == null) return;
+		if (newValue == null) {
 			getView().setEnabled(false);
 			return;
 		}
-		if (newValue instanceof Boolean){
-			getView().setEnabled((Boolean)newValue);
+		if (newValue instanceof Boolean) {
+			getView().setEnabled((Boolean) newValue);
 		}
 	}
 
 	@Override
 	public Boolean get() {
-		if(getView()==null) return null;
+		if (getView() == null) return null;
 		return getView().isEnabled();
 	}
 }

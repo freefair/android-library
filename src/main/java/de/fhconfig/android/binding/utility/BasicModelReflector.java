@@ -1,16 +1,18 @@
 package de.fhconfig.android.binding.utility;
 
+import android.content.Context;
+
 import de.fhconfig.android.binding.Command;
 import de.fhconfig.android.binding.IObservable;
 import de.fhconfig.android.binding.Utility;
-import android.content.Context;
 
-public class BasicModelReflector implements IModelReflector{
+public class BasicModelReflector implements IModelReflector {
 	private Context mContext;
 
-	public BasicModelReflector(Context context){
+	public BasicModelReflector(Context context) {
 		mContext = context;
 	}
+
 	public Command getCommandByName(String name, Object object)
 			throws Exception {
 		return Utility.getCommandForModel(name, object);

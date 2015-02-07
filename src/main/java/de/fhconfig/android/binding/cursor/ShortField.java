@@ -7,7 +7,7 @@ public class ShortField extends CursorField<Short> {
 	public ShortField(int columnIndex) {
 		super(Short.class, columnIndex);
 	}
-	
+
 	public ShortField(String columnName) {
 		super(Short.class, columnName);
 	}

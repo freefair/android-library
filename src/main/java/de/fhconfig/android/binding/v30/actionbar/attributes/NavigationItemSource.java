@@ -20,7 +20,7 @@ public class NavigationItemSource extends ViewAttribute<BindableActionBar, IObse
 	public IObservableCollection get() {
 		return null;
 	}
-	
+
 	@Override
 	protected BindingType AcceptThisTypeAs(Class<?> type) {
 		return BindingType.OneWay;

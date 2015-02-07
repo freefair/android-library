@@ -13,44 +13,44 @@ import de.fhconfig.android.binding.listeners.ViewMulticastListener;
 import static android.os.Build.VERSION_CODES.HONEYCOMB;
 
 @TargetApi(HONEYCOMB)
-public class MultiChoiceModeListenerMulticast extends ViewMulticastListener<AbsListView.MultiChoiceModeListener> 
-	implements AbsListView.MultiChoiceModeListener {
+public class MultiChoiceModeListenerMulticast extends ViewMulticastListener<AbsListView.MultiChoiceModeListener>
+		implements AbsListView.MultiChoiceModeListener {
 	@Override
 	public void registerToView(View v) {
 		if (!(v instanceof AbsListView)) return;
-		((AbsListView)v).setMultiChoiceModeListener(this);
+		((AbsListView) v).setMultiChoiceModeListener(this);
 	}
 
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-		for (AbsListView.MultiChoiceModeListener l: listeners){
+		for (AbsListView.MultiChoiceModeListener l : listeners) {
 			l.onActionItemClicked(mode, item);
-		}	
+		}
 		return true;
 	}
 
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-		for (AbsListView.MultiChoiceModeListener l: listeners){
+		for (AbsListView.MultiChoiceModeListener l : listeners) {
 			l.onCreateActionMode(mode, menu);
 		}
 		return true;
 	}
 
 	public void onDestroyActionMode(ActionMode mode) {
-		for (AbsListView.MultiChoiceModeListener l: listeners){
+		for (AbsListView.MultiChoiceModeListener l : listeners) {
 			l.onDestroyActionMode(mode);
 		}
 	}
 
 	public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-		for (AbsListView.MultiChoiceModeListener l: listeners){
+		for (AbsListView.MultiChoiceModeListener l : listeners) {
 			l.onPrepareActionMode(mode, menu);
 		}
 		return true;
 	}
 
 	public void onItemCheckedStateChanged(ActionMode mode, int position,
-			long id, boolean checked) {
-		for (AbsListView.MultiChoiceModeListener l: listeners){
+	                                      long id, boolean checked) {
+		for (AbsListView.MultiChoiceModeListener l : listeners) {
 			l.onItemCheckedStateChanged(mode, position, id, checked);
 		}
 	}
@@ -59,6 +59,6 @@ public class MultiChoiceModeListenerMulticast extends ViewMulticastListener<AbsL
 	public void register(MultiChoiceModeListener listener) {
 		super.register(listener);
 	}
-	
-	
+
+
 }

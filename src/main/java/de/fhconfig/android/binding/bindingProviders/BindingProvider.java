@@ -1,14 +1,15 @@
 package de.fhconfig.android.binding.bindingProviders;
 
-import de.fhconfig.android.binding.ViewAttribute;
 import android.view.View;
 
+import de.fhconfig.android.binding.ViewAttribute;
 
-/** 
- * Base class for binding providers. Any special types of views should also inherit this 
+
+/**
+ * Base class for binding providers. Any special types of views should also inherit this
  * to provide binding syntax parsing and view attributes creation
- * @author andytsui
  *
+ * @author andytsui
  */
 public abstract class BindingProvider {
 	public abstract <Tv extends View> ViewAttribute<Tv, ?> createAttributeForView(View view, String attributeId);

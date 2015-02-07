@@ -6,7 +6,7 @@ public class BlobField extends CursorField<byte[]> {
 	public BlobField(int columnIndex) {
 		super(byte[].class, columnIndex);
 	}
-	
+
 	public BlobField(String columName) {
 		super(byte[].class, columName);
 	}

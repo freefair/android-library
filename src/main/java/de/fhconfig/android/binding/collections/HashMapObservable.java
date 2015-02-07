@@ -1,8 +1,5 @@
 package de.fhconfig.android.binding.collections;
 
-import de.fhconfig.android.binding.CollectionChangedEventArg;
-import de.fhconfig.android.binding.CollectionChangedEventArg.Action;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,31 +7,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class HashMapObservable<K, V> extends ObservableCollection<V>
-	implements Map<K,V>{
+import de.fhconfig.android.binding.CollectionChangedEventArg;
+import de.fhconfig.android.binding.CollectionChangedEventArg.Action;
 
-	private HashMap<K,V> mMap;
+public class HashMapObservable<K, V> extends ObservableCollection<V>
+		implements Map<K, V> {
+
 	private final Class<K> mKeyType;
 	private final Class<V> mValueType;
-	
-	public HashMapObservable(Class<K> keyType, Class<V> valueType){
+	private HashMap<K, V> mMap;
+
+	public HashMapObservable(Class<K> keyType, Class<V> valueType) {
 		mKeyType = keyType;
 		mValueType = valueType;
-		mMap = new HashMap<K,V>();
+		mMap = new HashMap<K, V>();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public V getItem(int position) {
-		return (V)mMap.values().toArray()[position];
+		return (V) mMap.values().toArray()[position];
 	}
 
 	public void onLoad(int position) {
 	}
 
-	public Class<K> getKeyType(){
+	public Class<K> getKeyType() {
 		return mKeyType;
 	}
-	
+
 	public Class<V> getComponentType() {
 		return mValueType;
 	}
@@ -75,20 +75,20 @@ public class HashMapObservable<K, V> extends ObservableCollection<V>
 
 	public V put(K key, V value) {
 		V result = mMap.put(key, value);
-		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Add,key);
+		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Add, key);
 		this.notifyCollectionChanged(e);
 		return result;
 	}
 
 	public void putAll(Map<? extends K, ? extends V> arg0) {
 		mMap.putAll(arg0);
-		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Add,Arrays.asList(arg0.keySet().toArray()));
+		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Add, Arrays.asList(arg0.keySet().toArray()));
 		this.notifyCollectionChanged(e);
 	}
 
 	public V remove(Object key) {
 		V result = mMap.remove(key);
-		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Remove,key);
+		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Remove, key);
 		this.notifyCollectionChanged(e);
 		return result;
 	}

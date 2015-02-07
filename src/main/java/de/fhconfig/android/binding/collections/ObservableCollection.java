@@ -1,20 +1,20 @@
 package de.fhconfig.android.binding.collections;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import de.fhconfig.android.binding.CollectionChangedEventArg;
 import de.fhconfig.android.binding.CollectionObserver;
 import de.fhconfig.android.binding.IObservableCollection;
 import de.fhconfig.android.binding.Observer;
 import de.fhconfig.android.binding.utility.WeakList;
 
-import java.util.ArrayList;
-import java.util.Collection;
 
-
-public abstract class ObservableCollection<T> implements IObservableCollection<T>{
+public abstract class ObservableCollection<T> implements IObservableCollection<T> {
 
 	private WeakList<CollectionObserver> mCollectionObservers
-		= new WeakList<CollectionObserver>();
-	
+			= new WeakList<CollectionObserver>();
+
 	@SuppressWarnings("rawtypes")
 	public Class<IObservableCollection> getType() {
 		return IObservableCollection.class;
@@ -42,7 +42,7 @@ public abstract class ObservableCollection<T> implements IObservableCollection<T
 
 	@SuppressWarnings("rawtypes")
 	public final void set(IObservableCollection newValue,
-			Collection<Object> initiators) {
+	                      Collection<Object> initiators) {
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -50,7 +50,7 @@ public abstract class ObservableCollection<T> implements IObservableCollection<T
 	}
 
 	public void _setObject(Object newValue,
-			Collection<Object> initiators) {
+	                       Collection<Object> initiators) {
 	}
 
 	public final IObservableCollection<?> get() {
@@ -64,36 +64,38 @@ public abstract class ObservableCollection<T> implements IObservableCollection<T
 	public void unsubscribe(CollectionObserver c) {
 		mCollectionObservers.remove(c);
 	}
-	
+
 	public void clear() {
 		mCollectionObservers.clear();
 	}
 
-	public void notifyCollectionChanged(CollectionChangedEventArg args){
+	public void notifyCollectionChanged(CollectionChangedEventArg args) {
 		ArrayList<Object> initiators = new ArrayList<Object>();
 		initiators.add(this);
-		notifyCollectionChanged(args,initiators);
+		notifyCollectionChanged(args, initiators);
 	}
-	
+
 	public void notifyCollectionChanged(CollectionChangedEventArg args, Collection<Object> initiators) {
-		if(initiators==null) return;
+		if (initiators == null) return;
 		initiators.add(this);
-		for(Object c: mCollectionObservers.toArray()){
+		for (Object c : mCollectionObservers.toArray()) {
 			if (initiators.contains(c)) continue;
-			((CollectionObserver)c).onCollectionChanged(this, args, initiators);
+			((CollectionObserver) c).onCollectionChanged(this, args, initiators);
 		}
 	}
 
 	public long getItemId(int position) {
 		return position;
 	}
-	
+
 	/**
 	 * Added: 18/10/2011
 	 * Set the number of visible children (most probably by Adapter)
 	 * A collection might not bound to only one adapter, so this is for reference only
+	 *
 	 * @param setter the object the initiate this
-	 * @param total the count
+	 * @param total  the count
 	 */
-	public void setVisibleChildrenCount(Object setter, int total){}
+	public void setVisibleChildrenCount(Object setter, int total) {
+	}
 }

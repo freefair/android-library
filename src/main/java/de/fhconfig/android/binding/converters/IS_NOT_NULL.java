@@ -5,12 +5,10 @@ import de.fhconfig.android.binding.IObservable;
 
 /**
  * Inverted result of ISNULL <br/>
- * return true if the argument is NOT null 
- * 
+ * return true if the argument is NOT null
+ *
  * @usage arg
- * 
  * @arg arg Object
-
  * @return boolean
  */
 public class IS_NOT_NULL extends Converter<Boolean> {
@@ -21,7 +19,7 @@ public class IS_NOT_NULL extends Converter<Boolean> {
 
 	@Override
 	public Boolean calculateValue(Object... args) throws Exception {
-		if (args[0]!=null) return true;
+		if (args[0] != null) return true;
 		else return false;
 	}
 

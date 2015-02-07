@@ -1,11 +1,23 @@
 package de.fhconfig.android.binding;
 
-import de.fhconfig.android.binding.utility.WeakList;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
+import de.fhconfig.android.binding.utility.WeakList;
+
 public class Observable<T> implements IObservable<T> {
+	private final Class<T> mType;
+	private WeakList<Observer> observers = new WeakList<Observer>();
+	private T mValue;
+	public Observable(Class<T> type) {
+		mType = type;
+	}
+
+	public Observable(Class<T> type, T initValue) {
+		this(type);
+		mValue = initValue;
+	}
+
 	@Override
 	public String toString() {
 		if (!isNull())
@@ -13,99 +25,86 @@ public class Observable<T> implements IObservable<T> {
 		return "null";
 	}
 
-	private WeakList<Observer> observers = new WeakList<Observer>();
-	private T mValue;
-	private final Class<T> mType;
-	
-	public Observable(Class<T> type){
-		mType = type;
-	}
-	
-	public Observable(Class<T> type, T initValue){
-		this(type);
-		mValue = initValue;
-	}
-	
 	/* (non-Javadoc)
-	 * @see gueei.binding.IObservable#subscribe(gueei.binding.Observer)
+	 * @see de.fhconfig.android.binding.IObservable#subscribe(de.fhconfig.android.binding.Observer)
 	 */
-	public void subscribe(Observer o){
+	public void subscribe(Observer o) {
 		observers.add(o);
 	}
-	
+
 	/* (non-Javadoc)
-	 * @see gueei.binding.IObservable#unsubscribe(gueei.binding.Observer)
+	 * @see de.fhconfig.android.binding.IObservable#unsubscribe(de.fhconfig.android.binding.Observer)
 	 */
-	public  void unsubscribe(Observer o){
+	public void unsubscribe(Observer o) {
 		observers.remove(o);
 	}
-	
+
 	/* (non-Javadoc)
-	 * @see gueei.binding.IObservable#notifyChanged(java.lang.Object)
+	 * @see de.fhconfig.android.binding.IObservable#notifyChanged(java.lang.Object)
 	 */
-	public final void notifyChanged(Object initiator){
+	public final void notifyChanged(Object initiator) {
 		ArrayList<Object> initiators = new ArrayList<Object>();
 		initiators.add(initiator);
 		this.notifyChanged(initiators);
 	}
-	
+
 	/* (non-Javadoc)
-	 * @see gueei.binding.IObservable#notifyChanged(java.util.AbstractCollection)
+	 * @see de.fhconfig.android.binding.IObservable#notifyChanged(java.util.AbstractCollection)
 	 */
-	public final void notifyChanged(Collection<Object> initiators){
+	public final void notifyChanged(Collection<Object> initiators) {
 		initiators.add(this);
-		for(Object o: observers.toArray()){
+		for (Object o : observers.toArray()) {
 			if (initiators.contains(o)) continue;
-			((Observer)o).onPropertyChanged(this, initiators);
+			((Observer) o).onPropertyChanged(this, initiators);
 		}
 	}
-	
+
 	/* (non-Javadoc)
-	 * @see gueei.binding.IObservable#notifyChanged()
+	 * @see de.fhconfig.android.binding.IObservable#notifyChanged()
 	 */
-	public final void notifyChanged(){
+	public final void notifyChanged() {
 		ArrayList<Object> initiators = new ArrayList<Object>();
 		notifyChanged(initiators);
 	}
 
 	/* (non-Javadoc)
-	 * @see gueei.binding.IObservable#set(T, java.util.AbstractCollection)
+	 * @see de.fhconfig.android.binding.IObservable#set(T, java.util.AbstractCollection)
 	 */
-	public final void set(T newValue, Collection<Object> initiators){
+	public final void set(T newValue, Collection<Object> initiators) {
 		if (initiators.contains(this)) return;
 		doSetValue(newValue, initiators);
 		initiators.add(this);
 		notifyChanged(initiators);
 	}
-	
+
 	// Intenral use only. 
-	public void _setObject(Object newValue, Collection<Object> initiators){
-		try{
-			T value = this.getType().cast(newValue);			
-			if (value==null) return;
+	public void _setObject(Object newValue, Collection<Object> initiators) {
+		try {
+			T value = this.getType().cast(newValue);
+			if (value == null) return;
 			this.set(value, initiators);
-		}catch(ClassCastException e){
-			BindingLog.warning("Observable._setObject", 
-					String.format("Failed to assign value: '%s' to observable of type: '%s', type mismatch", 
+		} catch (ClassCastException e) {
+			BindingLog.warning("Observable._setObject",
+					String.format("Failed to assign value: '%s' to observable of type: '%s', type mismatch",
 							newValue, this.getType()));
 			return;
 		}
 	}
-	
-	public final void set(T newValue){
+
+	public final void set(T newValue) {
 		doSetValue(newValue, new ArrayList<Object>());
 		notifyChanged(this);
 	}
-	
-	protected void doSetValue(T newValue, Collection<Object> initiators){
+
+	protected void doSetValue(T newValue, Collection<Object> initiators) {
 		mValue = newValue;
 	}
-	
-	protected final void setWithoutNotify(T newValue){
+
+	protected final void setWithoutNotify(T newValue) {
 		mValue = newValue;
 	}
-	
-	public T get(){
+
+	public T get() {
 		return mValue;
 	}
 
@@ -119,6 +118,6 @@ public class Observable<T> implements IObservable<T> {
 
 	@Override
 	public boolean isNull() {
-		return mValue==null;
+		return mValue == null;
 	}
 }

@@ -1,9 +1,10 @@
 package de.fhconfig.android.binding.viewAttributes.view;
 
+import android.content.res.Resources;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.content.res.Resources;
+
 import de.fhconfig.android.binding.BindingType;
 import de.fhconfig.android.binding.DynamicObject;
 import de.fhconfig.android.binding.ViewAttribute;
@@ -11,41 +12,38 @@ import de.fhconfig.android.binding.viewAttributes.view.AnimationTrigger.TriggerL
 
 /**
  * Animation
- * Accepts the Animation Trigger, which 
+ * Accepts the Animation Trigger, which
  * Note this is not compatible with HC+ Property Animation
- * 
+ *
+ * @author andy
  * @name animation
  * @widget View
- * @type gueei.binding.viewAttributes.view.AnimationTrigger
- * 
- * @accepts	gueei.binding.viewAttributes.view.AnimationTrigger
-
+ * @type de.fhconfig.android.binding.viewAttributes.view.AnimationTrigger
+ * @accepts de.fhconfig.android.binding.viewAttributes.view.AnimationTrigger
  * @category simple
  * @related http://developer.android.com/reference/android/widget/View.html
  * @converter AFTERCOMMAND
- * 
- * @author andy
  */
 public class AnimationViewAttribute extends ViewAttribute<View, AnimationTrigger> implements TriggerListener {
+
+	private AnimationTrigger mValue;
 
 	public AnimationViewAttribute(View view) {
 		super(AnimationTrigger.class, view, "animation");
 	}
 
-	private AnimationTrigger mValue;
-	
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
-		if(getView()==null) return;
-		if (mValue!=null)
+		if (getView() == null) return;
+		if (mValue != null)
 			mValue.removeTriggerListener(this);
-		if (newValue instanceof DynamicObject){
-			mValue = ConditionalAnimationTrigger.createFromDynamicObject((DynamicObject)newValue);
+		if (newValue instanceof DynamicObject) {
+			mValue = ConditionalAnimationTrigger.createFromDynamicObject((DynamicObject) newValue);
 			mValue.setTriggerListener(this);
 			return;
 		}
-		if (newValue instanceof AnimationTrigger){
-			mValue = (AnimationTrigger)newValue;
+		if (newValue instanceof AnimationTrigger) {
+			mValue = (AnimationTrigger) newValue;
 			mValue.setTriggerListener(this);
 			return;
 		}
@@ -68,10 +66,10 @@ public class AnimationViewAttribute extends ViewAttribute<View, AnimationTrigger
 	}
 
 	public void fireAnimation(AnimationTrigger trigger) {
-		try{
+		try {
 			Animation anim = AnimationUtils.loadAnimation(getView().getContext(), trigger.getAnimationId());
 			getView().startAnimation(anim);
-		}catch(Resources.NotFoundException e){
+		} catch (Resources.NotFoundException e) {
 			return;
 		}
 	}
