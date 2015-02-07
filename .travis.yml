@@ -3,6 +3,12 @@ jdk:
   - openjdk7
   - oraclejdk7
   - oraclejdk8
+android:
+  components:
+    - build-tools-21.1.2
+    - android-21
+    - android-7
+    - extra
 install:
   - git config user.name "Travis CI"
   - git config user.email "travis@ci.example"
