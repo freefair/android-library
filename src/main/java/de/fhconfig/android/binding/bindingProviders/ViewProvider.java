@@ -1,8 +1,9 @@
 package de.fhconfig.android.binding.bindingProviders;
 
+import android.view.View;
+
 import de.fhconfig.android.binding.ViewAttribute;
 import de.fhconfig.android.binding.viewAttributes.view.*;
-import android.view.View;
 
 
 public class ViewProvider extends BindingProvider {
@@ -45,6 +46,10 @@ public class ViewProvider extends BindingProvider {
 			return new AssignViewAttribute(view);
 		}else if (attributeId.equals("disallowIntercept")){
 			return new DisallowInterceptAttribute(view);
+		} else if (attributeId.equals("layout_gravity")) {
+			return new Layout_GravityViewAttribute(view);
+		} else if (attributeId.equals("gravity")) {
+			return new GravityViewAttribute(view);
 		}
 		return null;
 	}

@@ -4,11 +4,13 @@ import android.content.Context;
 
 /**
  * Base class for All Converters 'function' in XML Markup
- * @author andy
  *
  * @param <T>
+ * @author andy
  */
 public abstract class Converter<T> extends TwoWayDependentObservable<T> {
+	private Context mContext;
+
 	public Converter(Class<T> type, IObservable<?>[] dependents) {
 		super(type, dependents);
 	}
@@ -18,11 +20,11 @@ public abstract class Converter<T> extends TwoWayDependentObservable<T> {
 		return false;
 	}
 
-	private Context mContext;
-	public void setContext(Context context){
-		mContext = context;
-	}
-	public Context getContext(){
+	public Context getContext() {
 		return mContext;
+	}
+
+	public void setContext(Context context) {
+		mContext = context;
 	}
 }

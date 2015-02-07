@@ -1,14 +1,5 @@
 package de.fhconfig.android.binding.collections;
 
-import de.fhconfig.android.binding.CollectionChangedEventArg;
-import de.fhconfig.android.binding.CollectionObserver;
-import de.fhconfig.android.binding.IObservable;
-import de.fhconfig.android.binding.IObservableCollection;
-import de.fhconfig.android.binding.viewAttributes.templates.Layout;
-
-import java.util.Collection;
-import java.util.WeakHashMap;
-
 import android.content.Context;
 import android.os.Handler;
 import android.view.View;
@@ -16,23 +7,32 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.BaseExpandableListAdapter;
 
+import java.util.Collection;
+import java.util.WeakHashMap;
+
+import de.fhconfig.android.binding.CollectionChangedEventArg;
+import de.fhconfig.android.binding.CollectionObserver;
+import de.fhconfig.android.binding.IObservable;
+import de.fhconfig.android.binding.IObservableCollection;
+import de.fhconfig.android.binding.viewAttributes.templates.Layout;
+
 
 /**
  * Provide a nested relation of adapters
  * It is designed to use in ExpandableList
- * @author andy
  *
+ * @author andy
  */
 public class ExpandableCollectionAdapter extends BaseExpandableListAdapter implements CollectionObserver {
 
+	protected final Handler mHandler;
 	private final String mChildName;
 	private final Layout mChildLayout;
 	private final WeakHashMap<Integer, Adapter> mChildAdapters = new WeakHashMap<Integer, Adapter>();
 	private final Adapter mGroupAdapter;
 	private final Context mContext;
-	protected final Handler mHandler;
 
-	public ExpandableCollectionAdapter(Context context, Adapter groupAdapter, String childName, Layout childLayout){
+	public ExpandableCollectionAdapter(Context context, Adapter groupAdapter, String childName, Layout childLayout) {
 		mHandler = new Handler();
 		mChildName = childName;
 		mChildLayout = childLayout;
@@ -52,13 +52,13 @@ public class ExpandableCollectionAdapter extends BaseExpandableListAdapter imple
 		mGroupAdapter = new CollectionAdapter(context, collection, layoutId, dropDownLayoutId);
 	}
 */
-	
-	private Adapter getChildAdapter(int groupPosition){
-		try{
-			if (!mChildAdapters.containsKey(groupPosition)){
+
+	private Adapter getChildAdapter(int groupPosition) {
+		try {
+			if (!mChildAdapters.containsKey(groupPosition)) {
 				Object item = mGroupAdapter.getItem(groupPosition);
-				if (item instanceof LazyLoadParent){
-					((LazyLoadParent)item).onLoadChildren(mContext);
+				if (item instanceof LazyLoadParent) {
+					((LazyLoadParent) item).onLoadChildren(mContext);
 				}
 				IObservable<?> child = de.fhconfig.android.binding.Utility.getObservableForModel(mContext, mChildName, item);
 				Object childCollection = child.get();
@@ -68,12 +68,12 @@ public class ExpandableCollectionAdapter extends BaseExpandableListAdapter imple
 				}
 			}
 			return mChildAdapters.get(groupPosition);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	public Object getChild(int groupPosition, int childPosition) {
 		return getChildAdapter(groupPosition).getItem(childPosition);
 	}
@@ -123,7 +123,7 @@ public class ExpandableCollectionAdapter extends BaseExpandableListAdapter imple
 
 	@Override
 	public void onCollectionChanged(IObservableCollection<?> collection,
-			CollectionChangedEventArg args, Collection<Object> initiators) {
+	                                CollectionChangedEventArg args, Collection<Object> initiators) {
 		mHandler.post(new Runnable() {
 			public void run() {
 				notifyDataSetChanged();

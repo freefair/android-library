@@ -8,7 +8,7 @@ public class OnItemClickListenerMulticast extends ViewMulticastListener<OnItemCl
 		implements OnItemClickListener {
 
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		for(OnItemClickListener l:listeners){
+		for (OnItemClickListener l : listeners) {
 			l.onItemClick(arg0, arg1, arg2, arg3);
 		}
 	}
@@ -16,7 +16,7 @@ public class OnItemClickListenerMulticast extends ViewMulticastListener<OnItemCl
 	@Override
 	public void registerToView(View v) {
 		if (!(v instanceof AdapterView<?>)) return;
-		((AdapterView<?>)v).setOnItemClickListener(this);
+		((AdapterView<?>) v).setOnItemClickListener(this);
 	}
 
 }

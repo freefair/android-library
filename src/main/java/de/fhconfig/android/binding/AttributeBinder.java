@@ -1,25 +1,27 @@
 package de.fhconfig.android.binding;
 
-import de.fhconfig.android.binding.bindingProviders.BindingProvider;
-import de.fhconfig.android.binding.exception.AttributeNotDefinedException;
+import android.content.Context;
+import android.view.View;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
-import android.content.Context;
-import android.view.View;
+import de.fhconfig.android.binding.bindingProviders.BindingProvider;
+import de.fhconfig.android.binding.exception.AttributeNotDefinedException;
 
 public class AttributeBinder {
 	private static AttributeBinder _attributeFactory;
 	private ArrayList<BindingProvider> providers = new ArrayList<BindingProvider>(10);
+	private RefViewAttributeProvider refViewAttributeProvider =
+			new RefViewAttributeProvider();
 
 	protected AttributeBinder() {
 	}
 
 	/**
 	 * Ensure it is Singleton
-	 * 
+	 *
 	 * @return
 	 */
 	public static AttributeBinder getInstance() {
@@ -29,7 +31,7 @@ public class AttributeBinder {
 	}
 
 	public ViewAttribute<?, ?> createAttributeForView(View view,
-			String attributeId) {
+	                                                  String attributeId) {
 		for (BindingProvider p : providers) {
 			ViewAttribute<?, ?> a = p.createAttributeForView(view, attributeId);
 			if (a != null)
@@ -45,8 +47,8 @@ public class AttributeBinder {
 
 	public void bindView(Context context, View view, Object model) {
 		BindingMap map = Binder.getBindingMapForView(view);
-		
-		// TODO redesign this fix in future 
+
+		// TODO redesign this fix in future
 		// Force to initialize filter attribute
 		String filterKey = "filter";
 		String filterValue = map.get(filterKey);
@@ -54,19 +56,19 @@ public class AttributeBinder {
 			BindingLog.debug("bindView", "Attribute filter should be bind before initialize itemSource. To be sure that filtering will be worked.");
 			bindAttributeWithModel(context, view, filterKey, filterValue, model);
 		}
-		
-		for(Entry<String, String> entry: map.getMapTable().entrySet()){
+
+		for (Entry<String, String> entry : map.getMapTable().entrySet()) {
 			bindAttributeWithModel(context, view, entry.getKey(), entry.getValue(), model);
 		}
 	}
 
-	public boolean bindAttributeWithModel(Context context, 
-			View view, String viewAttributeName, String statement, Object model) {
+	public boolean bindAttributeWithModel(Context context,
+	                                      View view, String viewAttributeName, String statement, Object model) {
 		IObservable<?> property;
-		
+
 		// Set the reference context to the current binding view
 		refViewAttributeProvider.viewContextRef = new WeakReference<View>(view);
-		
+
 		try {
 			property = Binder.getSyntaxResolver()
 					.constructObservableFromStatement(context, statement, model, refViewAttributeProvider);
@@ -88,43 +90,40 @@ public class AttributeBinder {
 				BindingLog.exception("AttributeBinder.bindAttributeWithObservable()", e);
 				return false;
 			}
-		} 
+		}
 		return false;
 	}
-	
-	public boolean bindAttributeWithObservable(Context context, View view, String viewAttributeName, IObservable<?> obs){
-        try {
-	        ViewAttribute<?,?> attr = Binder.getAttributeForView(view,
-	        		viewAttributeName);
+
+	public boolean bindAttributeWithObservable(Context context, View view, String viewAttributeName, IObservable<?> obs) {
+		try {
+			ViewAttribute<?, ?> attr = Binder.getAttributeForView(view,
+					viewAttributeName);
 			BindingType result = attr.BindTo(context, obs);
 			if (result.equals(BindingType.NoBinding)) {
 				BindingLog.warning("Binding Provider", "Observable: " + obs
 						+ ", cannot setup bind with attribute");
 			}
 			return true;
-        } catch (AttributeNotDefinedException e) {
-        	BindingLog.exception("AttributeBinder.bindAttributeWithObservable()", e);
+		} catch (AttributeNotDefinedException e) {
+			BindingLog.exception("AttributeBinder.bindAttributeWithObservable()", e);
 			return false;
-        }
+		}
 	}
-	
-	private RefViewAttributeProvider refViewAttributeProvider = 
-			new RefViewAttributeProvider();
-	
-	private static class RefViewAttributeProvider implements IReferenceObservableProvider{
+
+	private static class RefViewAttributeProvider implements IReferenceObservableProvider {
 		public WeakReference<View> viewContextRef;
-		
+
 		public IObservable<?> getReferenceObservable(int referenceId,
-				String field) {
-			if (viewContextRef==null || viewContextRef.get()==null) return null;
-			
+		                                             String field) {
+			if (viewContextRef == null || viewContextRef.get() == null) return null;
+
 			View reference = viewContextRef.get().getRootView().findViewById(referenceId);
-			if (reference==null) return null;
+			if (reference == null) return null;
 			try {
 				return Binder.getAttributeForView(reference, field);
 			} catch (AttributeNotDefinedException e) {
 				return null;
 			}
-		} 
+		}
 	}
 }

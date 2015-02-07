@@ -7,6 +7,7 @@ public class LongField extends CursorField<Long> {
 	public LongField(int columnIndex) {
 		super(Long.class, columnIndex);
 	}
+
 	public LongField(String columnName) {
 		super(Long.class, columnName);
 	}

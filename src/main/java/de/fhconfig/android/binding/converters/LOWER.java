@@ -14,8 +14,8 @@ public class LOWER extends Converter<Object> {
 
 	@Override
 	public Object calculateValue(Object... args) throws Exception {
-		if (args.length<1 || args[0] == null) return null;
-		if(locale != null)
+		if (args.length < 1 || args[0] == null) return null;
+		if (locale != null)
 			return String.valueOf(args[0]).toLowerCase(locale);
 		return String.valueOf(args[0]).toLowerCase();
 	}

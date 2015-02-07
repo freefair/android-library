@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+
 import de.fhconfig.android.binding.BindingType;
 import de.fhconfig.android.binding.IObservable;
 import de.fhconfig.android.binding.ViewAttribute;
@@ -12,37 +13,38 @@ import de.fhconfig.android.binding.collections.ArrayListObservable;
 
 @SuppressWarnings("rawtypes")
 public class TabsViewAttribute extends ViewAttribute<TabHost, ArrayListObservable> {
+	TabHost mTabHost;
+	private ArrayListObservable<Tab> mTabs;
+
 	public TabsViewAttribute(TabHost view) {
 		super(ArrayListObservable.class, view, "tabs");
 	}
 
-	private ArrayListObservable<Tab> mTabs;
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
-		if(getView()==null) return;
+		if (getView() == null) return;
 		if (!(newValue instanceof ArrayListObservable)) return;
-		
+
 		// Type is not Tab
-		if (!Tab.class.isAssignableFrom(((ArrayListObservable)newValue).getComponentType()))
+		if (!Tab.class.isAssignableFrom(((ArrayListObservable) newValue).getComponentType()))
 			return;
-		
-		mTabs = (ArrayListObservable<Tab>)newValue;
-		
-		for(Tab t: mTabs){
+
+		mTabs = (ArrayListObservable<Tab>) newValue;
+
+		for (Tab t : mTabs) {
 			mTabHost.addTab(constructTabSpec(t));
 		}
 	}
-	
-	private TabSpec constructTabSpec(Tab tab){
+
+	private TabSpec constructTabSpec(Tab tab) {
 		TabSpec spec = mTabHost.newTabSpec(tab.Tag.get());
-		if (tab.Icon.get() != null){
+		if (tab.Icon.get() != null) {
 			spec.setIndicator(tab.Label.get(), tab.Icon.get());
-		}else{
+		} else {
 			spec.setIndicator(tab.Label.get());
 		}
-		if (tab.Activity.get() != null){
+		if (tab.Activity.get() != null) {
 			Intent intent;
 			try {
 				intent = new Intent(getView().getContext(), Class.forName(tab.Activity.get()));
@@ -50,20 +52,18 @@ public class TabsViewAttribute extends ViewAttribute<TabHost, ArrayListObservabl
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-		}else{
+		} else {
 			spec.setContent(tab.ViewId.get());
 		}
-		
+
 		return spec;
 	}
 
-	TabHost mTabHost;
-	
 	@Override
 	protected void onBind(Context context, IObservable<?> prop,
-			BindingType binding) {
+	                      BindingType binding) {
 		if (!(context instanceof TabActivity)) return;
-		mTabHost = ((TabActivity)context).getTabHost();
+		mTabHost = ((TabActivity) context).getTabHost();
 		super.onBind(context, prop, binding);
 	}
 

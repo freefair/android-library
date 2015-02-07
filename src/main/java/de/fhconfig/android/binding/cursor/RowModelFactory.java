@@ -18,8 +18,7 @@ public class RowModelFactory<T extends ICursorRowModel> implements IRowModelFact
 	public T createInstance() {
 		try {
 			return mRowModelType.newInstance();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			BindingLog.exception("RowModelFactory.createInstance", e);
 			return null;
 		}

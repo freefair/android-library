@@ -1,7 +1,7 @@
 package de.fhconfig.android.binding.collections;
 
-import de.fhconfig.android.binding.CollectionChangedEventArg;
-import de.fhconfig.android.binding.CollectionChangedEventArg.Action;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,31 +10,42 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import de.fhconfig.android.binding.CollectionChangedEventArg;
+import de.fhconfig.android.binding.CollectionChangedEventArg.Action;
 
-public class ArrayListObservable<T> 
-	extends ObservableCollection<T> 
-	implements List<T>, Parcelable{
-	
+public class ArrayListObservable<T>
+		extends ObservableCollection<T>
+		implements List<T>, Parcelable {
+
+	public static final Parcelable.Creator<ArrayListObservable<?>> CREATOR =
+			new Parcelable.Creator<ArrayListObservable<?>>() {
+				@SuppressWarnings({"rawtypes", "unchecked"})
+				public ArrayListObservable<?> createFromParcel(Parcel source) {
+					Object[] arr = source.readArray(this.getClass().getClassLoader());
+					return new ArrayListObservable(arr.getClass().getComponentType(), arr);
+				}
+
+				public ArrayListObservable<?>[] newArray(int size) {
+					return new ArrayListObservable[size];
+				}
+			};
 	private final Class<T> mType;
 	protected ArrayList<T> mArray;
-	
-	public ArrayListObservable(Class<T> type){
+
+	public ArrayListObservable(Class<T> type) {
 		this(type, null);
 	}
-	
-	public ArrayListObservable(Class<T> type, T[] initArray){
+
+	public ArrayListObservable(Class<T> type, T[] initArray) {
 		mType = type;
 		mArray = new ArrayList<T>();
-		if (initArray!=null)
-		{
-			for(int i=0; i<initArray.length; i++){
+		if (initArray != null) {
+			for (int i = 0; i < initArray.length; i++) {
 				mArray.add(initArray[i]);
 			}
 		}
 	}
-	
+
 	public T getItem(int position) {
 		return mArray.get(position);
 	}
@@ -42,36 +53,35 @@ public class ArrayListObservable<T>
 	public void onLoad(int position) {
 	}
 
-	public void clear(){
-		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Reset, (List<?>)null);
+	public void clear() {
+		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Reset, (List<?>) null);
 		mArray.clear();
 		this.notifyCollectionChanged(e);
 	}
-	
+
 	/**
 	 * set from array and clear
-	 * 
+	 *
 	 * @param newArray
 	 */
-	public void setArray(T[] newArray){
-		Object [] oldItems = mArray.toArray();		
-		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Replace, Arrays.asList(newArray),  Arrays.asList(oldItems));
+	public void setArray(T[] newArray) {
+		Object[] oldItems = mArray.toArray();
+		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Replace, Arrays.asList(newArray), Arrays.asList(oldItems));
 		mArray.clear();
 		int size = newArray.length;
-		for (int i=0; i<size; i++){
+		for (int i = 0; i < size; i++) {
 			mArray.add(newArray[i]);
 		}
-		this.notifyCollectionChanged(e);		
+		this.notifyCollectionChanged(e);
 	}
-	
 
-	public void replaceItem(int position, T item){		
+	public void replaceItem(int position, T item) {
 		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Replace, item, mArray.get(position), position);
 		mArray.set(position, item);
 		this.notifyCollectionChanged(e);
 	}
-	
-	public int indexOf(Object item){
+
+	public int indexOf(Object item) {
 		return mArray.indexOf(item);
 	}
 
@@ -81,26 +91,26 @@ public class ArrayListObservable<T>
 
 	public boolean addAll(Collection<? extends T> arg0) {
 		boolean result = mArray.addAll(arg0);
-		if (result){
+		if (result) {
 			@SuppressWarnings("unchecked")
-			CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Add, Arrays.asList(arg0), mArray.size()-arg0.size()-1);
+			CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Add, Arrays.asList(arg0), mArray.size() - arg0.size() - 1);
 			this.notifyCollectionChanged(e);
 		}
 		return result;
 	}
-	
+
 	/**
 	 * set from list and clear
-	 * 
+	 *
 	 * @param arg0
 	 */
-	public void setAll(Collection<? extends T> arg0) {		
-		Object [] oldItems = mArray.toArray();
+	public void setAll(Collection<? extends T> arg0) {
+		Object[] oldItems = mArray.toArray();
 		mArray.clear();
-		mArray.addAll(arg0);				
+		mArray.addAll(arg0);
 		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Replace, mArray, Arrays.asList(oldItems));
-		this.notifyCollectionChanged(e);		
-	}	
+		this.notifyCollectionChanged(e);
+	}
 
 	public boolean containsAll(Collection<?> arg0) {
 		return mArray.containsAll(arg0);
@@ -117,38 +127,38 @@ public class ArrayListObservable<T>
 	public boolean removeAll(Collection<?> arg0) {
 		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Remove, mArray);
 		boolean result = mArray.removeAll(arg0);
-		if (result){
+		if (result) {
 			this.notifyCollectionChanged(e);
 		}
 		return result;
 	}
 
 	public boolean retainAll(Collection<?> arg0) {
-		List<Object>inverseIntersect = new ArrayList<Object>();
-		if(arg0.size() > mArray.size()) {
-			for(Object o : arg0){
-				if(!mArray.contains(o))
+		List<Object> inverseIntersect = new ArrayList<Object>();
+		if (arg0.size() > mArray.size()) {
+			for (Object o : arg0) {
+				if (!mArray.contains(o))
 					inverseIntersect.add(o);
 			}
-			
+
 		} else {
-			for(Object o : mArray){
-				if(!arg0.contains(o))
+			for (Object o : mArray) {
+				if (!arg0.contains(o))
 					inverseIntersect.add(o);
 			}
 		}
-						
+
 		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Remove, inverseIntersect);
 		boolean result = mArray.retainAll(arg0);
-		if (result){
+		if (result) {
 			this.notifyCollectionChanged(e);
 		}
 		return result;
 	}
-	
-	public T remove(int index){
-		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Remove, 
-											Arrays.asList(new Object[]{mArray.get(index)}), index);
+
+	public T remove(int index) {
+		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Remove,
+				Arrays.asList(new Object[]{mArray.get(index)}), index);
 		T obj = mArray.remove(index);
 		this.notifyCollectionChanged(e);
 		return obj;
@@ -166,10 +176,10 @@ public class ArrayListObservable<T>
 		return mArray.toArray(array);
 	}
 
-	public boolean add(T object) {		
+	public boolean add(T object) {
 		boolean result = mArray.add(object);
-		if (result){	
-			CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Add, Arrays.asList(new Object[]{object}), (int)mArray.size()-1);
+		if (result) {
+			CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Add, Arrays.asList(new Object[]{object}), (int) mArray.size() - 1);
 			this.notifyCollectionChanged(e);
 		}
 		return result;
@@ -182,7 +192,7 @@ public class ArrayListObservable<T>
 	public boolean remove(Object object) {
 		int index = mArray.indexOf(object);
 		boolean result = mArray.remove(object);
-		if (result){
+		if (result) {
 			CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Remove, Arrays.asList(new Object[]{object}), index);
 			this.notifyCollectionChanged(e);
 		}
@@ -194,46 +204,33 @@ public class ArrayListObservable<T>
 	}
 
 	public void writeToParcel(Parcel dest, int flags) {
-		try{
+		try {
 			dest.writeArray(this.toArray());
-		}catch(Exception e){
+		} catch (Exception e) {
 			// The array is not parcelable.. ok?
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void _setObject(Object newValue, Collection<Object> initiators) {
 		if (newValue instanceof ArrayListObservable && this != newValue) {
-			mArray=((ArrayListObservable<T>)newValue).mArray;
+			mArray = ((ArrayListObservable<T>) newValue).mArray;
 			initiators.add(this);
 			this.notifyChanged(initiators);
 		}
 	}
 
-	public static final Parcelable.Creator<ArrayListObservable<?>> CREATOR =
-			new Parcelable.Creator<ArrayListObservable<?>>() {
-				@SuppressWarnings({ "rawtypes", "unchecked" })
-				public ArrayListObservable<?> createFromParcel(Parcel source) {
-					Object[] arr = source.readArray(this.getClass().getClassLoader());
-					return new ArrayListObservable(arr.getClass().getComponentType(), arr);
-				}
-
-				public ArrayListObservable<?>[] newArray(int size) {
-					return new ArrayListObservable[size];
-				}
-			};
-
 	public void add(int location, T object) {
-		if( location < 0 )
+		if (location < 0)
 			location = 0;
-		if( location>mArray.size())
+		if (location > mArray.size())
 			location = mArray.size();
-		
+
 		mArray.add(location, object);
-				
+
 		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Add, Arrays.asList(new Object[]{object}), location);
-		this.notifyCollectionChanged(e);	
+		this.notifyCollectionChanged(e);
 	}
 
 	public boolean addAll(int arg0, Collection<? extends T> arg1) {
@@ -260,7 +257,7 @@ public class ArrayListObservable<T>
 		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Replace, mArray.indexOf(object));
 		T temp = mArray.set(location, object);
 		notifyCollectionChanged(e);
-		return temp; 
+		return temp;
 	}
 
 	public List<T> subList(int start, int end) {

@@ -1,8 +1,9 @@
 package de.fhconfig.android.binding.viewAttributes.view;
 
+import android.view.View;
+
 import de.fhconfig.android.binding.Command;
 import de.fhconfig.android.binding.ViewAttribute;
-import android.view.View;
 
 public class OnBindViewAttribute extends ViewAttribute<View, Object> {
 
@@ -12,11 +13,11 @@ public class OnBindViewAttribute extends ViewAttribute<View, Object> {
 
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
-		if(getView()==null) return;
-		if (newValue==null)
+		if (getView() == null) return;
+		if (newValue == null)
 			return;
-		
-		if (newValue instanceof Command){
+
+		if (newValue instanceof Command) {
 			Command cmd = (Command) newValue;
 			cmd.Invoke(getView());
 		}

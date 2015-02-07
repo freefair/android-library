@@ -6,28 +6,29 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
+
+import java.lang.ref.WeakReference;
+
 import de.fhconfig.android.binding.BindingLog;
 import de.fhconfig.android.binding.IBindableView;
 import de.fhconfig.android.binding.ViewAttribute;
-
-import java.lang.ref.WeakReference;
 
 public class BindableToolbar extends Toolbar implements IBindableView<BindableToolbar> {
 	private WeakReference<ActionBarActivity> mActivityRef;
 
 	public BindableToolbar(Context context) {
 		super(context);
-		init((ActionBarActivity)context);
+		init((ActionBarActivity) context);
 	}
 
 	public BindableToolbar(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init((ActionBarActivity)context);
+		init((ActionBarActivity) context);
 	}
 
 	public BindableToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		init((ActionBarActivity)context);
+		init((ActionBarActivity) context);
 	}
 
 	private void init(ActionBarActivity activity) {
@@ -35,21 +36,21 @@ public class BindableToolbar extends Toolbar implements IBindableView<BindableTo
 		activity.setSupportActionBar(this);
 	}
 
-	public ActionBar getSupportActionBar(){
-		if(mActivityRef.get() == null)
+	public ActionBar getSupportActionBar() {
+		if (mActivityRef.get() == null)
 			return null;
 		return mActivityRef.get().getSupportActionBar();
 	}
 
 	@Override
 	public ViewAttribute<? extends View, ?> createViewAttribute(String attributeId) {
-		try{
+		try {
 			String capId = attributeId.substring(0, 1).toUpperCase() + attributeId.substring(1);
-			String className = "gueei.binding.v30.toolbar.attributes." + capId;
-			return (ViewAttribute<?,?>)Class.forName(className)
+			String className = "de.fhconfig.android.binding.v30.toolbar.attributes." + capId;
+			return (ViewAttribute<?, ?>) Class.forName(className)
 					.getConstructor(BindableToolbar.class)
-					.newInstance((BindableToolbar)this);
-		}catch(Exception e){
+					.newInstance((BindableToolbar) this);
+		} catch (Exception e) {
 			BindingLog.warning("ActionBarAttributeBinder", "Attribute not found");
 			return null;
 		}

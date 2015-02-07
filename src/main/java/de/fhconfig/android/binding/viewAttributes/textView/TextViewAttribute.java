@@ -1,35 +1,34 @@
 package de.fhconfig.android.binding.viewAttributes.textView;
 
-import de.fhconfig.android.binding.Binder;
-import de.fhconfig.android.binding.BindingType;
-import de.fhconfig.android.binding.ViewAttribute;
-import de.fhconfig.android.binding.listeners.TextWatcherMulticast;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import de.fhconfig.android.binding.Binder;
+import de.fhconfig.android.binding.BindingType;
+import de.fhconfig.android.binding.ViewAttribute;
+import de.fhconfig.android.binding.listeners.TextWatcherMulticast;
+
 /**
  * (displayed) Text in Text View
- * Note that you should supply IObservable<CharSequence> to it in order to allow two-way binding 
- * Although it accepts String or other object type, it will simply evaluated as Object.toString() 
+ * Note that you should supply IObservable<CharSequence> to it in order to allow two-way binding
+ * Although it accepts String or other object type, it will simply evaluated as Object.toString()
  * but changes in the Text View will not reflect in VM unless IObservable<CharSequence> is supplied
- * 
+ *
+ * @author andy
  * @name text
  * @widget TextView
  * @type CharSequence
- * 
- * @accepts	CharSequence
+ * @accepts CharSequence
  * @accepts Object
-
  * @category simple
  * @related http://developer.android.com/reference/android/widget/TextView.html
- * 
- * @author andy
  */
 public class TextViewAttribute extends ViewAttribute<TextView, CharSequence> implements TextWatcher {
 
 	private CharSequence mValue = null;
+
 	public TextViewAttribute(TextView view, String attributeName) {
 		super(CharSequence.class, view, attributeName);
 		if (view instanceof EditText) {
@@ -39,7 +38,7 @@ public class TextViewAttribute extends ViewAttribute<TextView, CharSequence> imp
 
 	@Override
 	public CharSequence get() {
-		if(getView()==null) return null;
+		if (getView() == null) return null;
 		return cloneCharSequence(getView().getText());
 	}
 
@@ -50,17 +49,17 @@ public class TextViewAttribute extends ViewAttribute<TextView, CharSequence> imp
 	private boolean compareCharSequence(CharSequence a, CharSequence b) {
 		boolean result = false;
 		if (a != null) {
-			if (b!=null)
+			if (b != null)
 				result = a.toString().equals(b.toString());
-		}else{
-			if (b==null) result = true;
+		} else {
+			if (b == null) result = true;
 		}
 		return result;
 	}
 
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
-		if(getView()==null) return;
+		if (getView() == null) return;
 		synchronized (this) {
 			CharSequence nVal = "";
 			if (null != newValue) {
@@ -70,8 +69,8 @@ public class TextViewAttribute extends ViewAttribute<TextView, CharSequence> imp
 					nVal = newValue.toString();
 				}
 			}
-			if (!compareCharSequence(nVal, mValue)) {				
-				mValue = cloneCharSequence(nVal);					
+			if (!compareCharSequence(nVal, mValue)) {
+				mValue = cloneCharSequence(nVal);
 				getView().setTextKeepState(cloneCharSequence(nVal));
 			}
 		}

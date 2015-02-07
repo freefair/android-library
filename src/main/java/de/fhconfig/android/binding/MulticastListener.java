@@ -3,32 +3,32 @@ package de.fhconfig.android.binding;
 import java.util.ArrayList;
 
 public abstract class MulticastListener<Th, T> {
-	public abstract void registerToHost(Th host);
-	
 	protected ArrayList<T> listeners = new ArrayList<T>(0);
+	private boolean mBroadcasting = true;
 
-	public void removeListener(T listener){
+	public abstract void registerToHost(Th host);
+
+	public void removeListener(T listener) {
 		listeners.remove(listener);
 	}
-	
-	public void register(T listener){
+
+	public void register(T listener) {
 		listeners.add(listener);
 	}
-	
-	public void registerWithHighPriority(T listener){
+
+	public void registerWithHighPriority(T listener) {
 		listeners.add(0, listener);
 	}
-	
-	private boolean mBroadcasting = true;
-	public void nextActionIsNotFromUser(){
+
+	public void nextActionIsNotFromUser() {
 		mBroadcasting = false;
 	}
-	
-	protected boolean isFromUser(){
+
+	protected boolean isFromUser() {
 		return mBroadcasting;
 	}
-	
-	protected void clearBroadcastState(){
+
+	protected void clearBroadcastState() {
 		mBroadcasting = true;
 	}
 }

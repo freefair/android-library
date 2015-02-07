@@ -7,7 +7,7 @@ public class IntegerField extends CursorField<Integer> {
 	public IntegerField(int columnIndex) {
 		super(Integer.class, columnIndex);
 	}
-	
+
 	public IntegerField(String columnName) {
 		super(Integer.class, columnName);
 	}

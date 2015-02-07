@@ -1,37 +1,38 @@
 package de.fhconfig.android.binding.viewAttributes.textView;
 
 
-import de.fhconfig.android.binding.Binder;
-import de.fhconfig.android.binding.ViewAttribute;
-import de.fhconfig.android.binding.listeners.OnClickListenerMulticast;
 import android.view.View;
 import android.widget.CheckedTextView;
 
+import de.fhconfig.android.binding.Binder;
+import de.fhconfig.android.binding.ViewAttribute;
+import de.fhconfig.android.binding.listeners.OnClickListenerMulticast;
+
 public class CheckedClickableTextViewAttribute extends ViewAttribute<CheckedTextView, Boolean>
-	implements View.OnClickListener {
+		implements View.OnClickListener {
 
 	// we have to use the click handler here, because there is no Checked Listener for CheckedTextViews	
-	
+
 	public CheckedClickableTextViewAttribute(CheckedTextView view) {
 		super(Boolean.class, view, "checkedClickable");
 		Binder.getMulticastListenerForView(view, OnClickListenerMulticast.class)
-			.register(this);
+				.register(this);
 	}
 
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
-		if(getView()==null) return;
+		if (getView() == null) return;
 		boolean changeTo = getView().isChecked();
-		if (newValue==null){
+		if (newValue == null) {
 			changeTo = false;
 		}
-		if (newValue instanceof Boolean){
-			changeTo = (Boolean)newValue;
+		if (newValue instanceof Boolean) {
+			changeTo = (Boolean) newValue;
 		}
-		if (newValue instanceof Number){
-			changeTo = !((Number)newValue).equals(0);
+		if (newValue instanceof Number) {
+			changeTo = !((Number) newValue).equals(0);
 		}
-		if (changeTo != getView().isChecked()){
+		if (changeTo != getView().isChecked()) {
 			Binder.getMulticastListenerForView(getView(), OnClickListenerMulticast.class).nextActionIsNotFromUser();
 			getView().setChecked(changeTo);
 		}
@@ -39,16 +40,16 @@ public class CheckedClickableTextViewAttribute extends ViewAttribute<CheckedText
 
 	@Override
 	public Boolean get() {
-		if(getView()==null) return null;
+		if (getView() == null) return null;
 		return getView().isChecked();
 	}
 
 	@Override
 	public void onClick(View v) {
-		if( !getView().isEnabled() )
+		if (!getView().isEnabled())
 			return;
 		boolean changeTo = getView().isChecked();
 		getView().setChecked(!changeTo);
-		this.notifyChanged();		
+		this.notifyChanged();
 	}
 }

@@ -1,12 +1,13 @@
 package de.fhconfig.android.binding.viewAttributes.viewAnimator;
 
 
-import de.fhconfig.android.binding.ViewAttribute;
 import android.view.View;
 import android.widget.ViewAnimator;
 
+import de.fhconfig.android.binding.ViewAttribute;
 
-public class ChildViewsViewAttribute extends ViewAttribute<ViewAnimator, View[]>{
+
+public class ChildViewsViewAttribute extends ViewAttribute<ViewAnimator, View[]> {
 
 	public ChildViewsViewAttribute(ViewAnimator view) {
 		super(View[].class, view, "childViews");
@@ -14,14 +15,14 @@ public class ChildViewsViewAttribute extends ViewAttribute<ViewAnimator, View[]>
 
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
-		if(getView()==null) return;
-		if (newValue == null){
+		if (getView() == null) return;
+		if (newValue == null) {
 			getView().removeAllViews();
 			return;
 		}
-		if (newValue instanceof View[]){
+		if (newValue instanceof View[]) {
 			getView().removeAllViews();
-			for(View v: (View[])newValue){
+			for (View v : (View[]) newValue) {
 				getView().addView(v);
 			}
 			return;
@@ -30,10 +31,10 @@ public class ChildViewsViewAttribute extends ViewAttribute<ViewAnimator, View[]>
 
 	@Override
 	public View[] get() {
-		if(getView()==null) return null;
+		if (getView() == null) return null;
 		int count = getView().getChildCount();
 		View[] result = new View[count];
-		for(int i=0; i<count; i++)
+		for (int i = 0; i < count; i++)
 			result[i] = getView().getChildAt(i);
 		return result;
 	}

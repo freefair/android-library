@@ -11,7 +11,7 @@ public class StringField extends CursorField<String> {
 	public StringField(String columnName) {
 		super(String.class, columnName);
 	}
-	
+
 	@Override
 	public void saveValue(Cursor cursor) {
 	}

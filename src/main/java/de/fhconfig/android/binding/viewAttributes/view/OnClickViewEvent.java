@@ -1,11 +1,12 @@
 package de.fhconfig.android.binding.viewAttributes.view;
 
+import android.view.View;
+
 import de.fhconfig.android.binding.Binder;
 import de.fhconfig.android.binding.listeners.OnClickListenerMulticast;
 import de.fhconfig.android.binding.utility.EventMarkerHelper;
 import de.fhconfig.android.binding.viewAttributes.ViewEventAttribute;
 import de.fhconfig.android.binding.viewAttributes.adapterView.listView.ItemViewEventMark;
-import android.view.View;
 
 public class OnClickViewEvent extends ViewEventAttribute<View> implements View.OnClickListener {
 	public OnClickViewEvent(View view) {

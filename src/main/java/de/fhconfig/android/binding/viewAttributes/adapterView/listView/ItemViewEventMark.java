@@ -6,14 +6,20 @@ package de.fhconfig.android.binding.viewAttributes.adapterView.listView;
  * Time: 6:14:19 PM
  */
 
-import de.fhconfig.android.binding.Binder;
-import de.fhconfig.android.binding.listeners.OnItemClickListenerMulticast;
-import de.fhconfig.android.binding.listeners.OnItemLongClickListenerMulticast;
-import java.lang.ref.WeakReference;
 import android.view.View;
 import android.widget.AdapterView;
 
+import java.lang.ref.WeakReference;
+
+import de.fhconfig.android.binding.Binder;
+import de.fhconfig.android.binding.listeners.OnItemClickListenerMulticast;
+import de.fhconfig.android.binding.listeners.OnItemLongClickListenerMulticast;
+
 public class ItemViewEventMark implements View.OnClickListener, View.OnLongClickListener {
+
+	private final WeakReference<View> mWRTargetView;
+	private int mTargetListItemPosition;
+	private long mTargetListItemId;
 
 	public ItemViewEventMark(View targetView, int targetListItemPosition, long targetListItemId) {
 		super();
@@ -74,9 +80,5 @@ public class ItemViewEventMark implements View.OnClickListener, View.OnLongClick
 		mTargetListItemPosition = newPosition;
 		mTargetListItemId = newId;
 	}
-
-	private int mTargetListItemPosition;
-	private long mTargetListItemId;
-	private final WeakReference<View> mWRTargetView;
 
 }

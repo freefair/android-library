@@ -11,6 +11,7 @@ public class FloatField extends CursorField<Float> {
 	public FloatField(String columnName) {
 		super(Float.class, columnName);
 	}
+
 	@Override
 	public Float returnValue(Cursor cursor) {
 		return cursor.getFloat(mColumnIndex);

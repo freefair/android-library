@@ -1,7 +1,18 @@
 package de.fhconfig.android.binding.collections;
 
+import android.content.Context;
+import android.os.Handler;
 import android.view.Gravity;
-import android.widget.*;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+
+import java.util.Collection;
 
 import de.fhconfig.android.binding.AttributeBinder;
 import de.fhconfig.android.binding.Binder;
@@ -11,8 +22,8 @@ import de.fhconfig.android.binding.CollectionObserver;
 import de.fhconfig.android.binding.Command;
 import de.fhconfig.android.binding.IObservable;
 import de.fhconfig.android.binding.IObservableCollection;
-import de.fhconfig.android.binding.Observer;
 import de.fhconfig.android.binding.ISyntaxResolver.SyntaxResolveException;
+import de.fhconfig.android.binding.Observer;
 import de.fhconfig.android.binding.observables.BooleanObservable;
 import de.fhconfig.android.binding.utility.CachedModelReflector;
 import de.fhconfig.android.binding.utility.EventMarkerHelper;
@@ -20,24 +31,7 @@ import de.fhconfig.android.binding.utility.IModelReflector;
 import de.fhconfig.android.binding.viewAttributes.adapterView.listView.ItemViewEventMark;
 import de.fhconfig.android.binding.viewAttributes.templates.Layout;
 
-import java.util.Collection;
-
-import android.content.Context;
-import android.os.Handler;
-import android.view.View;
-import android.view.ViewGroup;
-
 public class CollectionAdapter extends BaseAdapter implements CollectionObserver, Filterable, LazyLoadAdapter {
-	@Override
-	public int getViewTypeCount() {
-		return mLayout.getTemplateCount();
-	}
-
-	@Override
-	public int getItemViewType(int position) {
-		return mLayout.getLayoutTypeId(position);
-	}
-
 	protected final Handler mHandler;
 	protected final Context mContext;
 	protected final Layout mLayout, mDropDownLayout;
@@ -46,11 +40,18 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 	protected final Filter mFilter;
 	protected final Command mLastShown;
 	protected final BooleanObservable mHasMore;
-
+	protected Mode mMode = Mode.LoadWhenStopped;
+	protected LazyLoadRootAdapterHelper mHelper;
 	private Boolean hasMoreValue;
+	private int lastDisplayingFirst = -1;
+	private int lastTotal = 0;
+	/**
+	 * Statement that determines child item is enable/disable
+	 */
+	private String mEnableItemStatement = null;
 
 	public CollectionAdapter(Context context, IModelReflector reflector, IObservableCollection<?> collection, Layout layout, Layout dropDownLayout,
-			Filter filter, String enableItemStatement, Command lastShown, BooleanObservable hasMore) throws Exception {
+	                         Filter filter, String enableItemStatement, Command lastShown, BooleanObservable hasMore) throws Exception {
 		mHandler = new Handler();
 		mContext = context;
 		mLayout = layout;
@@ -63,35 +64,44 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 		mLastShown = lastShown;
 		mHasMore = hasMore;
 
-		if(mHasMore != null)
-		{
+		if (mHasMore != null) {
 			mHasMore.subscribe(new Observer() {
 				@Override
 				public void onPropertyChanged(IObservable<?> prop, Collection<Object> initiators) {
 					try {
 						hasMoreValue = (Boolean) prop.get();
+					} catch (Exception ex) {
 					}
-					catch (Exception ex) {}
 				}
 			});
 		}
 	}
 
 	public CollectionAdapter(Context context, IModelReflector reflector, IObservableCollection<?> collection, Layout layout, Layout dropDownLayout,
-			String enableItemStatement) throws Exception {
+	                         String enableItemStatement) throws Exception {
 		this(context, reflector, collection, layout, dropDownLayout, null, enableItemStatement, null, null);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public CollectionAdapter(Context context, IObservableCollection<?> collection, Layout layout, Layout dropDownLayout, Filter filter,
-			String enableItemStatement, Command lastShown, BooleanObservable hasMore) throws Exception {
+	                         String enableItemStatement, Command lastShown, BooleanObservable hasMore) throws Exception {
 		this(context, new CachedModelReflector(collection.getComponentType()), collection, layout, dropDownLayout, filter, enableItemStatement, lastShown, hasMore);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public CollectionAdapter(Context context, IObservableCollection<?> collection, Layout layout, Layout dropDownLayout, String enableItemStatement)
 			throws Exception {
 		this(context, new CachedModelReflector(collection.getComponentType()), collection, layout, dropDownLayout, enableItemStatement);
+	}
+
+	@Override
+	public int getViewTypeCount() {
+		return mLayout.getTemplateCount();
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		return mLayout.getLayoutTypeId(position);
 	}
 
 	public void subscribeCollectionObserver(CollectionObserver observer) {
@@ -116,12 +126,10 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 
 	private View getView(int position, View convertView, ViewGroup parent, Layout layout) {
 		View returnView = convertView;
-		if (position >= mCollection.size())
-		{
-			if(mLastShown != null)
+		if (position >= mCollection.size()) {
+			if (mLastShown != null)
 				mLastShown.Invoke(convertView);
-			if(hasMoreValue)
-			{
+			if (hasMoreValue) {
 				return new SpinnerView(mContext);
 			}
 			return returnView;
@@ -157,7 +165,7 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 
 			mapper.changeMapping(mReflector, item);
 			if (mHelper != null && !mHelper.isBusy()) {
-				if (item instanceof ILazyLoadRowModel){
+				if (item instanceof ILazyLoadRowModel) {
 					((ILazyLoadRowModel) item).display(mCollection, position);
 				}
 			}
@@ -190,9 +198,6 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 		return mFilter;
 	}
 
-	protected Mode mMode = Mode.LoadWhenStopped;
-	protected LazyLoadRootAdapterHelper mHelper;
-
 	public void setRoot(AbsListView view) {
 		if (ILazyLoadRowModel.class.isAssignableFrom(mCollection.getComponentType()))
 			mHelper = new LazyLoadRootAdapterHelper(view, this, mMode);
@@ -205,11 +210,8 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 		mMode = mode;
 	}
 
-	private int lastDisplayingFirst = -1;
-	private int lastTotal = 0;
-
 	public void onVisibleChildrenChanged(int first, int total) {
-		if (total>lastTotal){
+		if (total > lastTotal) {
 			mCollection.setVisibleChildrenCount(this, total);
 		}
 
@@ -284,11 +286,6 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 	}
 
 	/**
-	 * Statement that determines child item is enable/disable
-	 */
-	private String mEnableItemStatement = null;
-
-	/**
 	 * If the statement is null (unset), all items are assumed to be enabled.
 	 */
 	@Override
@@ -319,8 +316,8 @@ public class CollectionAdapter extends BaseAdapter implements CollectionObserver
 
 	@Override
 	public void onCollectionChanged(IObservableCollection<?> collection,
-			CollectionChangedEventArg args, Collection<Object> initiators) {
-				notifyDataSetChanged();
+	                                CollectionChangedEventArg args, Collection<Object> initiators) {
+		notifyDataSetChanged();
 	}
 
 	private class SpinnerView extends LinearLayout {

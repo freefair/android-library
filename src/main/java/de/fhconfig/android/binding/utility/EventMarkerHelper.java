@@ -1,9 +1,10 @@
 package de.fhconfig.android.binding.utility;
 
-import de.fhconfig.android.binding.Binder;
-import de.fhconfig.android.binding.viewAttributes.adapterView.listView.ItemViewEventMark;
 import android.view.View;
 import android.view.ViewGroup;
+
+import de.fhconfig.android.binding.Binder;
+import de.fhconfig.android.binding.viewAttributes.adapterView.listView.ItemViewEventMark;
 
 /**
  * User: =ra=

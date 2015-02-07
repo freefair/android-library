@@ -1,15 +1,15 @@
 package de.fhconfig.android.binding.converters;
 
 import android.graphics.Typeface;
+
 import de.fhconfig.android.binding.Converter;
 import de.fhconfig.android.binding.IObservable;
 
 /**
  * Get type face from asset folder
- *  
+ *
  * @usage type_name
  * @arg type_name String Name of the typeface
- * 
  * @return android.graphics.Typeface
  */
 public class TYPEFACE_FROM_ASSET extends Converter<Typeface> {
@@ -20,13 +20,13 @@ public class TYPEFACE_FROM_ASSET extends Converter<Typeface> {
 
 	@Override
 	public Typeface calculateValue(Object... args) throws Exception {
-		if (args.length<1) return null;
-		
+		if (args.length < 1) return null;
+
 		String file = args[0].toString();
-		if( file == null ) return null;
-					
+		if (file == null) return null;
+
 		// TODO check if this is slow - if yes, cache me :) 
-		Typeface font = Typeface.createFromAsset(getContext().getAssets(), file);  
+		Typeface font = Typeface.createFromAsset(getContext().getAssets(), file);
 		return font;
 	}
 }

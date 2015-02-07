@@ -1,5 +1,13 @@
 package de.fhconfig.android.binding.widgets;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.util.AttributeSet;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,25 +24,16 @@ import de.fhconfig.android.binding.IObservable;
 import de.fhconfig.android.binding.IObservableCollection;
 import de.fhconfig.android.binding.ISyntaxResolver.SyntaxResolveException;
 import de.fhconfig.android.binding.InnerFieldObservable;
+import de.fhconfig.android.binding.Observer;
 import de.fhconfig.android.binding.ViewAttribute;
 import de.fhconfig.android.binding.collections.ObservableCollection;
 import de.fhconfig.android.binding.utility.ObservableMultiplexer;
 import de.fhconfig.android.binding.utility.WeakList;
 import de.fhconfig.android.binding.viewAttributes.templates.Layout;
 import de.fhconfig.android.binding.viewAttributes.templates.LayoutItem;
-import de.fhconfig.android.binding.Observer;
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+
 /**
  * BindableLinearLayout have three attributes
- * 
- * 
- *
  */
 public class BindableLinearLayout extends LinearLayout implements IBindableView<BindableLinearLayout> {
 	private WeakList<Object> currentList = null;
@@ -48,25 +47,85 @@ public class BindableLinearLayout extends LinearLayout implements IBindableView<
 		}
 	};
 
-	
+
 	private ObservableCollection<Object> itemList = null;
 	private LayoutItem layout = null;
-	private boolean updateEnabled = true;
+	private ViewAttribute<BindableLinearLayout, Object> ItemSourceAttribute =
+			new ViewAttribute<BindableLinearLayout, Object>(Object.class, BindableLinearLayout.this, "ItemSource") {
+				@SuppressWarnings("unchecked")
+				@Override
+				protected void doSetAttributeValue(Object newValue) {
+					if (!(newValue instanceof ObservableCollection<?>))
+						return;
 
+					if (layout != null)
+						createItemSourceList((ObservableCollection<Object>) newValue);
+				}
+
+				@Override
+				public Object get() {
+					return itemList;
+				}
+			};
+	private ViewAttribute<BindableLinearLayout, Object> ItemLayoutAttribute =
+			new ViewAttribute<BindableLinearLayout, Object>(Object.class, BindableLinearLayout.this, "ItemLayout") {
+				@Override
+				protected void doSetAttributeValue(Object newValue) {
+					layout = null;
+					if (newValue instanceof LayoutItem) {
+						layout = (LayoutItem) newValue;
+					} else if (newValue instanceof Layout) {
+						layout = new LayoutItem(((Layout) newValue).getDefaultLayoutId());
+					} else if (newValue instanceof Integer) {
+						layout = new LayoutItem((Integer) newValue);
+					} else {
+						layout = new LayoutItem(newValue.toString());
+					}
+
+					if (itemList != null)
+						createItemSourceList(itemList);
+				}
+
+				@Override
+				public Object get() {
+					return layout;
+				}
+			};
+	private boolean updateEnabled = true;
+	private ViewAttribute<BindableLinearLayout, Boolean> ItemUpdateEnabledAttribute =
+			new ViewAttribute<BindableLinearLayout, Boolean>(Boolean.class, BindableLinearLayout.this, "UpdateEnabled") {
+				@Override
+				protected void doSetAttributeValue(Object newValue) {
+					if (newValue == null) {
+						updateEnabled = true;
+					} else if (newValue instanceof Boolean) {
+						Boolean value = (Boolean) newValue;
+						updateEnabled = value;
+						if (updateEnabled) {
+							BindableLinearLayout.this.invalidate();
+						}
+					}
+				}
+
+				@Override
+				public Boolean get() {
+					return updateEnabled;
+				}
+			};
 	private ObservableMultiplexer<Object> observableItemsLayoutID = new ObservableMultiplexer<Object>(new Observer() {
 		@Override
 		public void onPropertyChanged(IObservable<?> prop, Collection<Object> initiators) {
-			if( initiators == null || initiators.size() < 1)
+			if (initiators == null || initiators.size() < 1)
 				return;
 			Object parent = initiators.toArray()[0];
-			int pos = currentList.indexOf(parent);						
+			int pos = currentList.indexOf(parent);
 			ArrayList<Object> list = new ArrayList<Object>();
 			list.add(parent);
 			removeItems(list);
-			insertItem(pos, parent);	 
+			insertItem(pos, parent);
 		}
 	});
-	
+
 	public BindableLinearLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
@@ -76,77 +135,77 @@ public class BindableLinearLayout extends LinearLayout implements IBindableView<
 		super(context);
 		init();
 	}
-	
+
 	private void init() {
 	}
-		
+
 	@Override
 	protected void onDetachedFromWindow() {
 		observableItemsLayoutID.clear();
 		currentList = null;
 		super.onDetachedFromWindow();
 	}
-	
-	private void createItemSourceList(ObservableCollection<Object> newList) {		
-		if( itemList != null && collectionObserver != null)
+
+	private void createItemSourceList(ObservableCollection<Object> newList) {
+		if (itemList != null && collectionObserver != null)
 			itemList.unsubscribe(collectionObserver);
-		
+
 		itemList = newList;
-		
-		if(newList==null)
+
+		if (newList == null)
 			return;
 
-		currentList = null;	
-		
+		currentList = null;
+
 		itemList.subscribe(collectionObserver);
 		newList(newList);
-	}	
-	
+	}
+
 	private void newList(IObservableCollection<?> list) {
-		this.removeAllViews();	
-		
+		this.removeAllViews();
+
 		observableItemsLayoutID.clear();
-						
-		if( list == null) {
+
+		if (list == null) {
 			currentList = null;
 			return;
 		}
-		
+
 		currentList = new WeakList<Object>();
-		
-		for( int pos=0; pos < list.size(); pos ++ ) {
+
+		for (int pos = 0; pos < list.size(); pos++) {
 			Object item = list.getItem(pos);
 			insertItem(pos, item);
 		}
-		
-		for( int pos=0; pos < list.size(); pos ++ ) {
+
+		for (int pos = 0; pos < list.size(); pos++) {
 			Object item = list.getItem(pos);
 			currentList.add(item);
 		}
 	}
 
 	private void listChanged(CollectionChangedEventArg e, IObservableCollection<?> collection) {
-		if( e == null)
+		if (e == null)
 			return;
-		
-		int pos=-1;
-		switch( e.getAction()) {
+
+		int pos = -1;
+		switch (e.getAction()) {
 			case Add:
 				pos = e.getNewStartingIndex();
-				for(Object item : e.getNewItems()) {
+				for (Object item : e.getNewItems()) {
 					insertItem(pos, item);
 					pos++;
 				}
 				break;
 			case Remove:
-				removeItems(e.getOldItems());	
+				removeItems(e.getOldItems());
 				break;
 			case Replace:
-				removeItems(e.getOldItems());	
+				removeItems(e.getOldItems());
 				pos = e.getNewStartingIndex();
-				if( pos < 0)
-					pos=0;
-				for(Object item : e.getNewItems()) {
+				if (pos < 0)
+					pos = 0;
+				for (Object item : e.getNewItems()) {
 					insertItem(pos, item);
 					pos++;
 				}
@@ -160,132 +219,66 @@ public class BindableLinearLayout extends LinearLayout implements IBindableView<
 			default:
 				throw new IllegalArgumentException("unknown action " + e.getAction().toString());
 		}
-		
-		if( collection == null)
-			return;	
-		
+
+		if (collection == null)
+			return;
+
 		currentList = new WeakList<Object>();
-		for( pos=0; pos < collection.size(); pos ++ ) {
+		for (pos = 0; pos < collection.size(); pos++) {
 			Object item = collection.getItem(pos);
 			currentList.add(item);
-		}		
-	}	
-	
-	private ViewAttribute<BindableLinearLayout, Object> ItemSourceAttribute = 
-			new ViewAttribute<BindableLinearLayout, Object>(Object.class, BindableLinearLayout.this, "ItemSource") {		
-				@SuppressWarnings("unchecked")
-				@Override
-				protected void doSetAttributeValue(Object newValue) {
-					if( !(newValue instanceof ObservableCollection<?> ))
-						return;
-
-					if( layout != null )
-						createItemSourceList((ObservableCollection<Object>)newValue);
-				}
-
-				@Override
-				public Object get() {
-					return itemList;
-				}				
-	};	
-
-	private ViewAttribute<BindableLinearLayout, Object> ItemLayoutAttribute =
-			new ViewAttribute<BindableLinearLayout, Object>(Object.class, BindableLinearLayout.this, "ItemLayout"){
-				@Override
-				protected void doSetAttributeValue(Object newValue) {
-					layout = null;
-					if( newValue instanceof LayoutItem ) {
-						layout = (LayoutItem) newValue;
-					}else if (newValue instanceof Layout){
-						layout = new LayoutItem(((Layout)newValue).getDefaultLayoutId());
-					}else if (newValue instanceof Integer){
-						layout = new LayoutItem((Integer)newValue);
-					}else{
-						layout = new LayoutItem(newValue.toString());
-					}
-					
-					if( itemList != null )
-						createItemSourceList(itemList);
-				}
-
-				@Override
-				public Object get() {
-					return layout;
-				}
-	};	
-	
-	private ViewAttribute<BindableLinearLayout, Boolean> ItemUpdateEnabledAttribute =
-			new ViewAttribute<BindableLinearLayout, Boolean>(Boolean.class, BindableLinearLayout.this, "UpdateEnabled"){
-				@Override
-				protected void doSetAttributeValue(Object newValue) {	
-					if( newValue == null ) {
-						updateEnabled = true;
-					}
-					else if( newValue instanceof Boolean ) {
-						Boolean value = (Boolean) newValue;
-						updateEnabled = value; 
-						if(updateEnabled) {
-							BindableLinearLayout.this.invalidate();
-						}
-					}
-				}
-
-				@Override
-				public Boolean get() {
-					return updateEnabled;
-				}
-	};	
-
+		}
+	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		if( !updateEnabled )
+		if (!updateEnabled)
 			return;
 		super.onDraw(canvas);
 	}
-	
+
 	@Override
-	protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec) {
-		if( !updateEnabled )
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		if (!updateEnabled)
 			return;
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
 	@Override
-	public ViewAttribute<BindableLinearLayout, ?> createViewAttribute(String attributeId) {	
+	public ViewAttribute<BindableLinearLayout, ?> createViewAttribute(String attributeId) {
 		if (attributeId.equals("itemSource")) return ItemSourceAttribute;
 		if (attributeId.equals("itemLayout")) return ItemLayoutAttribute;
 		if (attributeId.equals("updateEnabled")) return ItemUpdateEnabledAttribute;
 		return null;
 	}
-	
+
 	private void removeItems(List<?> deleteList) {
-		if( deleteList == null || deleteList.size() == 0 || currentList == null)
+		if (deleteList == null || deleteList.size() == 0 || currentList == null)
 			return;
-		
+
 		ArrayList<Object> currentPositionList = new ArrayList<Object>(Arrays.asList(currentList.toArray()));
-		
-		for(Object item : deleteList){
-			int pos = currentPositionList.indexOf(item);			
+
+		for (Object item : deleteList) {
+			int pos = currentPositionList.indexOf(item);
 			observableItemsLayoutID.removeParent(item);
 			currentPositionList.remove(item);
-			if( pos > -1 && pos < this.getChildCount())
-				this.removeViewAt(pos);			
+			if (pos > -1 && pos < this.getChildCount())
+				this.removeViewAt(pos);
 		}
-	}	
+	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void insertItem(int pos, Object item) {		
-		if( layout == null )
+	@SuppressWarnings({"rawtypes", "unchecked"})
+	private void insertItem(int pos, Object item) {
+		if (layout == null)
 			return;
-		
-		int layoutId = layout.getLayoutId();		
-		if( layoutId < 1 && layout.getLayoutName() != null ) {									
-			IObservable<?> observable = null;			
+
+		int layoutId = layout.getLayoutId();
+		if (layoutId < 1 && layout.getLayoutName() != null) {
+			IObservable<?> observable = null;
 			InnerFieldObservable ifo = new InnerFieldObservable(layout.getLayoutName());
 			if (ifo.createNodes(item)) {
-				observable = ifo;										
-			} else {			
+				observable = ifo;
+			} else {
 				Object rawField;
 				try {
 					rawField = Binder.getSyntaxResolver().getFieldForModel(layout.getLayoutName(), item);
@@ -294,35 +287,35 @@ public class BindableLinearLayout extends LinearLayout implements IBindableView<
 					return;
 				}
 				if (rawField instanceof IObservable<?>)
-					observable = (IObservable<?>)rawField;
-				else if (rawField!=null)
-					observable= new ConstantObservable(rawField.getClass(), rawField);
+					observable = (IObservable<?>) rawField;
+				else if (rawField != null)
+					observable = new ConstantObservable(rawField.getClass(), rawField);
 			}
-			
-			if( observable != null) {	
-				observableItemsLayoutID.add(observable, item);	
+
+			if (observable != null) {
+				observableItemsLayoutID.add(observable, item);
 				Object obj = observable.get();
-				if(obj instanceof Integer)
-					layoutId = (Integer)obj;
+				if (obj instanceof Integer)
+					layoutId = (Integer) obj;
 			}
 		}
-		
+
 		View child = null;
-		
-		if( layoutId < 1 ) {
+
+		if (layoutId < 1) {
 			TextView textView = new TextView(getContext());
 			textView.setText("binding error - pos: " + pos + " has no layout - please check binding:itemPath or the layout id in viewmodel");
 			textView.setTextColor(Color.RED);
 			child = textView;
-		} else {		
+		} else {
 			Binder.InflateResult result = Binder.inflateView(getContext(), layoutId, this, false);
-			for(View view: result.processedViews){
+			for (View view : result.processedViews) {
 				AttributeBinder.getInstance().bindView(getContext(), view, item);
 			}
 			child = result.rootView;
 		}
-		 											
-		this.addView(child,pos);
+
+		this.addView(child, pos);
 	}
-	
+
 }

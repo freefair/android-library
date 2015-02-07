@@ -5,14 +5,11 @@ import de.fhconfig.android.binding.IObservable;
 
 /**
  * Length of the given String, if provided is an object, object.toString().length() will be evaluated
- * 
+ *
+ * @author andy
  * @usage str
  * @arg str String
- * 
  * @return integer
- * 
- * @author andy
- *
  */
 public class LEN extends Converter<Integer> {
 	public LEN(IObservable<?>[] dependents) {

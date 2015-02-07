@@ -7,18 +7,15 @@ import de.fhconfig.android.binding.IObservable;
 import de.fhconfig.android.binding.viewAttributes.view.AnimationTrigger;
 
 /**
- * Trigger the provided animation after the command is executed. 
+ * Trigger the provided animation after the command is executed.
  * This is NOT compatible with the newer Property-based animation
- * 
- * @usage animationId command condition
- * 
- * @arg animationId integer, specify by "@anim/animation"
- * @arg command gueei.binding.Command
- * @arg @optional condition boolean
- * 
- * @return gueei.binding.viewAttributes.view.AnimationTrigger
- * @author andy
  *
+ * @author andy
+ * @usage animationId command condition
+ * @arg animationId integer, specify by "@anim/animation"
+ * @arg command de.fhconfig.android.binding.Command
+ * @arg @optional condition boolean
+ * @return de.fhconfig.android.binding.viewAttributes.view.AnimationTrigger
  */
 public class AFTERCOMMAND extends Converter<AnimationTrigger> implements CommandListener {
 	AnimationTrigger mTrigger = new AnimationTrigger();
@@ -37,15 +34,15 @@ public class AFTERCOMMAND extends Converter<AnimationTrigger> implements Command
 	 */
 	@Override
 	public AnimationTrigger calculateValue(Object... args) throws Exception {
-		if (args.length<2) return null;
-		if (!(args[0] instanceof Integer)){
+		if (args.length < 2) return null;
+		if (!(args[0] instanceof Integer)) {
 			return null;
 		}
-		mTrigger.setAnimationId((Integer)args[0]);
-		if ( (mCommand==null) || (!mCommand.equals(args[1])) )
-			if (args[1] instanceof Command){
-				if (mCommand!=null) mCommand.removeCommandListener(this);
-				mCommand = (Command)(args[1]);
+		mTrigger.setAnimationId((Integer) args[0]);
+		if ((mCommand == null) || (!mCommand.equals(args[1])))
+			if (args[1] instanceof Command) {
+				if (mCommand != null) mCommand.removeCommandListener(this);
+				mCommand = (Command) (args[1]);
 				mCommand.addCommandListener(this);
 			}
 		if (args.length < 3)

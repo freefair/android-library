@@ -5,9 +5,8 @@ import de.fhconfig.android.binding.IObservable;
 
 /**
  * Constant that always return false. Takes no argument
- *  
+ *
  * @usage
- * 
  * @return boolean
  */
 public class FALSE extends Converter<Boolean> {

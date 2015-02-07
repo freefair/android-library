@@ -25,42 +25,44 @@ import de.fhconfig.android.binding.viewAttributes.templates.Layout;
  * @item @optional titleField String When Set, ignore title
  * @return PagerAdapterObservable
  */
-public class PAGERADAPTER extends Converter<PagerAdapterObservable> {
-	public PAGERADAPTER(IObservable<?>[] dependents) {
+public class PAGERICONADAPTER extends Converter<PagerAdapterObservable> {
+	public PAGERICONADAPTER(IObservable<?>[] dependents) {
 		super(PagerAdapterObservable.class, dependents);
 	}
 
 	@Override
 	public PagerAdapterObservable calculateValue(Object... args) throws Exception {
-		return new ObsPagerAdapter((DynamicObject) args[0]);
+		return new ObsPagerIconAdapter((DynamicObject) args[0]);
 	}
 
-	private class ObsPagerAdapter extends PagerAdapterObservable implements CollectionObserver {
+	private class ObsPagerIconAdapter extends PagerAdapterObservable implements CollectionObserver {
+
+
 		private final DynamicObject dobj;
 		private final IObservableCollection<?> col;
 
-		public ObsPagerAdapter(DynamicObject obj) {
+		public ObsPagerIconAdapter(DynamicObject obj) {
 			dobj = obj;
 			try {
 				col = (IObservableCollection<?>) obj.getObservableByName("source").get();
 				if (col == null) {
-					BindingLog.warning("PAGERADAPTER.ObsPagerAdaopter.Constructor", "source is null");
+					BindingLog.warning("PAGERICONADAPTER.ObsPagerAdaopter.Constructor", "source is null");
 					return;
 				}
 				col.subscribe(this);
 			} catch (Exception e) {
-				BindingLog.exception("PAGERADAPTER.ObsPagerAdapter.Constructor", e);
+				BindingLog.exception("PAGERICONADAPTER.ObsPagerIconAdapter.Constructor", e);
 				throw new RuntimeException();
 			}
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			if (dobj.observableExists("titleField")) {
-				String titleField = dobj.tryGetObservableValue("titleField", null);
+			if (dobj.observableExists("iconField")) {
+				String titleField = dobj.tryGetObservableValue("iconField", null);
 				return Binder.getSyntaxResolver().tryEvaluateValue(getContext(), titleField, col.getItem(position), "");
 			} else
-				return dobj.tryGetObservableValue("title", "");
+				return dobj.tryGetObservableValue("icon", "");
 		}
 
 		@Override
@@ -84,7 +86,7 @@ public class PAGERADAPTER extends Converter<PagerAdapterObservable> {
 				container.addView(root);
 				return root;
 			} catch (Exception e) {
-				BindingLog.exception("PAGERADAPTER", e);
+				BindingLog.exception("PAGERICONADAPTER", e);
 				return null;
 			}
 		}

@@ -1,15 +1,12 @@
 package de.fhconfig.android.binding.viewAttributes.textView;
 
+import android.widget.TextView;
+
 import de.fhconfig.android.binding.BindingType;
 import de.fhconfig.android.binding.ViewAttribute;
-import android.widget.TextView;
 
 
 public class TextLinesViewAttribute extends ViewAttribute<TextView, Integer> {
-	public static enum Mode{
-		MinLines, MaxLines
-	}
-	
 	private Mode mode = Mode.MinLines;
 
 	public TextLinesViewAttribute(TextView view, Mode mode) {
@@ -18,7 +15,7 @@ public class TextLinesViewAttribute extends ViewAttribute<TextView, Integer> {
 	}
 
 	private static String getAttributeName(Mode mode) {
-		if( mode == Mode.MinLines )
+		if (mode == Mode.MinLines)
 			return "minLines";
 		else
 			return "maxLines";
@@ -26,16 +23,16 @@ public class TextLinesViewAttribute extends ViewAttribute<TextView, Integer> {
 
 	@Override
 	protected void doSetAttributeValue(Object newValue) {
-		if(getView()==null) return;
-		if (newValue==null){
+		if (getView() == null) return;
+		if (newValue == null) {
 			getView().setMaxLines(1);
 			return;
 		}
-		if (newValue instanceof Integer){
-			if( mode == Mode.MinLines )
-				getView().setMinLines((Integer)newValue);
+		if (newValue instanceof Integer) {
+			if (mode == Mode.MinLines)
+				getView().setMinLines((Integer) newValue);
 			else
-				getView().setMaxLines((Integer)newValue);
+				getView().setMaxLines((Integer) newValue);
 		}
 	}
 
@@ -47,5 +44,9 @@ public class TextLinesViewAttribute extends ViewAttribute<TextView, Integer> {
 	@Override
 	public Integer get() {
 		return null;
+	}
+
+	public static enum Mode {
+		MinLines, MaxLines
 	}
 }

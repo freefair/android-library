@@ -7,5 +7,5 @@ package de.fhconfig.android.binding.cursor;
  * Time: 21:19
  */
 public interface IRowModelFactory<T> {
-	public  T createInstance();
+	public T createInstance();
 }

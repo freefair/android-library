@@ -1,19 +1,32 @@
 package de.fhconfig.android.binding.utility;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
+
 import de.fhconfig.android.binding.Command;
 import de.fhconfig.android.binding.IObservable;
 import de.fhconfig.android.binding.InnerFieldObservable;
 import de.fhconfig.android.binding.Observable;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-
 
 public class CachedModelReflector<T> implements ICachedModelReflector<T> {
 	private HashMap<String, Field> observables = new HashMap<String, Field>();
-	private HashMap<String, Field> commands= new HashMap<String, Field>();
-	private HashMap<String, Field> values= new HashMap<String, Field>();
-	
+	private HashMap<String, Field> commands = new HashMap<String, Field>();
+	private HashMap<String, Field> values = new HashMap<String, Field>();
+
+	public CachedModelReflector(Class<T> type) throws IllegalArgumentException, IllegalAccessException {
+		for (Field f : type.getFields()) {
+			if (IObservable.class.isAssignableFrom(f.getType())) {
+				observables.put(f.getName(), f);
+			} else if (Command.class.isAssignableFrom(f.getType())) {
+				commands.put(f.getName(), f);
+			} else {
+				values.put(f.getName(), f);
+			}
+		}
+		observables.put(".", null);
+	}
+
 	public HashMap<String, Field> getObservables() {
 		return observables;
 	}
@@ -26,53 +39,38 @@ public class CachedModelReflector<T> implements ICachedModelReflector<T> {
 		return values;
 	}
 
-	public CachedModelReflector(Class<T> type) throws IllegalArgumentException, IllegalAccessException{
-		for (Field f: type.getFields()){
-			if (IObservable.class.isAssignableFrom(f.getType())){
-				observables.put(f.getName(), f);
-			}
-			else if (Command.class.isAssignableFrom(f.getType())){
-				commands.put(f.getName(), f);
-			}
-			else{
-				values.put(f.getName(), f);
-			}
-		}
-		observables.put(".", null);
-	}
-	
 	public Command getCommandByName(String name, Object object) throws Exception {
-		if (commands.containsKey(name)){
+		if (commands.containsKey(name)) {
 			return (Command) commands.get(name).get(object);
 		}
 		return null;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public IObservable<Object> getObservableByName(String name, Object object) throws Exception {
 		if (name.equals("."))
-			return new Observable(object.getClass(), object);		
-		if( name.contains(".")) {
+			return new Observable(object.getClass(), object);
+		if (name.contains(".")) {
 			InnerFieldObservable ifo = new InnerFieldObservable(name);
 			if (ifo.createNodes(object))
 				return ifo;
 			return null;
-		} else {		
+		} else {
 			Field obs = observables.get(name);
-			if (obs==null) return null;		
+			if (obs == null) return null;
 			return (IObservable) obs.get(object);
 		}
 	}
 
 	public Object getValueByName(String name, Object object) throws Exception {
-		if (values.containsKey(name)){
+		if (values.containsKey(name)) {
 			return values.get(name).get(object);
 		}
 		return null;
 	}
 
-	public Class<?> getValueTypeByName(String name){
-		if (values.containsKey(name)){
+	public Class<?> getValueTypeByName(String name) {
+		if (values.containsKey(name)) {
 			return values.get(name).getType();
 		}
 		return null;

@@ -2,6 +2,7 @@ package de.fhconfig.android.binding.viewAttributes.view;
 
 import android.view.MotionEvent;
 import android.view.View;
+
 import de.fhconfig.android.binding.BindingType;
 import de.fhconfig.android.binding.ViewAttribute;
 

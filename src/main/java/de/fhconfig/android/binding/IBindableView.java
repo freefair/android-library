@@ -16,13 +16,14 @@ import android.view.View;
  */
 public interface IBindableView<T extends View & IBindableView<T>> {
 	/**
-	 * Each View Attribute should be created once only. 
+	 * Each View Attribute should be created once only.
 	 * The Custom View is suppose to create and return the designated attribute here
 	 * Once it is created, it will be maintained by the Binder, just like other system ViewAttributes
 	 * If you want to override the default behavior of other ViewAttributes, you can return it here
 	 * or else, returning null will pass the control to super classes' implementation.
 	 * To access the view Attribute, you can either maintain a reference to the attribute, or use
 	 * Binder.getAttributeForView(View, AttributeId);
+	 *
 	 * @param attributeId : Attribute Id
 	 * @return the ViewAttribute, or null if don't want to handle
 	 */

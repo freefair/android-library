@@ -1,14 +1,14 @@
 package de.fhconfig.android.binding.collections;
 
+import java.util.Collection;
+import java.util.HashMap;
+
 import de.fhconfig.android.binding.Command;
 import de.fhconfig.android.binding.IObservable;
 import de.fhconfig.android.binding.IPropertyContainer;
 import de.fhconfig.android.binding.Observable;
 import de.fhconfig.android.binding.Observer;
 import de.fhconfig.android.binding.utility.IModelReflector;
-
-import java.util.Collection;
-import java.util.HashMap;
 
 
 public class ObservableMapper implements IPropertyContainer {
@@ -19,19 +19,21 @@ public class ObservableMapper implements IPropertyContainer {
 	public HashMap<String, Observable> valueMapping = new HashMap<String, Observable>();
 	public int mappedPosition;
 	private Object mappingModel;
+	private IModelReflector mReflector = null;
+	private Object mModel = null;
 
-	public Object getCurrentMapping(){
+	public Object getCurrentMapping() {
 		return mappingModel;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public void changeMapping(IModelReflector reflector, Object model){
-		if (mappingModel!=null && mappingModel instanceof ILazyLoadRowModel)
-			((ILazyLoadRowModel)mappingModel).setMapped(false);
-		
+	public void changeMapping(IModelReflector reflector, Object model) {
+		if (mappingModel != null && mappingModel instanceof ILazyLoadRowModel)
+			((ILazyLoadRowModel) mappingModel).setMapped(false);
+
 		mappingModel = model;
 		try {
-			for(String key: observableMapping.keySet()){
+			for (String key : observableMapping.keySet()) {
 				IObservable<?> obs = reflector.getObservableByName(key, model);
 				observableMapping.get(key).changeObservingProperty(obs);
 			}
@@ -40,102 +42,59 @@ public class ObservableMapper implements IPropertyContainer {
 				commandMapping.get(key).changeCommand(reflector.getCommandByName(key, model));
 			}
 			*/
-			for(String key: valueMapping.keySet()){
+			for (String key : valueMapping.keySet()) {
 				valueMapping.get(key).set(reflector.getValueByName(key, model));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		if (mappingModel!=null && mappingModel instanceof ILazyLoadRowModel)
-			((ILazyLoadRowModel)mappingModel).setMapped(true);
+
+		if (mappingModel != null && mappingModel instanceof ILazyLoadRowModel)
+			((ILazyLoadRowModel) mappingModel).setMapped(true);
 	}
-	
-	private IModelReflector mReflector = null;
-	private Object mModel = null;
-	public void startCreateMapping(IModelReflector reflector, Object model){
+
+	public void startCreateMapping(IModelReflector reflector, Object model) {
 		mReflector = reflector;
 		mModel = model;
 	}
-	
-	public void endCreateMapping(){
+
+	public void endCreateMapping() {
 		mReflector = null;
 	}
-	
-	// Remember! This maps 1-1 to the real observable
-	private static class MockObservable<T> extends Observable<T> implements Observer{
-		public MockObservable(Class<T> type) {
-			super(type);
+
+	/*
+		private class MockCommand implements Command{
+			private WeakReference<Command> command;
+			public void Invoke(View view, Object... args) {
+				if (command.get()!=null){
+					if (command.get() instanceof CollectionCommand){
+						((CollectionCommand)command.get()).Invoke(mappedPosition);
+					}else command.get().Invoke(view, mappedPosition, args);
+				}
+			}
+			public void changeCommand(Command newCommand){
+				command = new WeakReference<Command>(newCommand);
+			}
 		}
 
-		public IObservable<T> observingProperty;
-		public T get() {
-			if (observingProperty!=null){
-				return observingProperty.get();
+		public Command getCommandByName(String name) throws Exception{
+			if ((!commandMapping.containsKey(name)) && (mReflector!=null)){
+				MockCommand mCommand = new MockCommand();
+				Command rCommand;
+				rCommand = mReflector.getCommandByName(name, mModel);
+				if (rCommand !=null){
+					commandMapping.put(name, mCommand);
+				}
 			}
-			return null;
+			return commandMapping.get(name);
 		}
-
-		public void changeObservingProperty(IObservable<T> newProperty){
-			if (observingProperty!=null){
-				observingProperty.unsubscribe(this);
-			}
-			newProperty.subscribe(this);
-			observingProperty = newProperty;
-			this.notifyChanged(this);
-		}
-		
-		public void onPropertyChanged(IObservable<?> prop,
-			Collection<Object> initiators) {
-			if (prop!=observingProperty){
-				prop.unsubscribe(this);
-				return;
-			}
-			initiators.add(this);
-			this.notifyChanged(initiators);
-		}
-
-		@Override
-		protected void doSetValue(T newValue,
-				Collection<Object> initiators) {
-			if (observingProperty!=null){
-				observingProperty.set(newValue, initiators);
-			}
-		}
-	}
-/*	
-	private class MockCommand implements Command{
-		private WeakReference<Command> command;
-		public void Invoke(View view, Object... args) {
-			if (command.get()!=null){
-				if (command.get() instanceof CollectionCommand){
-					((CollectionCommand)command.get()).Invoke(mappedPosition);
-				}else command.get().Invoke(view, mappedPosition, args);
-			}
-		}
-		public void changeCommand(Command newCommand){
-			command = new WeakReference<Command>(newCommand);
-		}
-	}
-	
-	public Command getCommandByName(String name) throws Exception{
-		if ((!commandMapping.containsKey(name)) && (mReflector!=null)){
-			MockCommand mCommand = new MockCommand();
-			Command rCommand;
-			rCommand = mReflector.getCommandByName(name, mModel);
-			if (rCommand !=null){
-				commandMapping.put(name, mCommand);
-			}
-		}
-		return commandMapping.get(name);
-	}
-*/
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	*/
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public IObservable<?> getObservableByName(String name) throws Exception {
-		if ((!observableMapping.containsKey(name)) && (mReflector!=null)){
+		if ((!observableMapping.containsKey(name)) && (mReflector != null)) {
 			IObservable<?> obs = mReflector.getObservableByName(name, mModel);
 			MockObservable mObservable = new MockObservable(obs.getType());
-			if (mObservable !=null){
+			if (mObservable != null) {
 				observableMapping.put(name, mObservable);
 			}
 		}
@@ -148,5 +107,48 @@ public class ObservableMapper implements IPropertyContainer {
 
 	public Command getCommandByName(String name) throws Exception {
 		return null;
+	}
+
+	// Remember! This maps 1-1 to the real observable
+	private static class MockObservable<T> extends Observable<T> implements Observer {
+		public IObservable<T> observingProperty;
+
+		public MockObservable(Class<T> type) {
+			super(type);
+		}
+
+		public T get() {
+			if (observingProperty != null) {
+				return observingProperty.get();
+			}
+			return null;
+		}
+
+		public void changeObservingProperty(IObservable<T> newProperty) {
+			if (observingProperty != null) {
+				observingProperty.unsubscribe(this);
+			}
+			newProperty.subscribe(this);
+			observingProperty = newProperty;
+			this.notifyChanged(this);
+		}
+
+		public void onPropertyChanged(IObservable<?> prop,
+		                              Collection<Object> initiators) {
+			if (prop != observingProperty) {
+				prop.unsubscribe(this);
+				return;
+			}
+			initiators.add(this);
+			this.notifyChanged(initiators);
+		}
+
+		@Override
+		protected void doSetValue(T newValue,
+		                          Collection<Object> initiators) {
+			if (observingProperty != null) {
+				observingProperty.set(newValue, initiators);
+			}
+		}
 	}
 }

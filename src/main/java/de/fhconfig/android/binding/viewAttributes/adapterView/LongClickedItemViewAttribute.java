@@ -1,35 +1,35 @@
 package de.fhconfig.android.binding.viewAttributes.adapterView;
 
-import de.fhconfig.android.binding.Binder;
-import de.fhconfig.android.binding.ViewAttribute;
-import de.fhconfig.android.binding.listeners.OnItemLongClickListenerMulticast;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 
+import de.fhconfig.android.binding.Binder;
+import de.fhconfig.android.binding.ViewAttribute;
+import de.fhconfig.android.binding.listeners.OnItemLongClickListenerMulticast;
+
 /**
  * Long-Clicked Item in ListView
  * Changes at ListView.OnItemLongClickListener.onItemLongClick()
- * 
+ *
+ * @author andy
  * @name longClickedItem
  * @widget AdapterView
  * @type Object
- * @accepts	Object
+ * @accepts Object
  * @category list
- * @related 
- * 
- * @author andy
+ * @related
  */
 public class LongClickedItemViewAttribute extends ViewAttribute<AdapterView<?>, Object>
-	implements OnItemLongClickListener{
+		implements OnItemLongClickListener {
 
 	private Object value;
-	
+
 	public LongClickedItemViewAttribute(AdapterView<?> view, String attributeName) {
 		super(Object.class, view, attributeName);
 		this.setReadonly(true);
 		Binder.getMulticastListenerForView(view, OnItemLongClickListenerMulticast.class)
-			.registerWithHighPriority(this);
+				.registerWithHighPriority(this);
 	}
 
 	@Override
@@ -43,15 +43,15 @@ public class LongClickedItemViewAttribute extends ViewAttribute<AdapterView<?>, 
 	}
 
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position,
-			long id) {
+	                               long id) {
 		if (!getView().equals(parent)) return false;
-		try{
+		try {
 			this.value = getView().getItemAtPosition(position);
 			this.notifyChanged();
 			return true;
-		}catch(Exception e){
+		} catch (Exception e) {
 			return false;
 		}
 	}
-	
+
 }

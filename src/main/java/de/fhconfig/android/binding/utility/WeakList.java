@@ -22,72 +22,74 @@ import java.util.Iterator;
 /**
  * A simple list which holds only weak references to the original objects.
  * original_author  Martin Entlicher
- * Modified to Generic List, while the original is not Generic 
+ * Modified to Generic List, while the original is not Generic
  */
 public class WeakList<E> extends AbstractList<E> {
-    
-    private volatile ArrayList<WeakReference<E>> items;
 
-    /** Creates new WeakList */
-    public WeakList() {
-        items = new ArrayList<WeakReference<E>>();
-    }
-    
-    public WeakList(Collection<E> c) {
-        items = new ArrayList<WeakReference<E>>();
-        addAll(0, c);
-    }
+	private volatile ArrayList<WeakReference<E>> items;
 
-    public WeakList(int initCapcacity) {
-        items = new ArrayList<WeakReference<E>>(initCapcacity);
-    }
+	/**
+	 * Creates new WeakList
+	 */
+	public WeakList() {
+		items = new ArrayList<WeakReference<E>>();
+	}
 
-    
-    public void add(int index, E element) {
-    	synchronized(this){
-    		items.add(index, new WeakReference<E>(element));
-    	}
-    }
-    
-    public Iterator<E> iterator() {
-    	throw new UnsupportedOperationException();
+	public WeakList(Collection<E> c) {
+		items = new ArrayList<WeakReference<E>>();
+		addAll(0, c);
+	}
+
+	public WeakList(int initCapcacity) {
+		items = new ArrayList<WeakReference<E>>(initCapcacity);
+	}
+
+
+	public void add(int index, E element) {
+		synchronized (this) {
+			items.add(index, new WeakReference<E>(element));
+		}
+	}
+
+	public Iterator<E> iterator() {
+		throw new UnsupportedOperationException();
 //    	synchronized(this){
 //    		return new WeakListIterator();
 //    	}
-    }
-    
-    public int size() {
-    	synchronized(this){
-	        removeReleased();
-	        return items.size();
-    	}
-    }    
-    
-    public E get(int index) {
-    	synchronized(this){
-    		return ((WeakReference<E>) items.get(index)).get();
-    	}
-    }
-    
-    private void removeReleased() {
-    	synchronized(this){
-    		ArrayList<WeakReference<E>> removeList = new ArrayList<WeakReference<E>>();
-	        for (Iterator<WeakReference<E>> it = items.iterator(); it.hasNext(); ) {
-	            WeakReference<E> ref = (WeakReference<E>) it.next();
-	            if (ref.get() == null) removeList.add(ref);
-	        }
-	        for(int i=0; i<removeList.size(); i++){
-	        	items.remove(removeList.get(i));
-	        }
-    	}
-    }
-    
-    
+	}
+
+	public int size() {
+		synchronized (this) {
+			removeReleased();
+			return items.size();
+		}
+	}
+
+	public E get(int index) {
+		synchronized (this) {
+			return ((WeakReference<E>) items.get(index)).get();
+		}
+	}
+
+	private void removeReleased() {
+		synchronized (this) {
+			ArrayList<WeakReference<E>> removeList = new ArrayList<WeakReference<E>>();
+			for (Iterator<WeakReference<E>> it = items.iterator(); it.hasNext(); ) {
+				WeakReference<E> ref = (WeakReference<E>) it.next();
+				if (ref.get() == null) removeList.add(ref);
+			}
+			for (int i = 0; i < removeList.size(); i++) {
+				items.remove(removeList.get(i));
+			}
+		}
+	}
+
+
 	public Object[] toArray() {
-		synchronized(this){
+		synchronized (this) {
 			removeReleased();
 			ArrayList<E> copy = new ArrayList<E>();
-			for(WeakReference<E> itemRef : items) {
+			for (WeakReference<E> itemRef : items) {
 				E item = itemRef.get();
 				if (item != null)
 					copy.add(item);
@@ -98,14 +100,14 @@ public class WeakList<E> extends AbstractList<E> {
 
 	@Override
 	public boolean remove(Object object) {
-		synchronized(this){
+		synchronized (this) {
 			int len = items.size();
-			for(int i=0; i<len; i++){
-				if (items.get(i).get() == null){
+			for (int i = 0; i < len; i++) {
+				if (items.get(i).get() == null) {
 					items.remove(i);
 					return remove(object);
 				}
-				if (items.get(i).get().equals(object)){
+				if (items.get(i).get().equals(object)) {
 					items.remove(i);
 					return true;
 				}
@@ -116,7 +118,7 @@ public class WeakList<E> extends AbstractList<E> {
 
 	@Override
 	public boolean add(E object) {
-		synchronized(this){
+		synchronized (this) {
 			return items.add(new WeakReference<E>(object));
 		}
 	}
@@ -124,7 +126,7 @@ public class WeakList<E> extends AbstractList<E> {
 	@SuppressWarnings("unchecked")
 	public E[] toItemArray(E[] arr) {
 		ArrayList<E> copy = new ArrayList<E>();
-		for(WeakReference<E> itemRef : items) {
+		for (WeakReference<E> itemRef : items) {
 			E item = itemRef.get();
 			if (item != null)
 				copy.add(item);
