@@ -1,5 +1,14 @@
 package de.fhconfig.android.binding.v30.viewAttributes.absListView;
 
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.AbsListView;
+
+import java.util.Collection;
+
 import de.fhconfig.android.binding.Binder;
 import de.fhconfig.android.binding.BindingLog;
 import de.fhconfig.android.binding.DynamicObject;
@@ -10,14 +19,9 @@ import de.fhconfig.android.binding.exception.AttributeNotDefinedException;
 import de.fhconfig.android.binding.v30.listeners.MultiChoiceModeListenerMulticast;
 import de.fhconfig.android.binding.v30.widget.ActionModeBinder;
 
-import java.util.Collection;
+import static android.os.Build.VERSION_CODES.HONEYCOMB;
 
-import android.content.Context;
-import android.view.ActionMode;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.AbsListView;
-
+@TargetApi(HONEYCOMB)
 public class MultiChoiceMode extends ViewAttribute<AbsListView, DynamicObject> 
 	implements AbsListView.MultiChoiceModeListener{
 

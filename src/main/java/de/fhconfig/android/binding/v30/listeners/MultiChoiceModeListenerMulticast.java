@@ -1,6 +1,6 @@
 package de.fhconfig.android.binding.v30.listeners;
 
-import de.fhconfig.android.binding.listeners.ViewMulticastListener;
+import android.annotation.TargetApi;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,6 +8,11 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.MultiChoiceModeListener;
 
+import de.fhconfig.android.binding.listeners.ViewMulticastListener;
+
+import static android.os.Build.VERSION_CODES.HONEYCOMB;
+
+@TargetApi(HONEYCOMB)
 public class MultiChoiceModeListenerMulticast extends ViewMulticastListener<AbsListView.MultiChoiceModeListener> 
 	implements AbsListView.MultiChoiceModeListener {
 	@Override

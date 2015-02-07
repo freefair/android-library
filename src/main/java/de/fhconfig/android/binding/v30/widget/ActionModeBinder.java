@@ -16,15 +16,20 @@ import java.util.Hashtable;
 
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Xml;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import static android.os.Build.VERSION_CODES.HONEYCOMB;
+
+@TargetApi(HONEYCOMB)
 public class ActionModeBinder implements ActionMode.Callback, IMenuItemChangedCallback {
 	private Hashtable<Integer, AbsMenuBridge> items = 
 			new Hashtable<Integer, AbsMenuBridge>();	

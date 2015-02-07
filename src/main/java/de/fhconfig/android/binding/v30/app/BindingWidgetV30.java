@@ -1,16 +1,21 @@
 package de.fhconfig.android.binding.v30.app;
 
-import de.fhconfig.android.binding.AttributeBinder;
-import de.fhconfig.android.binding.Binder;
-import de.fhconfig.android.binding.IObservableCollection;
-import de.fhconfig.android.binding.Binder.InflateResult;
-import de.fhconfig.android.binding.menu.MenuItemViemodel;
-import de.fhconfig.android.binding.v30.widget.PopupMenuBinderV30;
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.PopupMenu;
 
+import de.fhconfig.android.binding.AttributeBinder;
+import de.fhconfig.android.binding.Binder;
+import de.fhconfig.android.binding.Binder.InflateResult;
+import de.fhconfig.android.binding.IObservableCollection;
+import de.fhconfig.android.binding.menu.MenuItemViemodel;
+import de.fhconfig.android.binding.v30.widget.PopupMenuBinderV30;
+
+import static android.os.Build.VERSION_CODES.HONEYCOMB;
+
+@TargetApi(HONEYCOMB)
 public class BindingWidgetV30 {
 	
 	public static PopupMenu createAndBindPopupMenu(View view, int menuId, Object menuViewModel) {

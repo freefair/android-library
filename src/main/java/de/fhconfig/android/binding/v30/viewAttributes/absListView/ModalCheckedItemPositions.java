@@ -1,8 +1,6 @@
 package de.fhconfig.android.binding.v30.viewAttributes.absListView;
 
-import de.fhconfig.android.binding.Binder;
-import de.fhconfig.android.binding.ViewAttribute;
-import de.fhconfig.android.binding.v30.listeners.MultiChoiceModeListenerMulticast;
+import android.annotation.TargetApi;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -10,12 +8,19 @@ import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import de.fhconfig.android.binding.Binder;
+import de.fhconfig.android.binding.ViewAttribute;
+import de.fhconfig.android.binding.v30.listeners.MultiChoiceModeListenerMulticast;
+
+import static android.os.Build.VERSION_CODES.HONEYCOMB;
+
 /**
  * Set a null to the value to reset the list
  * TODO: implement programmatically change the selected positions
  * @author andy
  *
  */
+@TargetApi(HONEYCOMB)
 public class ModalCheckedItemPositions extends ViewAttribute<ListView, SparseBooleanArray>
 	implements AbsListView.MultiChoiceModeListener{
 	

@@ -1,5 +1,21 @@
 package de.fhconfig.android.binding.v30.widget;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.res.XmlResourceParser;
+import android.util.AttributeSet;
+import android.util.Xml;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
+import android.view.View;
+import android.widget.PopupMenu;
+
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.util.Hashtable;
+
 import de.fhconfig.android.binding.Binder;
 import de.fhconfig.android.binding.IObservableCollection;
 import de.fhconfig.android.binding.menu.AbsMenuBridge;
@@ -7,21 +23,9 @@ import de.fhconfig.android.binding.menu.MenuGroupBridge;
 import de.fhconfig.android.binding.menu.MenuItemBridge;
 import de.fhconfig.android.binding.menu.MenuItemViemodel;
 
-import java.io.IOException;
-import java.util.Hashtable;
+import static android.os.Build.VERSION_CODES.HONEYCOMB;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-import android.content.res.XmlResourceParser;
-import android.util.AttributeSet;
-import android.util.Xml;
-import android.app.Activity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
-import android.view.View;
-import android.widget.PopupMenu;
-
+@TargetApi(HONEYCOMB)
 public class PopupMenuBinderV30 implements OnMenuItemClickListener {
 	private Hashtable<Integer, AbsMenuBridge> items = 
 			new Hashtable<Integer, AbsMenuBridge>();	
