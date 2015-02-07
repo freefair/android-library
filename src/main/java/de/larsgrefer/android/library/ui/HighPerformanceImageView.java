@@ -7,11 +7,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 
+import de.fhconfig.android.binding.IBindableView;
+import de.fhconfig.android.binding.ViewAttribute;
+import de.fhconfig.android.binding.viewAttributes.imageView.SourceViewAttribute;
 import de.larsgrefer.android.library.threading.BitmapLoadingThread;
 import de.larsgrefer.android.library.threading.IBitmapLoadingCompleteListener;
-import gueei.binding.IBindableView;
-import gueei.binding.ViewAttribute;
-import gueei.binding.viewAttributes.imageView.SourceViewAttribute;
 
 public class HighPerformanceImageView extends ImageView implements IBindableView<HighPerformanceImageView>,IBitmapLoadingCompleteListener {
 	public HighPerformanceImageView(Context context) {

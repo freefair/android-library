@@ -6,7 +6,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import de.larsgrefer.android.library.ui.mpchart.BarChart;
-import gueei.binding.ViewAttribute;
+import de.fhconfig.android.binding.ViewAttribute;
 
 public class DataViewAttribute extends ViewAttribute<BarChart, BarData> {
     public DataViewAttribute(BarChart barChart) {

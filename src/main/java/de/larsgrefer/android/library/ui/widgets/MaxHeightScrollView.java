@@ -5,16 +5,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.AbsListView;
-import android.widget.Adapter;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import de.larsgrefer.android.library.R;
-import gueei.binding.IBindableView;
-import gueei.binding.ViewAttribute;
-import gueei.binding.collections.LazyLoadAdapter;
 
 public class MaxHeightScrollView extends ScrollView {
 
