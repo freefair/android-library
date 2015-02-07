@@ -2,6 +2,10 @@ package de.larsgrefer.android.library.fader;
 
 import android.graphics.Color;
 
+import com.google.common.base.MoreObjects;
+
+import static com.google.common.base.MoreObjects.*;
+
 /**
  * Created by larsgrefer on 30.01.15.
  */
@@ -9,7 +13,7 @@ public class ColorFader extends BaseFader<Integer> {
 
 	protected IntFader redFader, greenFader, blueFader, alphaFader;
 
-	public ColorFader(int from, int to){
+	public ColorFader(int from, int to) {
 		this.from = from;
 		this.to = to;
 		setBounds(from, to);
@@ -32,5 +36,12 @@ public class ColorFader extends BaseFader<Integer> {
 		);
 	}
 
-
+	@Override
+	protected ToStringHelper getToStringHelper() {
+		return super.getToStringHelper()
+					   .add("redFader", redFader)
+					   .add("greenFader", greenFader)
+					   .add("blueFader", blueFader)
+					   .add("alphaFader", alphaFader);
+	}
 }

@@ -1,5 +1,7 @@
 package de.larsgrefer.android.library.fader;
 
+import static com.google.common.base.MoreObjects.ToStringHelper;
+
 /**
  * Created by larsgrefer on 02.02.15.
  */
@@ -7,7 +9,7 @@ public class FloatFader extends BaseFader<Float> {
 
 	float delta;
 
-	public FloatFader(float from, float to){
+	public FloatFader(float from, float to) {
 		setBounds(from, to);
 	}
 
@@ -20,6 +22,11 @@ public class FloatFader extends BaseFader<Float> {
 
 	@Override
 	public Float getValue(double weight) {
-		return from + (float)(delta * weight);
+		return from + (float) (delta * weight);
+	}
+
+	@Override
+	protected ToStringHelper getToStringHelper() {
+		return super.getToStringHelper().add("delta", delta);
 	}
 }

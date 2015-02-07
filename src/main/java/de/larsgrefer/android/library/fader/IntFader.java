@@ -1,5 +1,9 @@
 package de.larsgrefer.android.library.fader;
 
+import com.google.common.base.MoreObjects;
+
+import static com.google.common.base.MoreObjects.*;
+
 /**
  * Created by larsgrefer on 02.02.15.
  */
@@ -7,7 +11,7 @@ public class IntFader extends BaseFader<Integer> {
 
 	int delta;
 
-	public IntFader(int from, int to){
+	public IntFader(int from, int to) {
 		setBounds(from, to);
 	}
 
@@ -20,6 +24,11 @@ public class IntFader extends BaseFader<Integer> {
 
 	@Override
 	public Integer getValue(double weight) {
-		return from + (int)Math.round(delta * weight);
+		return from + (int) Math.round(delta * weight);
+	}
+
+	@Override
+	protected ToStringHelper getToStringHelper() {
+		return super.getToStringHelper().add("delta", delta);
 	}
 }

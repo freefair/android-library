@@ -1,5 +1,9 @@
 package de.larsgrefer.android.library.fader;
 
+import com.google.common.base.MoreObjects;
+
+import static com.google.common.base.MoreObjects.ToStringHelper;
+
 /**
  * Created by larsgrefer on 02.02.15.
  */
@@ -21,5 +25,10 @@ public class DoubleFader extends BaseFader<Double> {
 	@Override
 	public Double getValue(double weight) {
 		return from + (delta * weight);
+	}
+
+	@Override
+	protected ToStringHelper getToStringHelper() {
+		return super.getToStringHelper().add("delta", delta);
 	}
 }
