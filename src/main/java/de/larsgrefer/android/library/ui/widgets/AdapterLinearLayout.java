@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.LinearLayout;
 
-import gueei.binding.IBindableView;
-import gueei.binding.ViewAttribute;
+import de.fhconfig.android.binding.IBindableView;
+import de.fhconfig.android.binding.ViewAttribute;
 
 /**
  * Created by Administrator on 27.01.2015.

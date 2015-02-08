@@ -5,8 +5,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ScrollView;
-import gueei.binding.IBindableView;
-import gueei.binding.ViewAttribute;
+import de.fhconfig.android.binding.IBindableView;
+import de.fhconfig.android.binding.ViewAttribute;
 
 import java.util.HashSet;
 import java.util.Set;

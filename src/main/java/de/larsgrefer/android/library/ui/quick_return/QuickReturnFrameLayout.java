@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 
 import de.larsgrefer.android.library.R;
-import gueei.binding.Binder;
-import gueei.binding.v30.app.BindingActivityV30;
-import gueei.binding.widgets.BindableFrameLayout;
+import de.fhconfig.android.binding.Binder;
+import de.fhconfig.android.binding.v30.app.BindingActivityV30;
+import de.fhconfig.android.binding.widgets.BindableFrameLayout;
 
 public class QuickReturnFrameLayout extends BindableFrameLayout implements Callbacks {
 	private enum State {

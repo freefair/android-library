@@ -3,8 +3,8 @@ package gueei.binding.converters;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import gueei.binding.Converter;
-import gueei.binding.IObservable;
+import de.fhconfig.android.binding.Converter;
+import de.fhconfig.android.binding.IObservable;
 
 /**
  * Created by Administrator on 15.01.2015.

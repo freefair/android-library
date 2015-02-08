@@ -6,16 +6,16 @@ import android.view.ViewGroup;
 import java.util.Collection;
 
 import de.larsgrefer.android.library.ui.PagerSlidingTabStrip;
-import gueei.binding.Binder;
-import gueei.binding.BindingLog;
-import gueei.binding.CollectionChangedEventArg;
-import gueei.binding.CollectionObserver;
-import gueei.binding.Converter;
-import gueei.binding.DynamicObject;
-import gueei.binding.IObservable;
-import gueei.binding.IObservableCollection;
-import gueei.binding.v30.viewAttributes.adapterView.viewPager.PagerAdapterObservable;
-import gueei.binding.viewAttributes.templates.Layout;
+import de.fhconfig.android.binding.Binder;
+import de.fhconfig.android.binding.BindingLog;
+import de.fhconfig.android.binding.CollectionChangedEventArg;
+import de.fhconfig.android.binding.CollectionObserver;
+import de.fhconfig.android.binding.Converter;
+import de.fhconfig.android.binding.DynamicObject;
+import de.fhconfig.android.binding.IObservable;
+import de.fhconfig.android.binding.IObservableCollection;
+import de.fhconfig.android.binding.v30.viewAttributes.adapterView.viewPager.PagerAdapterObservable;
+import de.fhconfig.android.binding.viewAttributes.templates.Layout;
 
 /**
  * PAGERADAPTER accepts unlimited number of DynamicObjects

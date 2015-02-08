@@ -1,0 +1,2 @@
+include ':android-binding'
+rootProject.buildFileName = 'travis.gradle'

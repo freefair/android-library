@@ -14,4 +14,4 @@ install:
   - git config user.email "travis@ci.example"
   - git pull -X theirs --no-commit --no-edit https://github.com/larsgrefer/android-module-travis-helper.git
 script:
-  - ./gradlew -b travis.gradle build check
+  - ./gradlew --info build check

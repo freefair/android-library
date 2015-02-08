@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import de.larsgrefer.android.library.injection.ActivityXmlInjector;
 import de.larsgrefer.android.library.injection.exceptions.ViewIdNotFoundException;
-import gueei.binding.v30.app.BindingActivityV30;
+import de.fhconfig.android.binding.v30.app.BindingActivityV30;
 
 public class InjectionBindingActivity extends BindingActivityV30 {
 	ActivityXmlInjector injector;

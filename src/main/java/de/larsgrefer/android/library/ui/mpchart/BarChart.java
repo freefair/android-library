@@ -7,8 +7,8 @@ import android.view.View;
 import com.github.mikephil.charting.data.LineData;
 
 import de.larsgrefer.android.library.ui.mpchart.view_attributes.DataViewAttribute;
-import gueei.binding.IBindableView;
-import gueei.binding.ViewAttribute;
+import de.fhconfig.android.binding.IBindableView;
+import de.fhconfig.android.binding.ViewAttribute;
 
 public class BarChart extends com.github.mikephil.charting.charts.BarChart implements IBindableView<BarChart> {
     public BarChart(Context context) {

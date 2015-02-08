@@ -7,10 +7,10 @@ import com.github.mikephil.charting.data.Entry;
 
 import java.util.ArrayList;
 
-import gueei.binding.Converter;
-import gueei.binding.DynamicObject;
-import gueei.binding.IObservable;
-import gueei.binding.collections.ArrayListObservable;
+import de.fhconfig.android.binding.Converter;
+import de.fhconfig.android.binding.DynamicObject;
+import de.fhconfig.android.binding.IObservable;
+import de.fhconfig.android.binding.collections.ArrayListObservable;
 
 public class BARDATA extends Converter<BarData> {
     public BARDATA(IObservable<?>[] dependents) {

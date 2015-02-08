@@ -1,7 +1,7 @@
 package de.larsgrefer.android.library.ui.injection;
 
-import gueei.binding.Binder;
-import gueei.binding.v30.DefaultKernelV30;
+import de.fhconfig.android.binding.Binder;
+import de.fhconfig.android.binding.v30.DefaultKernelV30;
 
 public class InjectionBindingApplication extends InjectionApplication
 {
