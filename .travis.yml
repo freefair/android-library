@@ -11,3 +11,4 @@ android:
     - extra
 script:
   - ./gradlew --info build check
+
