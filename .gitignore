@@ -29,3 +29,4 @@ proguard/
 
 *.iml
 android-library.iml
+.idea/
