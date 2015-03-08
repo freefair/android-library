@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:1.1.0'
     }
 }
 
@@ -47,4 +47,4 @@ dependencies {
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
 }
 
-apply from: 'android-release-aar.gradle'
+//apply from: 'android-release-aar.gradle'
