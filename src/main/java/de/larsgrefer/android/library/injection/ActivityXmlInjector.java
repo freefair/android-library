@@ -1,6 +1,8 @@
 package de.larsgrefer.android.library.injection;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.IdRes;
 import android.view.View;
 import de.larsgrefer.android.library.injection.helper.RClassHelper;
@@ -16,6 +18,16 @@ public class ActivityXmlInjector extends XmlInjector<Activity> {
 
 	public ActivityXmlInjector(Activity activity, Class<?> rClass){
 		super(activity, rClass);
+	}
+
+	@Override
+	protected Context getContext() {
+		return getObject();
+	}
+
+	@Override
+	protected Resources.Theme getTheme() {
+		return getObject().getTheme();
 	}
 
 	public boolean tryInjectLayout(){

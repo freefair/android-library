@@ -1,6 +1,7 @@
 package de.larsgrefer.android.library.ui.injection;
 
 import android.app.Application;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -24,10 +25,14 @@ public class InjectionFragment extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		injector = new FragmentXmlInjector(this);
 		if(injector.getMenuId() != 0){
 			setHasOptionsMenu(true);
 		}
+
+		injector.injectResources();
+		injector.injectAttributes();
 
 		Application app = getActivity().getApplication();
 		if(app instanceof InjectionApplication)
@@ -38,22 +43,25 @@ public class InjectionFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		if (injector.getLayoutId() != 0) {
 			final View view = inflater.inflate(injector.getLayoutId(), container, false);
-
-			injector.setViewFinder(new IViewFinder() {
-				@Override
-				public View findViewById(@IdRes int viewId) {
-					return view.findViewById(viewId);
-				}
-			});
-			try {
-				injector.injectViews();
-			} catch (ViewIdNotFoundException e) {
-				throw new RuntimeException(e);
-			}
-
 			return view;
 		}
 		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+
+	@Override
+	public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		injector.setViewFinder(new IViewFinder() {
+			@Override
+			public View findViewById(@IdRes int viewId) {
+				return view.findViewById(viewId);
+			}
+		});
+		try {
+			injector.injectViews();
+		} catch (ViewIdNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
@@ -62,5 +70,12 @@ public class InjectionFragment extends Fragment {
 			inflater.inflate(injector.getMenuId(), menu);
 		}
 		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		injector.injectResources();
+		injector.injectAttributes();
 	}
 }

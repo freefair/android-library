@@ -1,5 +1,7 @@
 package de.larsgrefer.android.library.injection;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.IdRes;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,17 @@ public class ViewGroupXmlInjector extends XmlInjector<ViewGroup> {
         super(object, RClassHelper.getRClassFromViewGroup(object));
     }
 
-    @Override
+	@Override
+	protected Context getContext() {
+		return getObject().getContext();
+	}
+
+	@Override
+	protected Resources.Theme getTheme() {
+		return getObject().getContext().getTheme();
+	}
+
+	@Override
     protected View findViewById(@IdRes int viewId) {
         return getObject().findViewById(viewId);
     }
