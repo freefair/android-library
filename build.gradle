@@ -10,6 +10,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.jfrog.bintray" version "1.1"
+}
+
 allprojects {
     repositories {
         jcenter()
@@ -18,7 +22,8 @@ allprojects {
 
 apply plugin: 'com.android.library'
 
-version = '0.4-SNAPSHOT'
+version = '0.4'
+group = 'de.larsgrefer'
 
 android {
     compileSdkVersion 21
@@ -68,4 +73,30 @@ uploadArchives {
     }
 }
 
-//apply from: 'android-release-aar.gradle'
+
+
+bintray {
+    user = bintray_user
+    key = bintray_api_key
+
+    configurations = ['archives'] //When uploading configuration files
+    // - OR -
+    //publications = ['mavenStuff'] //When uploading Maven-based publication files
+    // - AND/OR -
+    dryRun = false //Whether to run this as dry-run, without deploying
+    publish = true //If version should be auto published after an upload
+    pkg {
+        repo = 'maven'
+
+        name = 'android-library'
+        websiteUrl = 'https://github.com/larsgrefer/android-library'
+        issueTrackerUrl = 'https://github.com/larsgrefer/android-library/issues'
+        vcsUrl = 'https://github.com/bintray/android-library.git'
+        //licenses = ['Apache-2.0']
+        //labels = ['gear', 'gore', 'gorilla']
+        publicDownloadNumbers = true
+        //attributes= ['a': ['ay1', 'ay2'], 'b': ['bee'], c: 'cee'] //Optional package-level attributes
+        //Optional version descriptor
+        version project.version
+    }
+}
