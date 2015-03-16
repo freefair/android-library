@@ -18,11 +18,7 @@ allprojects {
 
 apply plugin: 'com.android.library'
 
-ext {
-    PUBLISH_GROUP_ID = 'de.larsgrefer'
-    PUBLISH_ARTIFACT_ID = 'android-library'
-    PUBLISH_VERSION = '0.1'
-}
+version = '0.4-SNAPSHOT'
 
 android {
     compileSdkVersion 21
@@ -32,7 +28,7 @@ android {
         minSdkVersion 7
         targetSdkVersion 21
         versionCode 1
-        versionName "1.0"
+        versionName project.version
     }
     buildTypes {
         release {
@@ -53,6 +49,23 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.google.guava:guava:18.0'
+}
+
+apply plugin: 'maven'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "http://oss.jfrog.org/artifactory/oss-release-local"){
+                authentication(userName: bintray_user, password: bintray_api_key) //set via ~/.gradle/gradle.properties
+            }
+            snapshotRepository(url: "http://oss.jfrog.org/artifactory/oss-snapshot-local"){
+                authentication(userName: bintray_user, password: bintray_api_key) //set via ~/.gradle/gradle.properties
+            }
+
+            pom.groupId = 'de.larsgrefer'
+        }
+    }
 }
 
 //apply from: 'android-release-aar.gradle'
