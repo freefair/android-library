@@ -1,5 +1,6 @@
 package de.fhconfig.android.library.ui.quick_return;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -11,6 +12,9 @@ import de.fhconfig.android.binding.ViewAttribute;
 import java.util.HashSet;
 import java.util.Set;
 
+import static android.os.Build.VERSION_CODES.FROYO;
+
+@TargetApi(FROYO)
 public class QuickReturnScrollView extends ScrollView implements IBindableView<QuickReturnScrollView>, IObservableScrollView {
 	private Set<Callbacks> mCallbacks = new HashSet<>();
 

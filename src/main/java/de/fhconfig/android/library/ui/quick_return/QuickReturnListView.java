@@ -2,6 +2,7 @@ package de.fhconfig.android.library.ui.quick_return;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,6 +11,9 @@ import android.widget.ListView;
 import java.util.HashSet;
 import java.util.Set;
 
+import static android.os.Build.VERSION_CODES.FROYO;
+
+@TargetApi(FROYO)
 public class QuickReturnListView extends ListView implements IObservableScrollView {
 	private Set<Callbacks> mCallbacks = new HashSet<>();
 

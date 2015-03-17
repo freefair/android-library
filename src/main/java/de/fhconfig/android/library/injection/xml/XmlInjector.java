@@ -1,5 +1,6 @@
 package de.fhconfig.android.library.injection.xml;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -259,6 +260,7 @@ public abstract class XmlInjector<T> {
 		log.debug("Injecting value " + newValue.toString() + " into field " + field.getName());
 	}
 
+	@TargetApi(LOLLIPOP)
 	public void injectResources() {
 		log.debug("injectResources()");
 		List<Field> resourceFields = Reflection.getAllFields(getObjectClass(), Object.class, new FieldAnnotationPredicate(Resource.class));

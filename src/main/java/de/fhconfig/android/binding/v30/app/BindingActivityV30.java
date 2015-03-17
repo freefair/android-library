@@ -1,5 +1,6 @@
 package de.fhconfig.android.binding.v30.app;
 
+import android.annotation.TargetApi;
 import android.content.res.XmlResourceParser;
 import android.os.Build;
 import android.os.Build.VERSION;
@@ -21,6 +22,8 @@ import de.fhconfig.android.binding.labs.EventSubscriber;
 import de.fhconfig.android.binding.menu.BindableOptionsMenu;
 import de.fhconfig.android.binding.v30.actionbar.BindableActionBar;
 
+import static android.os.Build.VERSION_CODES.HONEYCOMB;
+
 /**
  * Binding Activity V30 is much more than a utility class, compare to prev versions
  * This provide a whole new level of support to HC/ICS features including
@@ -30,6 +33,7 @@ import de.fhconfig.android.binding.v30.actionbar.BindableActionBar;
  *
  * @author andy
  */
+@TargetApi(HONEYCOMB)
 public class BindingActivityV30 extends BindingActivity {
 	protected View mBindableOptionsMenuRef;
 	protected View mBindableActionBarRef;

@@ -1,7 +1,9 @@
 package de.fhconfig.android.library.ui.quick_return;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -14,6 +16,9 @@ import de.fhconfig.android.binding.Binder;
 import de.fhconfig.android.binding.v30.app.BindingActivityV30;
 import de.fhconfig.android.binding.widgets.BindableFrameLayout;
 
+import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+
+@TargetApi(ICE_CREAM_SANDWICH)
 public class QuickReturnFrameLayout extends BindableFrameLayout implements Callbacks {
 	private enum State {
 		OnScreen,
