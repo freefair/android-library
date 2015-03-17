@@ -10,11 +10,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import de.fhconfig.android.library.Logger;
+
 public class BitmapLoadingThread implements Runnable
 {
 	private IBitmapLoadingCompleteListener _listener;
 	private Handler _handler = new Handler();
 	private Uri _uri;
+	private Logger log = Logger.forObject(this);
 
 	public BitmapLoadingThread(IBitmapLoadingCompleteListener listener, Uri uri)
 	{
@@ -39,7 +42,7 @@ public class BitmapLoadingThread implements Runnable
 					}
 				});
 			} catch (FileNotFoundException e) {
-				Log.d("com.youtube.channel.news.Threading.BitmapLoadingThread", "Error while loading file", e);
+				log.debug("Error while loading file", e);
 			}
 		}
 	}

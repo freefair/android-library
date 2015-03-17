@@ -3,6 +3,7 @@ package de.fhconfig.android.binding.v30;
 import android.util.Log;
 
 import de.fhconfig.android.binding.kernel.ISyntaxNameResolver;
+import de.fhconfig.android.library.Logger;
 
 public class SyntaxNameResolverV30 implements ISyntaxNameResolver {
 	@Override
@@ -10,7 +11,7 @@ public class SyntaxNameResolverV30 implements ISyntaxNameResolver {
 		try {
 			return Class.forName("de.fhconfig.android.binding.converters." + name);
 		} catch (ClassNotFoundException e) {
-			Log.e("de.fhconfig.android.binding.v30.DefaultKernel", "Error while creating class", e);
+			Logger.error(this, "Error while creating class", e);
 		}
 		return null;
 	}

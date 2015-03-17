@@ -1,7 +1,6 @@
 package de.fhconfig.android.binding.kernel;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.TypedValue;
 
 import java.lang.reflect.Constructor;
@@ -24,6 +23,7 @@ import de.fhconfig.android.binding.observables.FloatObservable;
 import de.fhconfig.android.binding.observables.IntegerObservable;
 import de.fhconfig.android.binding.viewAttributes.templates.Layout;
 import de.fhconfig.android.binding.viewAttributes.templates.SingleTemplateLayout;
+import de.fhconfig.android.library.Logger;
 
 /**
  * Updates: 8/5/2012 - Reworked exception handling
@@ -31,6 +31,8 @@ import de.fhconfig.android.binding.viewAttributes.templates.SingleTemplateLayout
  * @author andy
  */
 public class DefaultSyntaxResolver implements ISyntaxResolver {
+
+	Logger log = Logger.forObject(this);
 	private static final String DEFAULT_CONVERTER_PACKAGE = "de.fhconfig.android.binding.converters.";
 
 	private static final Pattern converterPattern =
@@ -119,7 +121,7 @@ public class DefaultSyntaxResolver implements ISyntaxResolver {
 		try {
 			cls = Class.forName(converterName);
 		} catch (ClassNotFoundException ex) {
-			Log.d("de.fhconfig.android.binding.kernel.DefaultSyntaxResolver", "Class " + converterName + " not found");
+			log.debug("Class " + converterName + " not found");
 		}
 		for (ISyntaxNameResolver nameResolver : _syntaxNameResolvers)
 			if (nameResolver.canHandle(converterName)) {

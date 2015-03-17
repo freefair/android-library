@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+import de.fhconfig.android.library.Logger;
 import de.larsgrefer.android.library.R;
 
 public class PagerSlidingTabStrip extends HorizontalScrollView {
@@ -39,6 +40,8 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 			android.R.attr.textColor
 	};
 	// @formatter:on
+
+	private Logger log = Logger.forObject(this);
 
 	private LinearLayout.LayoutParams defaultTabLayoutParams;
 	private LinearLayout.LayoutParams expandedTabLayoutParams;
@@ -437,11 +440,11 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
 	public Boolean setResourceId(int resourceId)
 	{
-		Log.d("com.youtube.channel.news.UI.Widgets.PagerSlidingTabStrip", "Load ViewPager from Resource id: " + resourceId);
+		log.debug("Load ViewPager from Resource id: " + resourceId);
 		ViewPager viewById = (ViewPager) ((View) getParent()).findViewById(resourceId);
 		if(viewById != null)
 			setViewPager(viewById);
-		Log.d("com.youtube.challen.news.UI.Widgets.PagerSlidingTabStrip", "Pager found: " + pager);
+		log.debug("Pager found: " + pager);
 		return viewById != null;
 	}
 
