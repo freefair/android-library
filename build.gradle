@@ -4,6 +4,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.1.0'
+        classpath 'com.github.dcendents:android-maven-plugin:1.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -21,8 +22,9 @@ allprojects {
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
-version = '0.5'
+version = '0.5.1'
 group = 'de.larsgrefer'
 
 android {
@@ -57,8 +59,6 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
 }
-
-apply plugin: 'maven'
 
 uploadArchives {
     repositories {
