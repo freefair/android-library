@@ -1,6 +1,7 @@
 package de.fhconfig.android.library.ui.injection;
 
 import android.app.Application;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -30,14 +31,6 @@ public class InjectionBindingActivity extends BindingActivityV30 {
 		tryInjectViews();
 	}
 
-	private void tryInjectViews() {
-		try {
-			injector.injectViews();
-		} catch (ViewIdNotFoundException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	@Override
 	public void setContentView(View view) {
 		super.setContentView(view);
@@ -48,6 +41,28 @@ public class InjectionBindingActivity extends BindingActivityV30 {
 	public void setContentView(View view, ViewGroup.LayoutParams params) {
 		super.setContentView(view, params);
 		tryInjectViews();
+	}
+
+	private void tryInjectViews() {
+		try {
+			injector.injectViews();
+		} catch (ViewIdNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		injector.injectResources();
+		injector.injectAttributes();
+	}
+
+	@Override
+	public void setTheme(int resid) {
+		super.setTheme(resid);
+		injector.injectResources();
+		injector.injectAttributes();
 	}
 
 	@Override

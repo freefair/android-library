@@ -55,7 +55,7 @@ public class FloatLabelLayout extends FrameLayout {
 
 	private static final float DEFAULT_PADDING_LEFT_RIGHT_DP = 4f;
 
-	private Logger log = new Logger(this);
+	private Logger log = Logger.forObject(this);
 	private Convert convert = new Convert(this.getResources());
 
 	private float labelTextSize = 12f;

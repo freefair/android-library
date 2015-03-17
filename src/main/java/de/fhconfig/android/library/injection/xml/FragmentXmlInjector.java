@@ -1,5 +1,7 @@
 package de.fhconfig.android.library.injection.xml;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -19,6 +21,16 @@ public class FragmentXmlInjector extends XmlInjector<Fragment> {
 
 	public FragmentXmlInjector(Fragment fragment, Class<?> rClass){
 		super(fragment, rClass);
+	}
+
+	@Override
+	protected Context getContext() {
+		return getObject().getActivity();
+	}
+
+	@Override
+	protected Resources.Theme getTheme() {
+		return getObject().getActivity().getTheme();
 	}
 
 	@Override
