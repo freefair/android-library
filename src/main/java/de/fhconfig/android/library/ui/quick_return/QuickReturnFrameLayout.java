@@ -61,10 +61,11 @@ public class QuickReturnFrameLayout extends BindableFrameLayout implements Callb
 	private void init(AttributeSet attrs)
 	{
 		if(attrs == null) return;
-		TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.QuickReturnFrameLayout);
-		scrollViewId = a.getResourceId(R.styleable.QuickReturnFrameLayout_qrflScrollViewId, -1);
-		quickReturnViewId = a.getResourceId(R.styleable.QuickReturnFrameLayout_qrflQuickReturnViewId, -1);
-		placeholderViewId = a.getResourceId(R.styleable.QuickReturnFrameLayout_qrflPlaceholderViewId, -1);
+		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.QuickReturnFrameLayout);
+		scrollViewId = typedArray.getResourceId(R.styleable.QuickReturnFrameLayout_qrflScrollViewId, -1);
+		quickReturnViewId = typedArray.getResourceId(R.styleable.QuickReturnFrameLayout_qrflQuickReturnViewId, -1);
+		placeholderViewId = typedArray.getResourceId(R.styleable.QuickReturnFrameLayout_qrflPlaceholderViewId, -1);
+        typedArray.recycle();
 	}
 
 	@Override
