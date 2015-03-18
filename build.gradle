@@ -24,7 +24,7 @@ allprojects {
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
-version = '0.5.1'
+version = '0.6-SNAPSHOT'
 group = 'de.larsgrefer'
 
 android {
