@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import java.util.Collection;
 
-import de.larsgrefer.android.library.ui.PagerSlidingTabStrip;
+import de.fhconfig.android.library.ui.PagerSlidingTabStrip;
 import de.fhconfig.android.binding.Binder;
 import de.fhconfig.android.binding.BindingLog;
 import de.fhconfig.android.binding.CollectionChangedEventArg;

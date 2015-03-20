@@ -1,27 +1,50 @@
-apply plugin: 'com.android.library'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.1.0'
+        classpath 'com.github.dcendents:android-maven-plugin:1.2'
 
-ext {
-    PUBLISH_GROUP_ID = 'de.larsgrefer'
-    PUBLISH_ARTIFACT_ID = 'android-library'
-    PUBLISH_VERSION = '0.1'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
 }
+
+plugins {
+    id "com.jfrog.bintray" version "1.1"
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+version = '0.6-SNAPSHOT'
+group = 'de.larsgrefer'
 
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        //applicationId "de.larsgrefer.android.library"
         minSdkVersion 7
         targetSdkVersion 21
         versionCode 1
-        versionName "1.0"
+        versionName project.version
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -30,11 +53,52 @@ android {
 }
 
 dependencies {
-
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':android-binding')
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.google.guava:guava:18.0'
+
+    testCompile 'junit:junit:4.12'
 }
 
-apply from: 'android-release-aar.gradle'
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "http://oss.jfrog.org/artifactory/oss-release-local"){
+                authentication(userName: bintray_user, password: bintray_api_key) //set via ~/.gradle/gradle.properties
+            }
+            snapshotRepository(url: "http://oss.jfrog.org/artifactory/oss-snapshot-local"){
+                authentication(userName: bintray_user, password: bintray_api_key) //set via ~/.gradle/gradle.properties
+            }
+
+            pom.groupId = 'de.larsgrefer'
+        }
+    }
+}
+
+
+
+bintray {
+    user = bintray_user
+    key = bintray_api_key
+
+    configurations = ['archives'] //When uploading configuration files
+    // - OR -
+    //publications = ['mavenStuff'] //When uploading Maven-based publication files
+    // - AND/OR -
+    dryRun = false //Whether to run this as dry-run, without deploying
+    publish = true //If version should be auto published after an upload
+    pkg {
+        repo = 'maven'
+
+        name = 'android-library'
+        websiteUrl = 'https://github.com/larsgrefer/android-library'
+        issueTrackerUrl = 'https://github.com/larsgrefer/android-library/issues'
+        vcsUrl = 'https://github.com/bintray/android-library.git'
+        //licenses = ['Apache-2.0']
+        //labels = ['gear', 'gore', 'gorilla']
+        publicDownloadNumbers = true
+        //attributes= ['a': ['ay1', 'ay2'], 'b': ['bee'], c: 'cee'] //Optional package-level attributes
+        //Optional version descriptor
+        version project.version
+    }
+}

@@ -9,9 +9,8 @@ android:
     - android-21
     - android-7
     - extra
-install:
-  - git config user.name "Travis CI"
-  - git config user.email "travis@ci.example"
-  - git pull -X theirs --no-commit --no-edit https://github.com/larsgrefer/android-module-travis-helper.git
 script:
   - ./gradlew --info build check
+after_success:
+- if [ "$TRAVIS_BRANCH" == "develop" ] && [ "$TRAVIS_SECURE_ENV_VARS" == "true" ] ; then ./gradlew uploadArchives ; fi
+
