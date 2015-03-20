@@ -1,4 +1,4 @@
-package gueei.binding.converters;
+package de.fhconfig.android.binding.converters;
 
 import android.view.View;
 import android.view.ViewGroup;

@@ -1,4 +1,4 @@
-package gueei.binding.converters;
+package de.fhconfig.android.binding.converters;
 
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
