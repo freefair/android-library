@@ -1,10 +1,11 @@
-package de.larsgrefer.android.library.data.ormlight;
+package de.fhconfig.android.library.data.orm_light;
 
 
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
+
+import de.fhconfig.android.library.data.IUnitOfWork;
 import de.fhconfig.android.library.ui.injection.DatabaseHelper;
-import de.larsgrefer.android.library.data.IUnitOfWork;
 
 import java.sql.Savepoint;
 import java.util.UUID;

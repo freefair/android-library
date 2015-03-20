@@ -2,9 +2,10 @@ package de.fhconfig.android.library.ui.injection;
 
 import com.j256.ormlite.android.AndroidConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
-import de.larsgrefer.android.library.data.OpenHelper;
 
 import java.util.List;
+
+import de.fhconfig.android.library.data.OpenHelper;
 
 public class DatabaseHelper
 {

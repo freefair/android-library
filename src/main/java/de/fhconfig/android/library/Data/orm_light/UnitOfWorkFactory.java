@@ -1,8 +1,7 @@
-package de.larsgrefer.android.library.data.ormlight;
+package de.fhconfig.android.library.data.orm_light;
 
-
-import de.larsgrefer.android.library.data.IUnitOfWork;
-import de.larsgrefer.android.library.data.IUnitOfWorkFactory;
+import de.fhconfig.android.library.data.IUnitOfWork;
+import de.fhconfig.android.library.data.IUnitOfWorkFactory;
 
 public class UnitOfWorkFactory implements IUnitOfWorkFactory
 {

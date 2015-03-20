@@ -1,4 +1,4 @@
-package de.larsgrefer.android.library.data;
+package de.fhconfig.android.library.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

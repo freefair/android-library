@@ -1,4 +1,4 @@
-package de.larsgrefer.android.library.data.ormlight;
+package de.fhconfig.android.library.data.orm_light;
 
 public enum UnitOfWorkType
 {

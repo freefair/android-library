@@ -1,13 +1,14 @@
-package de.larsgrefer.android.library.data.ormlight;
+package de.fhconfig.android.library.data.orm_light;
 
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
-import de.larsgrefer.android.library.data.IRepository;
-import de.larsgrefer.android.library.data.IUnitOfWork;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import de.fhconfig.android.library.data.IRepository;
+import de.fhconfig.android.library.data.IUnitOfWork;
 
 public class Repository<TEntity, TId> implements IRepository<TEntity, TId>
 {

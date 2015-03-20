@@ -1,7 +1,8 @@
 package de.fhconfig.android.library.ui.injection;
 
 import android.app.Application;
-import de.larsgrefer.android.library.data.OpenHelper;
+
+import de.fhconfig.android.library.data.OpenHelper;
 import de.fhconfig.android.library.injection.RoboBuilder;
 import de.fhconfig.android.library.injection.RoboContainer;
 import de.fhconfig.android.library.injection.RoboModule;
