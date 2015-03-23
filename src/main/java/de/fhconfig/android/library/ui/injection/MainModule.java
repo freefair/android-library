@@ -1,9 +1,9 @@
 package de.fhconfig.android.library.ui.injection;
 
-import de.larsgrefer.android.library.data.IRepositoryFactory;
-import de.larsgrefer.android.library.data.IUnitOfWorkFactory;
-import de.larsgrefer.android.library.data.ormlight.RepositoryFactory;
-import de.larsgrefer.android.library.data.ormlight.UnitOfWorkFactory;
+import de.fhconfig.android.library.data.IRepositoryFactory;
+import de.fhconfig.android.library.data.IUnitOfWorkFactory;
+import de.fhconfig.android.library.data.orm_light.RepositoryFactory;
+import de.fhconfig.android.library.data.orm_light.UnitOfWorkFactory;
 import de.fhconfig.android.library.injection.RoboBuilder;
 import de.fhconfig.android.library.injection.RoboModule;
 

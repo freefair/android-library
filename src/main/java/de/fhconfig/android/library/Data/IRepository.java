@@ -1,4 +1,4 @@
-package de.larsgrefer.android.library.data;
+package de.fhconfig.android.library.data;
 
 import java.sql.SQLException;
 import java.util.List;

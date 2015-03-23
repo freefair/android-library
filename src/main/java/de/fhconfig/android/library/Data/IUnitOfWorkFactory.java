@@ -1,6 +1,6 @@
-package de.larsgrefer.android.library.data;
+package de.fhconfig.android.library.data;
 
-import de.larsgrefer.android.library.data.ormlight.UnitOfWorkType;
+import de.fhconfig.android.library.data.orm_light.UnitOfWorkType;
 
 public interface IUnitOfWorkFactory
 {

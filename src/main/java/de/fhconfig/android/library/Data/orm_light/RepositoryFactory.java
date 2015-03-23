@@ -1,11 +1,10 @@
-package de.larsgrefer.android.library.data.ormlight;
-
-
-import de.larsgrefer.android.library.data.IRepository;
-import de.larsgrefer.android.library.data.IRepositoryFactory;
-import de.larsgrefer.android.library.data.IUnitOfWork;
+package de.fhconfig.android.library.data.orm_light;
 
 import java.lang.reflect.Constructor;
+
+import de.fhconfig.android.library.data.IRepository;
+import de.fhconfig.android.library.data.IRepositoryFactory;
+import de.fhconfig.android.library.data.IUnitOfWork;
 
 public class RepositoryFactory implements IRepositoryFactory
 {
