@@ -61,8 +61,10 @@ public class InjectionBindingActivity extends BindingActivityV30 {
 	@Override
 	public void setTheme(int resid) {
 		super.setTheme(resid);
-		injector.injectResources();
-		injector.injectAttributes();
+		if(injector != null) {
+			injector.injectResources();
+			injector.injectAttributes();
+		}
 	}
 
 	@Override
