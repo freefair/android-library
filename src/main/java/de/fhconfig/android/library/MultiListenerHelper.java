@@ -17,7 +17,7 @@ public class MultiListenerHelper<T> implements MultiListenerHost<T> {
 
 	public MultiListenerHelper(Class<T> clazz) {
 		listenerSet = new HashSet<>();
-		proxyListener = (T) Proxy.newProxyInstance(ClassLoader.getSystemClassLoader(), new Class[]{clazz}, new MultiListenerInvocationHandler());
+		proxyListener = (T) Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz}, new MultiListenerInvocationHandler());
 	}
 
 	@Override
