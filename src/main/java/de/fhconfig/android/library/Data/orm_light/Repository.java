@@ -61,4 +61,8 @@ public class Repository<TEntity, TId> implements IRepository<TEntity, TId>
 	public void update(TEntity obj) throws SQLException {
 		this.query().update(obj);
 	}
+
+	public void remove(TId id) throws SQLException {
+		this.query().deleteById(id);
+	}
 }

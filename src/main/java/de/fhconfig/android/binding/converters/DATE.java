@@ -1,14 +1,12 @@
 package de.fhconfig.android.binding.converters;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import de.fhconfig.android.binding.Converter;
 import de.fhconfig.android.binding.IObservable;
 
-/**
- * Created by Administrator on 15.01.2015.
- */
 public class DATE extends Converter<CharSequence> {
     public DATE(IObservable<?>[] dependents) {
         super(CharSequence.class, dependents);
@@ -16,11 +14,12 @@ public class DATE extends Converter<CharSequence> {
 
     @Override
     public CharSequence calculateValue(Object... objects) throws Exception {
-        Object object = null;
+        Object object;
         if(objects.length > 0)
             object = objects[0];
         else
             object = new Date();
+
 
         String format = "dd.MM.yyyy HH:mm";
 
@@ -30,14 +29,18 @@ public class DATE extends Converter<CharSequence> {
         }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+		Date date = null;
         if(object instanceof Date)
         {
-            return simpleDateFormat.format((Date) object);
+	        date = (Date) object;
         }
         else if (object instanceof Long)
         {
-            return simpleDateFormat.format(new Date((Long) object));
+	        date = new Date((Long) object);
         }
+	    if(date != null) {
+		    return simpleDateFormat.format(date);
+	    }
         return null;
     }
 }
