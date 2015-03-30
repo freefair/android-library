@@ -1,15 +1,14 @@
 package de.fhconfig.android.library.reflection;
 
-import com.google.common.base.Predicate;
-
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
+
+import de.fhconfig.android.library.predicate.Predicate;
 
 /**
  * Created by larsgrefer on 16.03.15.
  */
-public class FieldAnnotationPredicate implements Predicate<Field> {
+public class FieldAnnotationPredicate extends Predicate<Field> {
 
 	private Class<? extends Annotation> annotation;
 

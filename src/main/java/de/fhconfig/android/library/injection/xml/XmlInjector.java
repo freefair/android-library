@@ -276,7 +276,7 @@ public abstract class XmlInjector<T> {
 			}
 
 			try {
-
+				field.setAccessible(true);
 				switch (annotation.type()) {
 					case ANIMATION:
 						XmlResourceParser animation = resources.getAnimation(resourceId);
@@ -385,8 +385,7 @@ public abstract class XmlInjector<T> {
 						break;
 				}
 			} catch (IllegalAccessException iae) {
-				log.error(iae.getMessage());
-				iae.printStackTrace();
+				log.error(iae.getMessage(), iae);
 			}
 		}
 	}

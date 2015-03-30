@@ -1,7 +1,6 @@
 package de.fhconfig.android.library.reflection;
 
 import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 
 import org.junit.Test;
 
@@ -11,6 +10,7 @@ import java.util.List;
 import de.fhconfig.android.library.injection.annotation.Attribute;
 import de.fhconfig.android.library.injection.annotation.Resource;
 import de.fhconfig.android.library.injection.annotation.XmlView;
+import de.fhconfig.android.library.predicate.Predicate;
 
 import static org.junit.Assert.*;
 
