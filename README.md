@@ -1,6 +1,9 @@
 android-library
 ===============
-
+|master                                                                                                                                                                    |develop                                                                                                                                 |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+|[![Build Status](https://travis-ci.org/larsgrefer/android-library.svg?branch=master)](https://travis-ci.org/larsgrefer/android-library)                                   |[![Build Status](https://travis-ci.org/larsgrefer/android-library.svg?branch=develop)](https://travis-ci.org/larsgrefer/android-library)|
+|[![Download](https://api.bintray.com/packages/larsgrefer/maven/android-library/images/download.svg) ](https://bintray.com/larsgrefer/maven/android-library/_latestVersion)|[oss.jfrog.org](http://oss.jfrog.org/artifactory/webapp/browserepo.html?pathId=oss-snapshot-local%3Ade%2Flarsgrefer%2Fandroid-library)  |
 by
 <table>
 	<tr>
@@ -12,8 +15,6 @@ by
 		<td>Lars Grefer</td>
 	</tr>
 </table>
-
-Latest available Version: [ ![Download](https://api.bintray.com/packages/larsgrefer/maven/android-library/images/download.svg) ](https://bintray.com/larsgrefer/maven/android-library/_latestVersion)
 
 ##How to include:
 <h6>Gradle:</h6>
