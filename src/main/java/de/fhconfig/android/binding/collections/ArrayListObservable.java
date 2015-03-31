@@ -158,7 +158,7 @@ public class ArrayListObservable<T>
 
 	public T remove(int index) {
 		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Remove,
-				Arrays.asList(new Object[]{mArray.get(index)}), index);
+				Arrays.asList(mArray.get(index)), index);
 		T obj = mArray.remove(index);
 		this.notifyCollectionChanged(e);
 		return obj;
@@ -179,7 +179,7 @@ public class ArrayListObservable<T>
 	public boolean add(T object) {
 		boolean result = mArray.add(object);
 		if (result) {
-			CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Add, Arrays.asList(new Object[]{object}), (int) mArray.size() - 1);
+			CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Add, Arrays.asList(object), (int) mArray.size() - 1);
 			this.notifyCollectionChanged(e);
 		}
 		return result;
@@ -193,7 +193,7 @@ public class ArrayListObservable<T>
 		int index = mArray.indexOf(object);
 		boolean result = mArray.remove(object);
 		if (result) {
-			CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Remove, Arrays.asList(new Object[]{object}), index);
+			CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Remove, Arrays.asList(object), index);
 			this.notifyCollectionChanged(e);
 		}
 		return result;
@@ -229,7 +229,7 @@ public class ArrayListObservable<T>
 
 		mArray.add(location, object);
 
-		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Add, Arrays.asList(new Object[]{object}), location);
+		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Add, Arrays.asList(object), location);
 		this.notifyCollectionChanged(e);
 	}
 

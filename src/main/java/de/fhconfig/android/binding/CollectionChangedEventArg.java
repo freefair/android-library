@@ -33,7 +33,7 @@ public class CollectionChangedEventArg {
 			throw new IllegalArgumentException("ctor is for Action.Add or Action.Remove or Action.Reset only");
 
 		if (action != Action.Reset) {
-			this.initAddOrRemove(action, Arrays.asList(new Object[]{item}), -1);
+			this.initAddOrRemove(action, Arrays.asList(item), -1);
 			return;
 		}
 		if (item != null)
@@ -103,7 +103,7 @@ public class CollectionChangedEventArg {
 	public CollectionChangedEventArg(Action action, Object newItem, Object oldItem) {
 		if (action != Action.Replace)
 			throw new IllegalArgumentException("ctor is for Action.Replace only");
-		this.initMoveOrReplace(action, Arrays.asList(new Object[]{newItem}), Arrays.asList(new Object[]{oldItem}), -1, -1);
+		this.initMoveOrReplace(action, Arrays.asList(newItem), Arrays.asList(oldItem), -1, -1);
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class CollectionChangedEventArg {
 	public CollectionChangedEventArg(Action action, Object newItem, Object oldItem, int index) {
 		if (action != Action.Replace)
 			throw new IllegalArgumentException("ctor is for Action.Replace only");
-		this.initMoveOrReplace(action, Arrays.asList(new Object[]{newItem}), Arrays.asList(new Object[]{oldItem}), index, index);
+		this.initMoveOrReplace(action, Arrays.asList(newItem), Arrays.asList(oldItem), index, index);
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class CollectionChangedEventArg {
 		if (index < 0)
 			throw new IllegalArgumentException("index can't be negative");
 
-		List<?> items = Arrays.asList(new Object[]{changedItem});
+		List<?> items = Arrays.asList(changedItem);
 		this.initMoveOrReplace(action, items, items, index, oldIndex);
 	}
 
