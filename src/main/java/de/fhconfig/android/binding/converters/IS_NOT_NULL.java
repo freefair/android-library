@@ -19,8 +19,7 @@ public class IS_NOT_NULL extends Converter<Boolean> {
 
 	@Override
 	public Boolean calculateValue(Object... args) throws Exception {
-		if (args[0] != null) return true;
-		else return false;
+		return args[0] != null;
 	}
 
 }

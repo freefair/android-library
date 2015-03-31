@@ -33,9 +33,7 @@ public class NOT extends Converter<Boolean> {
 		if (args[0] instanceof Number) {
 			return !args[0].equals(0);
 		}
-		if (args[0] != null)
-			return false;
+		return args[0] == null;
 
-		return true;
 	}
 }
