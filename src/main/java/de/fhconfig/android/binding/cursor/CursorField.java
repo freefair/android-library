@@ -33,7 +33,6 @@ public abstract class CursorField<T> extends Observable<T> {
 		if (mColumnIndex == COLUMN_UNSET) {
 			mColumnIndex = cursor.getColumnIndex(mColumnName);
 			fillValue(cursor);
-			return;
 		}
 	}
 

@@ -29,7 +29,6 @@ public class VisibilityViewAttribute extends ViewAttribute<View, Integer> {
 		}
 		if (newValue instanceof Integer) {
 			getView().setVisibility((Integer) newValue);
-			return;
 		}
 	}
 

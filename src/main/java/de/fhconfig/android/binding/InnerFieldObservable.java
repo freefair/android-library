@@ -108,7 +108,6 @@ public class InnerFieldObservable<T> implements IObservable<T>, Undetermined {
 				mFieldPath.substring(mFieldPath.indexOf(".") + 1, mFieldPath.length());
 		subPath = subPath.trim();
 		if (subPath.length() == 0) {
-			return;
 		} else {
 			mChild = new InnerFieldObservable<>(subPath);
 			mChild.createNodes(value);

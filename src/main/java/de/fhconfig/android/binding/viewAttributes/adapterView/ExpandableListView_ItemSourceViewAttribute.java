@@ -85,7 +85,6 @@ public class ExpandableListView_ItemSourceViewAttribute
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return;
 		}
 	}
 

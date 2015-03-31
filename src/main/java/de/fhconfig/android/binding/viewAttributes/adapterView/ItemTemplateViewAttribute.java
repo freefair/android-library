@@ -41,17 +41,14 @@ public class ItemTemplateViewAttribute extends ViewAttribute<View, Layout> {
 		if (getView() == null) return;
 		if (newValue instanceof Layout) {
 			template = (Layout) newValue;
-			return;
 		} else if (newValue instanceof Integer) {
 			if ((Integer) newValue > 0)
 				template = new SingleTemplateLayout((Integer) newValue);
-			return;
 		} else if (newValue instanceof CharSequence) {
 			int value = Utility.resolveLayoutResource(newValue.toString(), getView().getContext());
 			if (value > 0) {
 				template = new SingleTemplateLayout((Integer) newValue);
 			}
-			return;
 		}
 	}
 

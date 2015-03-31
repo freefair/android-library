@@ -45,7 +45,6 @@ public class AnimationViewAttribute extends ViewAttribute<View, AnimationTrigger
 		if (newValue instanceof AnimationTrigger) {
 			mValue = (AnimationTrigger) newValue;
 			mValue.setTriggerListener(this);
-			return;
 		}
 	}
 
@@ -70,7 +69,6 @@ public class AnimationViewAttribute extends ViewAttribute<View, AnimationTrigger
 			Animation anim = AnimationUtils.loadAnimation(getView().getContext(), trigger.getAnimationId());
 			getView().startAnimation(anim);
 		} catch (Resources.NotFoundException e) {
-			return;
 		}
 	}
 }

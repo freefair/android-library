@@ -55,12 +55,10 @@ public class CollectionChangedEventArg {
 			if (changes != null)
 				throw new IllegalArgumentException("Action.Reset changes must be null");
 			this.initAdd(action, null, -1);
-			return;
 		} else {
 			if (changes == null)
 				throw new IllegalArgumentException("changes");
 			this.initAddOrRemove(action, changes, -1);
-			return;
 		}
 	}
 
@@ -82,14 +80,12 @@ public class CollectionChangedEventArg {
 			if (startingIndex != -1)
 				throw new IllegalArgumentException("Action.Reset requires index = -1");
 			this.initAdd(action, null, -1);
-			return;
 		} else {
 			if (changes == null)
 				throw new IllegalArgumentException("changes");
 			if (startingIndex < -1)
 				throw new IllegalArgumentException("startindex must be not negative");
 			this.initAddOrRemove(action, changes, startingIndex);
-			return;
 		}
 	}
 

@@ -87,7 +87,6 @@ public class Observable<T> implements IObservable<T> {
 			BindingLog.warning("Observable._setObject",
 					String.format("Failed to assign value: '%s' to observable of type: '%s', type mismatch",
 							newValue, this.getType()));
-			return;
 		}
 	}
 

@@ -70,7 +70,6 @@ public class AdapterViewAttribute extends ViewAttribute<ViewPager, PagerAdapter>
 		public void destroyItem(View container, int position, Object object) {
 			android.support.v4.view.ViewPager viewPager = (android.support.v4.view.ViewPager) container;
 			viewPager.removeView((View) object);
-			return;
 		}
 	}
 }

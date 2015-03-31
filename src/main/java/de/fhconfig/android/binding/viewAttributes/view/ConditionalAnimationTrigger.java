@@ -87,7 +87,6 @@ public class ConditionalAnimationTrigger extends AnimationTrigger implements Obs
 						notifyAnimationFire();
 					} else {
 						lastTimeLarger = false;
-						return;
 					}
 				}
 		}

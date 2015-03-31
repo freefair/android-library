@@ -55,7 +55,6 @@ public class SourceViewAttribute extends ViewAttribute<ImageView, Object> {
 		}
 		if (newValue instanceof Bitmap) {
 			getView().setImageBitmap((Bitmap) newValue);
-			return;
 		}
 	}
 

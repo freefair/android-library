@@ -23,7 +23,6 @@ public class DisplayedChildViewAttribute extends ViewAttribute<ViewAnimator, Int
 			int newInt = (Integer) newValue;
 			if (newInt < totalView)
 				getView().setDisplayedChild(newInt);
-			return;
 		}
 	}
 

@@ -61,7 +61,6 @@ public class ItemSourceViewAttribute extends ViewAttribute<ListView, Object> {
 			filter = filterAttr.get();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return;
 		}
 	}
 
@@ -93,10 +92,8 @@ public class ItemSourceViewAttribute extends ViewAttribute<ListView, Object> {
 			((ViewAttribute<?, Adapter>) Binder.getAttributeForView(getView(), "adapter")).set(adapter);
 			ViewAttribute<?, Integer> SelectedPosition = (ViewAttribute<?, Integer>) Binder.getAttributeForView(getView(), "selectedPosition");
 			getView().setSelection(SelectedPosition.get());
-			return;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return;
 		}
 	}
 

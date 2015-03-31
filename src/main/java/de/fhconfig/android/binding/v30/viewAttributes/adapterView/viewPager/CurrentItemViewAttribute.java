@@ -21,7 +21,6 @@ public class CurrentItemViewAttribute extends ViewAttribute<ViewPager, Integer> 
 		if (getView() == null) return;
 		if (newValue instanceof Integer) {
 			getView().setCurrentItem((Integer) newValue);
-			return;
 		}
 	}
 

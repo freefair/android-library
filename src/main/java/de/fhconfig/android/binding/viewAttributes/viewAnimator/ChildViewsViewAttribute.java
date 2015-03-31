@@ -25,7 +25,6 @@ public class ChildViewsViewAttribute extends ViewAttribute<ViewAnimator, View[]>
 			for (View v : (View[]) newValue) {
 				getView().addView(v);
 			}
-			return;
 		}
 	}
 

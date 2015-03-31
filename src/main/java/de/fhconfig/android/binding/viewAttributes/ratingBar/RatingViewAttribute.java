@@ -39,7 +39,6 @@ public class RatingViewAttribute extends ViewAttribute<RatingBar, Float>
 		}
 		if (newValue instanceof Float) {
 			getView().setRating((Float) newValue);
-			return;
 		}
 	}
 

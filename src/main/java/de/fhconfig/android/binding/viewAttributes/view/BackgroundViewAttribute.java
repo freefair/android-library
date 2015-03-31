@@ -40,7 +40,6 @@ public class BackgroundViewAttribute extends ViewAttribute<View, Object> {
 		}
 		if (newValue instanceof Drawable) {
 			getView().setBackgroundDrawable((Drawable) newValue);
-			return;
 		}
 	}
 
