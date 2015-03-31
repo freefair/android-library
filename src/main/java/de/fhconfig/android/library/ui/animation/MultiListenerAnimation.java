@@ -2,6 +2,7 @@ package de.fhconfig.android.library.ui.animation;
 
 import android.view.animation.Animation;
 
+import java.util.Collection;
 import java.util.Set;
 
 import de.fhconfig.android.library.MultiListenerHelper;
@@ -34,6 +35,16 @@ public class MultiListenerAnimation extends Animation implements MultiListenerHo
 	public void addListener(AnimationListener listener) {
 		super.setAnimationListener(multiListenerHelper.getProxyListener());
 		multiListenerHelper.addListener(listener);
+	}
+
+	@Override
+	public void addListeners(AnimationListener... listeners) {
+		multiListenerHelper.addListeners(listeners);
+	}
+
+	@Override
+	public void addListeners(Collection<AnimationListener> listeners) {
+		multiListenerHelper.addListeners(listeners);
 	}
 
 	@Override

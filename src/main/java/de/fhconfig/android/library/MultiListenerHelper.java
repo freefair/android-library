@@ -3,6 +3,8 @@ package de.fhconfig.android.library;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,13 +13,14 @@ import java.util.Set;
  */
 public class MultiListenerHelper<T> implements MultiListenerHost<T> {
 
+	Class<T> listenerClass;
 	Set<T> listenerSet;
-
 	T proxyListener;
 
-	public MultiListenerHelper(Class<T> clazz) {
+	@SuppressWarnings("unchecked")
+	public MultiListenerHelper(Class<T> listenerClass) {
 		listenerSet = new HashSet<>();
-		proxyListener = (T) Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz}, new MultiListenerInvocationHandler());
+		this.listenerClass = listenerClass;
 	}
 
 	@Override
@@ -31,18 +34,33 @@ public class MultiListenerHelper<T> implements MultiListenerHost<T> {
 	}
 
 	@Override
+	public void addListeners(T... listeners){
+		for (T listener : listeners) {
+			addListener(listener);
+		}
+	}
+
+	@Override
+	public void addListeners(Collection<T> listeners){
+		listenerSet.addAll(listeners);
+	}
+
+	@Override
 	public boolean removeListener(T listener) {
 		return listenerSet.remove(listener);
 	}
 
 	public T getProxyListener() {
+		if (proxyListener == null) {
+			proxyListener = (T) Proxy.newProxyInstance(listenerClass.getClassLoader(), new Class[]{listenerClass}, new MultiListenerInvocationHandler());
+		}
 		return proxyListener;
 	}
 
 	private class MultiListenerInvocationHandler implements InvocationHandler {
 		@Override
 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-			if(method.getDeclaringClass().equals(MultiListenerHost.class)){
+			if (method.getDeclaringClass().equals(MultiListenerHost.class)) {
 				return method.invoke(this, args);
 			}
 
