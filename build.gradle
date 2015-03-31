@@ -15,9 +15,6 @@ plugins {
 allprojects {
     repositories {
         jcenter()
-        maven {
-            url "https://jitpack.io"
-        }
     }
 }
 
@@ -58,7 +55,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.google.guava:guava:18.0'
     compile 'com.j256.ormlite:ormlite-android:4.48'
-    compile 'com.github.PhilJay:MPAndroidChart:v2.0.8'
 
     testCompile 'junit:junit:4.12'
 }
