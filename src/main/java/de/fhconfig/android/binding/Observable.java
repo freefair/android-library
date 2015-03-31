@@ -7,7 +7,7 @@ import de.fhconfig.android.binding.utility.WeakList;
 
 public class Observable<T> implements IObservable<T> {
 	private final Class<T> mType;
-	private WeakList<Observer> observers = new WeakList<Observer>();
+	private WeakList<Observer> observers = new WeakList<>();
 	private T mValue;
 	public Observable(Class<T> type) {
 		mType = type;
@@ -43,7 +43,7 @@ public class Observable<T> implements IObservable<T> {
 	 * @see de.fhconfig.android.binding.IObservable#notifyChanged(java.lang.Object)
 	 */
 	public final void notifyChanged(Object initiator) {
-		ArrayList<Object> initiators = new ArrayList<Object>();
+		ArrayList<Object> initiators = new ArrayList<>();
 		initiators.add(initiator);
 		this.notifyChanged(initiators);
 	}
@@ -63,7 +63,7 @@ public class Observable<T> implements IObservable<T> {
 	 * @see de.fhconfig.android.binding.IObservable#notifyChanged()
 	 */
 	public final void notifyChanged() {
-		ArrayList<Object> initiators = new ArrayList<Object>();
+		ArrayList<Object> initiators = new ArrayList<>();
 		notifyChanged(initiators);
 	}
 
@@ -92,7 +92,7 @@ public class Observable<T> implements IObservable<T> {
 	}
 
 	public final void set(T newValue) {
-		doSetValue(newValue, new ArrayList<Object>());
+		doSetValue(newValue, new ArrayList<>());
 		notifyChanged(this);
 	}
 

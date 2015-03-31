@@ -38,7 +38,7 @@ public class ArrayListObservable<T>
 
 	public ArrayListObservable(Class<T> type, T[] initArray) {
 		mType = type;
-		mArray = new ArrayList<T>();
+		mArray = new ArrayList<>();
 		if (initArray != null) {
 			for (int i = 0; i < initArray.length; i++) {
 				mArray.add(initArray[i]);
@@ -134,7 +134,7 @@ public class ArrayListObservable<T>
 	}
 
 	public boolean retainAll(Collection<?> arg0) {
-		List<Object> inverseIntersect = new ArrayList<Object>();
+		List<Object> inverseIntersect = new ArrayList<>();
 		if (arg0.size() > mArray.size()) {
 			for (Object o : arg0) {
 				if (!mArray.contains(o))

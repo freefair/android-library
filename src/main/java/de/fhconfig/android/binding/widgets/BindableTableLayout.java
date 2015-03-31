@@ -52,15 +52,15 @@ public class BindableTableLayout extends TableLayout implements IBindableView<Bi
 			if (pos < 0)
 				return;
 			Object parent = currentRowList.get(pos);
-			ArrayList<Object> list = new ArrayList<Object>();
+			ArrayList<Object> list = new ArrayList<>();
 			list.add(parent);
 			removeRows(list);
 			insertRow(pos, parent);
 		}
 	};
-	private ObservableMultiplexer<Object> observableChildLayoutID = new ObservableMultiplexer<Object>(observer);
-	private ObservableMultiplexer<Object> observableChildSpan = new ObservableMultiplexer<Object>(observer);
-	private ObservableCollectionMultiplexer<Object> observableCollectionRowChildren = new ObservableCollectionMultiplexer<Object>(observer);
+	private ObservableMultiplexer<Object> observableChildLayoutID = new ObservableMultiplexer<>(observer);
+	private ObservableMultiplexer<Object> observableChildSpan = new ObservableMultiplexer<>(observer);
+	private ObservableCollectionMultiplexer<Object> observableCollectionRowChildren = new ObservableCollectionMultiplexer<>(observer);
 	private CollectionObserver collectionObserver = null;
 	private ObservableCollection<Object> rowList = null;
 	private LayoutRowChild rowChild = null;
@@ -188,7 +188,7 @@ public class BindableTableLayout extends TableLayout implements IBindableView<Bi
 			return;
 		}
 
-		currentRowList = new WeakList<Object>();
+		currentRowList = new WeakList<>();
 
 		for (int pos = 0; pos < rows.size(); pos++) {
 			Object item = rows.getItem(pos);
@@ -273,7 +273,7 @@ public class BindableTableLayout extends TableLayout implements IBindableView<Bi
 			return;
 
 		IObservable<?> childDataSource = null;
-		InnerFieldObservable<?> ifo = new InnerFieldObservable<Object>(rowChild.getChildDataSource());
+		InnerFieldObservable<?> ifo = new InnerFieldObservable<>(rowChild.getChildDataSource());
 		if (ifo.createNodes(row)) {
 			childDataSource = ifo;
 		} else {
@@ -318,7 +318,7 @@ public class BindableTableLayout extends TableLayout implements IBindableView<Bi
 					int layoutId = rowChild.getLayoutId();
 					if (layoutId < 1 && rowChild.getLayoutName() != null) {
 						IObservable<?> observable = null;
-						ifo = new InnerFieldObservable<Object>(rowChild.getLayoutName());
+						ifo = new InnerFieldObservable<>(rowChild.getLayoutName());
 						if (ifo.createNodes(childItem)) {
 							observable = ifo;
 						} else {
@@ -433,7 +433,7 @@ public class BindableTableLayout extends TableLayout implements IBindableView<Bi
 		if (deleteList == null || deleteList.size() == 0 || currentRowList == null)
 			return;
 
-		ArrayList<Object> currentPositionList = new ArrayList<Object>(Arrays.asList(currentRowList.toArray()));
+		ArrayList<Object> currentPositionList = new ArrayList<>(Arrays.asList(currentRowList.toArray()));
 
 		for (Object row : deleteList) {
 			int pos = currentPositionList.indexOf(row);

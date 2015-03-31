@@ -126,7 +126,7 @@ public class TrackedCursorCollection<T extends ICursorRowModel> extends CursorCo
 
 		public void registerUri(Context context, Uri uri, boolean notifyForDescendants) {
 			unregisterUri();
-			mContextWeakReference = new WeakReference<Context>(context);
+			mContextWeakReference = new WeakReference<>(context);
 			if (null != context) {
 				context.getContentResolver().registerContentObserver(uri, notifyForDescendants, this);
 			}

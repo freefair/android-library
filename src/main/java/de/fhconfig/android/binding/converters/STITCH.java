@@ -24,7 +24,7 @@ public class STITCH extends Converter<Adapter> {
 	public Adapter calculateValue(Object... args) throws Exception {
 		CombinedAdapter combine = new CombinedAdapter();
 		int length = args.length;
-		ArrayList<Adapter> adapters = new ArrayList<Adapter>();
+		ArrayList<Adapter> adapters = new ArrayList<>();
 		for (int i = 0; i < length; i++) {
 			if (args[i] instanceof Adapter) {
 				adapters.add((Adapter) args[i]);

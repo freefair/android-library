@@ -3,7 +3,7 @@ package de.fhconfig.android.binding;
 import java.util.ArrayList;
 
 public abstract class MulticastListener<Th, T> {
-	protected ArrayList<T> listeners = new ArrayList<T>(0);
+	protected ArrayList<T> listeners = new ArrayList<>(0);
 	private boolean mBroadcasting = true;
 
 	public abstract void registerToHost(Th host);

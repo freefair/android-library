@@ -17,7 +17,7 @@ public class BindableActionBar extends View implements IBindableView<BindableAct
 
 	public BindableActionBar(ActionBarActivity context) {
 		super(context);
-		mActivityRef = new WeakReference<ActionBarActivity>(context);
+		mActivityRef = new WeakReference<>(context);
 	}
 
 	public ActionBar getSupportActionBar() {

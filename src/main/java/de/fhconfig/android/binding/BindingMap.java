@@ -5,7 +5,7 @@ import java.util.Hashtable;
 import java.util.Map.Entry;
 
 public class BindingMap {
-	private HashMap<String, NameEntry> mEntries = new HashMap<String, NameEntry>();
+	private HashMap<String, NameEntry> mEntries = new HashMap<>();
 
 	public String put(String key, String value) {
 		mEntries.put(key, new NameEntry(value));
@@ -61,7 +61,7 @@ public class BindingMap {
 	}
 
 	public Hashtable<String, String> getMapTable() {
-		Hashtable<String, String> table = new Hashtable<String, String>();
+		Hashtable<String, String> table = new Hashtable<>();
 		for (Entry<String, NameEntry> ne : mEntries.entrySet()) {
 			table.put(ne.getKey(), ne.getValue().name);
 		}

@@ -13,10 +13,10 @@ import de.fhconfig.android.binding.utility.IModelReflector;
 
 public class ObservableMapper implements IPropertyContainer {
 	@SuppressWarnings("rawtypes")
-	public HashMap<String, MockObservable> observableMapping = new HashMap<String, MockObservable>();
+	public HashMap<String, MockObservable> observableMapping = new HashMap<>();
 
 	@SuppressWarnings("rawtypes")
-	public HashMap<String, Observable> valueMapping = new HashMap<String, Observable>();
+	public HashMap<String, Observable> valueMapping = new HashMap<>();
 	public int mappedPosition;
 	private Object mappingModel;
 	private IModelReflector mReflector = null;

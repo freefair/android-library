@@ -18,7 +18,7 @@ public class TAB extends Converter<ArrayListObservable> {
 
 	@Override
 	public ArrayListObservable<Tab> calculateValue(Object... args) throws Exception {
-		ArrayListObservable<Tab> tabs = new ArrayListObservable<Tab>(Tab.class);
+		ArrayListObservable<Tab> tabs = new ArrayListObservable<>(Tab.class);
 		for (int i = 0; i < args.length; i++) {
 			if (!(args[i] instanceof DynamicObject)) {
 				continue;

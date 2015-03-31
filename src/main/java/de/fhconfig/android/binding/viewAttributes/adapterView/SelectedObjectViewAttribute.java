@@ -45,7 +45,7 @@ public class SelectedObjectViewAttribute extends ViewAttribute<AdapterView<?>, O
 			if (selected.equals(o))
 				return;
 
-		selectedItem = new WeakReference<Object>(newValue);
+		selectedItem = new WeakReference<>(newValue);
 		getView().setSelection(pos);
 	}
 
@@ -63,7 +63,7 @@ public class SelectedObjectViewAttribute extends ViewAttribute<AdapterView<?>, O
 		if (pos < 0 || pos > getView().getAdapter().getCount())
 			return;
 
-		selectedItem = new WeakReference<Object>(getView().getAdapter().getItem(pos));
+		selectedItem = new WeakReference<>(getView().getAdapter().getItem(pos));
 		this.notifyChanged();
 	}
 

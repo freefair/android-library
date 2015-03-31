@@ -20,7 +20,7 @@ import de.fhconfig.android.binding.utility.WeakList;
  * @author andy
  */
 public class InnerFieldObservable<T> implements IObservable<T>, Undetermined {
-	private WeakList<Observer> observers = new WeakList<Observer>();
+	private WeakList<Observer> observers = new WeakList<>();
 
 	private String mFieldPath;
 	private InnerFieldObservable<T> mChild;
@@ -110,7 +110,7 @@ public class InnerFieldObservable<T> implements IObservable<T>, Undetermined {
 		if (subPath.length() == 0) {
 			return;
 		} else {
-			mChild = new InnerFieldObservable<T>(subPath);
+			mChild = new InnerFieldObservable<>(subPath);
 			mChild.createNodes(value);
 			mChild.subscribe(childObserver);
 		}
@@ -142,7 +142,7 @@ public class InnerFieldObservable<T> implements IObservable<T>, Undetermined {
 	}
 
 	public final void notifyChanged(Object initiator) {
-		ArrayList<Object> initiators = new ArrayList<Object>();
+		ArrayList<Object> initiators = new ArrayList<>();
 		initiators.add(initiator);
 		this.notifyChanged(initiators);
 	}
@@ -156,7 +156,7 @@ public class InnerFieldObservable<T> implements IObservable<T>, Undetermined {
 	}
 
 	public final void notifyChanged() {
-		ArrayList<Object> initiators = new ArrayList<Object>();
+		ArrayList<Object> initiators = new ArrayList<>();
 		notifyChanged(initiators);
 	}
 
@@ -173,7 +173,7 @@ public class InnerFieldObservable<T> implements IObservable<T>, Undetermined {
 
 	@Override
 	public void set(T newValue) {
-		set(newValue, new ArrayList<Object>());
+		set(newValue, new ArrayList<>());
 	}
 
 	@Override

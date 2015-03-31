@@ -28,7 +28,7 @@ import static android.os.Build.VERSION_CODES.HONEYCOMB;
 @TargetApi(HONEYCOMB)
 public class PopupMenuBinderV30 implements OnMenuItemClickListener {
 	private Hashtable<Integer, AbsMenuBridge> items =
-			new Hashtable<Integer, AbsMenuBridge>();
+			new Hashtable<>();
 
 	public void bindPopupMenu(PopupMenu popup, IObservableCollection<MenuItemViemodel> menuItems) {
 

@@ -16,10 +16,10 @@ import de.fhconfig.android.binding.Observable;
 public class PojoViewModelWrapper<T extends PojoViewModel> implements IPropertyContainer {
 	private final T mViewModel;
 	private final Hashtable<String, PojoObservable<?>> observables =
-			new Hashtable<String, PojoObservable<?>>();
+			new Hashtable<>();
 
 	private final Hashtable<String, PojoCommand> commands =
-			new Hashtable<String, PojoCommand>();
+			new Hashtable<>();
 
 	private PojoViewModelWrapper(T viewModel) {
 		mViewModel = viewModel;
@@ -27,7 +27,7 @@ public class PojoViewModelWrapper<T extends PojoViewModel> implements IPropertyC
 	}
 
 	public static <Tv extends PojoViewModel> PojoViewModelWrapper<Tv> create(Tv viewModel) {
-		PojoViewModelWrapper<Tv> wrapper = new PojoViewModelWrapper<Tv>(viewModel);
+		PojoViewModelWrapper<Tv> wrapper = new PojoViewModelWrapper<>(viewModel);
 		viewModel.getHelper().registerWrapper(wrapper);
 		return wrapper;
 	}

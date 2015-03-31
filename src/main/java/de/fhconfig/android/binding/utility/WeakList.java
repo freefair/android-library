@@ -32,22 +32,22 @@ public class WeakList<E> extends AbstractList<E> {
 	 * Creates new WeakList
 	 */
 	public WeakList() {
-		items = new ArrayList<WeakReference<E>>();
+		items = new ArrayList<>();
 	}
 
 	public WeakList(Collection<E> c) {
-		items = new ArrayList<WeakReference<E>>();
+		items = new ArrayList<>();
 		addAll(0, c);
 	}
 
 	public WeakList(int initCapcacity) {
-		items = new ArrayList<WeakReference<E>>(initCapcacity);
+		items = new ArrayList<>(initCapcacity);
 	}
 
 
 	public void add(int index, E element) {
 		synchronized (this) {
-			items.add(index, new WeakReference<E>(element));
+			items.add(index, new WeakReference<>(element));
 		}
 	}
 
@@ -73,7 +73,7 @@ public class WeakList<E> extends AbstractList<E> {
 
 	private void removeReleased() {
 		synchronized (this) {
-			ArrayList<WeakReference<E>> removeList = new ArrayList<WeakReference<E>>();
+			ArrayList<WeakReference<E>> removeList = new ArrayList<>();
 			for (Iterator<WeakReference<E>> it = items.iterator(); it.hasNext(); ) {
 				WeakReference<E> ref = (WeakReference<E>) it.next();
 				if (ref.get() == null) removeList.add(ref);
@@ -88,7 +88,7 @@ public class WeakList<E> extends AbstractList<E> {
 	public Object[] toArray() {
 		synchronized (this) {
 			removeReleased();
-			ArrayList<E> copy = new ArrayList<E>();
+			ArrayList<E> copy = new ArrayList<>();
 			for (WeakReference<E> itemRef : items) {
 				E item = itemRef.get();
 				if (item != null)
@@ -119,13 +119,13 @@ public class WeakList<E> extends AbstractList<E> {
 	@Override
 	public boolean add(E object) {
 		synchronized (this) {
-			return items.add(new WeakReference<E>(object));
+			return items.add(new WeakReference<>(object));
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public E[] toItemArray(E[] arr) {
-		ArrayList<E> copy = new ArrayList<E>();
+		ArrayList<E> copy = new ArrayList<>();
 		for (WeakReference<E> itemRef : items) {
 			E item = itemRef.get();
 			if (item != null)

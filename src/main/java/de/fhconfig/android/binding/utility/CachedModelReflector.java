@@ -10,9 +10,9 @@ import de.fhconfig.android.binding.Observable;
 
 
 public class CachedModelReflector<T> implements ICachedModelReflector<T> {
-	private HashMap<String, Field> observables = new HashMap<String, Field>();
-	private HashMap<String, Field> commands = new HashMap<String, Field>();
-	private HashMap<String, Field> values = new HashMap<String, Field>();
+	private HashMap<String, Field> observables = new HashMap<>();
+	private HashMap<String, Field> commands = new HashMap<>();
+	private HashMap<String, Field> values = new HashMap<>();
 
 	public CachedModelReflector(Class<T> type) throws IllegalArgumentException, IllegalAccessException {
 		for (Field f : type.getFields()) {

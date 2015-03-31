@@ -19,7 +19,7 @@ import de.fhconfig.android.binding.collections.ILazyLoadRowModel;
 public class CacheHashMap<K, V extends ILazyLoadRowModel> extends HashMap<K, V> {
 	private static final long serialVersionUID = 1L;
 
-	private ArrayList<K> keyList = new ArrayList<K>();
+	private ArrayList<K> keyList = new ArrayList<>();
 	private int mCacheSize = 50;
 
 	public CacheHashMap(int cacheSize) {
@@ -31,7 +31,7 @@ public class CacheHashMap<K, V extends ILazyLoadRowModel> extends HashMap<K, V> 
 		// Check whether it is oversize
 		int oversize = keyList.size() - mCacheSize;
 		if (oversize > 0) {
-			ArrayList<Integer> pendingRemove = new ArrayList<Integer>(oversize);
+			ArrayList<Integer> pendingRemove = new ArrayList<>(oversize);
 
 			for (int i = 0; i < oversize; i++) {
 				V rVal = this.get(keyList.get(i));

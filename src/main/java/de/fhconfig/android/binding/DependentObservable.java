@@ -14,7 +14,7 @@ public abstract class DependentObservable<T> extends Observable<T> implements Ob
 			o.subscribe(this);
 		}
 		this.mDependents = dependents;
-		this.onPropertyChanged(null, new ArrayList<Object>());
+		this.onPropertyChanged(null, new ArrayList<>());
 	}
 
 	// This is provided in case the constructor can't be used.
@@ -31,7 +31,7 @@ public abstract class DependentObservable<T> extends Observable<T> implements Ob
 			mDependents[i + len] = dependents[i];
 			dependents[i].subscribe(this);
 		}
-		this.onPropertyChanged(null, new ArrayList<Object>());
+		this.onPropertyChanged(null, new ArrayList<>());
 	}
 
 	public abstract T calculateValue(Object... args) throws Exception;

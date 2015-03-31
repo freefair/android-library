@@ -21,9 +21,9 @@ public abstract class DependentCollectionObservable<T> extends Observable<T> imp
 			o.subscribe((CollectionObserver) this);
 		}
 		this.mDependents = dependents;
-		ArrayList<Object> initiators = new ArrayList<Object>();
+		ArrayList<Object> initiators = new ArrayList<>();
 		initiators.add(this);
-		this.onCollectionChanged(new ArrayListObservable<Object>(null), null, initiators);
+		this.onCollectionChanged(new ArrayListObservable<>(null), null, initiators);
 	}
 
 	// This is provided in case the constructor can't be used.
@@ -40,9 +40,9 @@ public abstract class DependentCollectionObservable<T> extends Observable<T> imp
 			mDependents[i + len] = dependents[i];
 			dependents[i].subscribe((CollectionObserver) this);
 		}
-		ArrayList<Object> initiators = new ArrayList<Object>();
+		ArrayList<Object> initiators = new ArrayList<>();
 		initiators.add(this);
-		this.onCollectionChanged(new ArrayListObservable<Object>(null), null, initiators);
+		this.onCollectionChanged(new ArrayListObservable<>(null), null, initiators);
 	}
 
 	public abstract T calculateValue(CollectionChangedEventArg e, Object... args) throws Exception;

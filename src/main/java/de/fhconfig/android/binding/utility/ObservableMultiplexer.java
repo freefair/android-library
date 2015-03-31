@@ -13,7 +13,7 @@ import de.fhconfig.android.binding.Observer;
 
 public class ObservableMultiplexer<T> {
 
-	private Hashtable<T, List<ObservableEntry>> parentHT = new Hashtable<T, List<ObservableEntry>>();
+	private Hashtable<T, List<ObservableEntry>> parentHT = new Hashtable<>();
 
 	private Observer childChangedObserver = null;
 
@@ -29,7 +29,7 @@ public class ObservableMultiplexer<T> {
 		if (parentHT.containsKey(parent)) {
 			parentList = parentHT.get(parent);
 		} else {
-			parentList = new ArrayList<ObservableEntry>();
+			parentList = new ArrayList<>();
 			parentHT.put(parent, parentList);
 		}
 

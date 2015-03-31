@@ -77,7 +77,7 @@ public class TabNavigationAdapter extends ViewAttribute<BindableActionBar, Adapt
 
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
 			int pos = tab.getPosition();
-			ArrayList<Object> initiators = new ArrayList<Object>();
+			ArrayList<Object> initiators = new ArrayList<>();
 			initiators.add(TabNavigationAdapter.this);
 			try {
 				TabNavigationSelectedItem item = ((TabNavigationSelectedItem) BinderV30

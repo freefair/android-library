@@ -3,7 +3,7 @@ package de.fhconfig.android.binding.utility;
 import java.util.HashMap;
 
 public class TypeAsKeyHashMap<T> {
-	private HashMap<Class<? extends T>, T> mCollection = new HashMap<Class<? extends T>, T>();
+	private HashMap<Class<? extends T>, T> mCollection = new HashMap<>();
 
 	public void put(Class<? extends T> type, T value) {
 		mCollection.put(type, value);

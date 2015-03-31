@@ -36,7 +36,7 @@ public class INJECT extends Converter<Layout> {
 	}
 
 	private static InjectParams[] process(Object[] args) {
-		ArrayList<InjectParams> injectParams = new ArrayList<InjectParams>();
+		ArrayList<InjectParams> injectParams = new ArrayList<>();
 		int len = args.length;
 		if (args.length < 2) return new InjectParams[0];
 		for (int i = 1; i < len; i++) {

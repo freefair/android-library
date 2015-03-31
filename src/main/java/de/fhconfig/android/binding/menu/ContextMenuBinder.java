@@ -26,7 +26,7 @@ public class ContextMenuBinder implements View.OnCreateContextMenuListener, OnMe
 	private int mMenuResId;
 	private Object mViewModel;
 	private Hashtable<Integer, AbsMenuBridge> items =
-			new Hashtable<Integer, AbsMenuBridge>();
+			new Hashtable<>();
 
 	public ContextMenuBinder(int menuResId, Object viewModel) {
 		mMenuResId = menuResId;
@@ -57,7 +57,7 @@ public class ContextMenuBinder implements View.OnCreateContextMenuListener, OnMe
 			try {
 				ViewAttribute<?, ?> attr = Binder.getAttributeForView(v, "clickedItem");
 				attr._setObject(((ExpandableListView) v).getExpandableListAdapter().getChild(group, child),
-						new ArrayList<Object>());
+						new ArrayList<>());
 				attr.notifyChanged(attr);
 			} catch (AttributeNotDefinedException e) {
 				e.printStackTrace();
@@ -66,7 +66,7 @@ public class ContextMenuBinder implements View.OnCreateContextMenuListener, OnMe
 			int pos = ((AdapterView.AdapterContextMenuInfo) menuInfo).position;
 			try {
 				ViewAttribute<?, ?> attr = Binder.getAttributeForView(v, "clickedItem");
-				attr._setObject(((AdapterView) v).getItemAtPosition(pos), new ArrayList<Object>());
+				attr._setObject(((AdapterView) v).getItemAtPosition(pos), new ArrayList<>());
 				attr.notifyChanged(attr);
 			} catch (AttributeNotDefinedException e) {
 				e.printStackTrace();

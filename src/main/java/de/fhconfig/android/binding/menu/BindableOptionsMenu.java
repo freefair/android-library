@@ -32,11 +32,11 @@ public class BindableOptionsMenu extends View
 	private boolean firstCreate = true;
 	private int mMenuResId;
 	private Hashtable<Integer, AbsMenuBridge> items =
-			new Hashtable<Integer, AbsMenuBridge>();
+			new Hashtable<>();
 
 	public BindableOptionsMenu(Activity context) {
 		super(context);
-		mActivity = new WeakReference<Activity>(context);
+		mActivity = new WeakReference<>(context);
 		;
 	}
 

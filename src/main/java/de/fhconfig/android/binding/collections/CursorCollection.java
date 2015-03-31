@@ -24,7 +24,7 @@ import de.fhconfig.android.binding.utility.CacheHashMap;
 public class CursorCollection<T extends ICursorRowModel> extends ObservableCollection<T> {
 	protected final Class<T> mRowModelType;
 	protected final IRowModelFactory<T> mFactory;
-	protected final ArrayList<Field> mCursorFields = new ArrayList<Field>();
+	protected final ArrayList<Field> mCursorFields = new ArrayList<>();
 	protected final DataSetObserver mCursorDataSetObserver = new DataSetObserver() {
 		@Override
 		public void onChanged() {
@@ -63,10 +63,10 @@ public class CursorCollection<T extends ICursorRowModel> extends ObservableColle
 	                        ICursorCacheManager<T> cacheManager, Cursor cursor) {
 		mRowModelType = rowModelType;
 		mFactory = factory == null ?
-				new RowModelFactory<T>(rowModelType) : factory;
+				new RowModelFactory<>(rowModelType) : factory;
 		mCursor = cursor;
 		mCacheManager = cacheManager == null ?
-				new DefaultCursorCacheManager<T>() : cacheManager;
+				new DefaultCursorCacheManager<>() : cacheManager;
 		initFieldDataFromModel();
 		if (null != cursor) {
 			cursor.registerDataSetObserver(mCursorDataSetObserver);
@@ -222,17 +222,17 @@ public class CursorCollection<T extends ICursorRowModel> extends ObservableColle
 		private CacheHashMap<Integer, T> mCache;
 
 		private WeakHashMap<Object, Integer> cachingOriginators =
-				new WeakHashMap<Object, Integer>();
+				new WeakHashMap<>();
 
 		private int mMinSize = 30;
 		private float mExtra = 2.0f;
 
 		public DefaultCursorCacheManager() {
-			mCache = new CacheHashMap<Integer, T>(mMinSize);
+			mCache = new CacheHashMap<>(mMinSize);
 		}
 
 		public DefaultCursorCacheManager(int minSize, float extra) {
-			mCache = new CacheHashMap<Integer, T>((int) (minSize * extra));
+			mCache = new CacheHashMap<>((int) (minSize * extra));
 			mMinSize = minSize > 0 ? minSize : mMinSize;
 			mExtra = extra > 1.0 ? extra : mExtra;
 		}

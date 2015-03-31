@@ -20,7 +20,7 @@ public class ModificationObservable extends Observable<Boolean> implements Obser
 			o.subscribe(this);
 		}
 		this.mDependents = dependents;
-		this.onPropertyChanged(null, new ArrayList<Object>());
+		this.onPropertyChanged(null, new ArrayList<>());
 	}
 
 	// This is provided in case the constructor can't be used.
@@ -37,7 +37,7 @@ public class ModificationObservable extends Observable<Boolean> implements Obser
 			mDependents[i + len] = dependents[i];
 			dependents[i].subscribe(this);
 		}
-		this.onPropertyChanged(null, new ArrayList<Object>());
+		this.onPropertyChanged(null, new ArrayList<>());
 	}
 
 	public final void onPropertyChanged(IObservable<?> prop,

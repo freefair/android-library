@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @author andy
  */
 public class CombinedAdapter extends BaseAdapter implements LazyLoadAdapter {
-	private ArrayList<TranslatedAdapter> mTranslated = new ArrayList<TranslatedAdapter>();
+	private ArrayList<TranslatedAdapter> mTranslated = new ArrayList<>();
 
 	private DataSetObserver observer = new DataSetObserver() {
 		@Override

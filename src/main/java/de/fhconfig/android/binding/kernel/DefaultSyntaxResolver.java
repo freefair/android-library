@@ -183,7 +183,7 @@ public class DefaultSyntaxResolver implements ISyntaxResolver {
 
 	private String[] splitArguments(String group) {
 		if (group == null) return new String[0];
-		ArrayList<String> arguments = new ArrayList<String>();
+		ArrayList<String> arguments = new ArrayList<>();
 		int bracketCount = 0;
 		int curlyBraceCount = 0;
 		String progress = "";
@@ -287,7 +287,7 @@ public class DefaultSyntaxResolver implements ISyntaxResolver {
 	private IObservable<?> matchString(String fieldName) {
 		if ((fieldName.startsWith("'") && fieldName.endsWith("'")) ||
 				(fieldName.startsWith("\"") && fieldName.endsWith("\"")))
-			return new ConstantObservable<String>(String.class,
+			return new ConstantObservable<>(String.class,
 					fieldName.substring(1, fieldName.length() - 1)
 							.replace("\'", "'")
 							.replace("\\\"", "\""));
@@ -320,28 +320,28 @@ public class DefaultSyntaxResolver implements ISyntaxResolver {
 					(String.format("Resource '%s' not found. Maybe typo? ", fieldName));
 		}
 		if ("layout".equals(typeName))
-			return new ConstantObservable<Layout>(Layout.class, new SingleTemplateLayout(id));
+			return new ConstantObservable<>(Layout.class, new SingleTemplateLayout(id));
 		if ("id".equals(typeName))
-			return new ConstantObservable<Integer>(Integer.class, id);
+			return new ConstantObservable<>(Integer.class, id);
 
 		TypedValue outValue = new TypedValue();
 		context.getResources().getValue(id, outValue, true);
 
 		if (typeName.startsWith("drawable") || typeName.startsWith("anim") || typeName.startsWith("menu") || typeName.startsWith("raw"))
-			return new ConstantObservable<Integer>(Integer.class, id);
+			return new ConstantObservable<>(Integer.class, id);
 
 		switch (outValue.type) {
 			case TypedValue.TYPE_STRING:
-				return new ConstantObservable<String>(String.class, outValue.string.toString());
+				return new ConstantObservable<>(String.class, outValue.string.toString());
 			case TypedValue.TYPE_DIMENSION:
-				return new ConstantObservable<TypedValue>(TypedValue.class, outValue);
+				return new ConstantObservable<>(TypedValue.class, outValue);
 			case TypedValue.TYPE_FRACTION:
 			case TypedValue.TYPE_FLOAT:
-				return new ConstantObservable<Float>(Float.class, outValue.getFloat());
+				return new ConstantObservable<>(Float.class, outValue.getFloat());
 			case TypedValue.TYPE_INT_BOOLEAN:
-				return new ConstantObservable<Boolean>(Boolean.class, outValue.data != 0);
+				return new ConstantObservable<>(Boolean.class, outValue.data != 0);
 			default:
-				return new ConstantObservable<Integer>(Integer.class, outValue.data);
+				return new ConstantObservable<>(Integer.class, outValue.data);
 		}
 	}
 

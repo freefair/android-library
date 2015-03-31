@@ -73,7 +73,7 @@ public class BindingActivity extends InjectionActionBarActivity {
 			throw new IllegalStateException("Root view is already created");
 		}
 		InflateResult result = Binder.inflateView(this, layoutId, null, false);
-		mRootViewRef = new WeakReference<View>(result.rootView);
+		mRootViewRef = new WeakReference<>(result.rootView);
 		for (int i = 0; i < contentViewModel.length; i++) {
 			Binder.bindView(this, result, contentViewModel[i]);
 		}
@@ -118,7 +118,7 @@ public class BindingActivity extends InjectionActionBarActivity {
 	}
 
 	public void setRootView(View rootView) {
-		mRootViewRef = new WeakReference<View>(rootView);
+		mRootViewRef = new WeakReference<>(rootView);
 	}
 
 }

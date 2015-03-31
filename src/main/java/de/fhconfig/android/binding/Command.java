@@ -5,7 +5,7 @@ import android.view.View;
 import de.fhconfig.android.binding.utility.WeakList;
 
 public abstract class Command extends Observable<Command> {
-	WeakList<CommandListener> listeners = new WeakList<CommandListener>();
+	WeakList<CommandListener> listeners = new WeakList<>();
 
 	public Command() {
 		super(Command.class);

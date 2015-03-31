@@ -12,7 +12,7 @@ import de.fhconfig.android.binding.exception.AttributeNotDefinedException;
 
 public class AttributeBinder {
 	private static AttributeBinder _attributeFactory;
-	private ArrayList<BindingProvider> providers = new ArrayList<BindingProvider>(10);
+	private ArrayList<BindingProvider> providers = new ArrayList<>(10);
 	private RefViewAttributeProvider refViewAttributeProvider =
 			new RefViewAttributeProvider();
 
@@ -67,7 +67,7 @@ public class AttributeBinder {
 		IObservable<?> property;
 
 		// Set the reference context to the current binding view
-		refViewAttributeProvider.viewContextRef = new WeakReference<View>(view);
+		refViewAttributeProvider.viewContextRef = new WeakReference<>(view);
 
 		try {
 			property = Binder.getSyntaxResolver()

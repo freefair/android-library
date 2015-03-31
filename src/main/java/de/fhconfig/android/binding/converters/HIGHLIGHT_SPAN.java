@@ -43,7 +43,7 @@ public class HIGHLIGHT_SPAN extends Converter<Object> {
 
 		int length = needle.length();
 
-		ArrayList<Span> result = new ArrayList<Span>();
+		ArrayList<Span> result = new ArrayList<>();
 
 		int occurence = 1;
 		int index = hey.indexOf(needle);

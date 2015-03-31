@@ -217,7 +217,7 @@ public class CollectionChangedEventArg {
 		this.mNewItems = null;
 		if (newItems != null) {
 			// make this readonly
-			ArrayList<Object> list = new ArrayList<Object>();
+			ArrayList<Object> list = new ArrayList<>();
 			list.addAll(newItems);
 			Collections.unmodifiableList(list);
 			this.mNewItems = list;
@@ -237,7 +237,7 @@ public class CollectionChangedEventArg {
 		this.mOldItems = null;
 		if (oldItems != null) {
 			// make this readonly
-			ArrayList<Object> list = new ArrayList<Object>();
+			ArrayList<Object> list = new ArrayList<>();
 			list.addAll(oldItems);
 			Collections.unmodifiableList(list);
 			this.mOldItems = list;

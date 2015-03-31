@@ -25,7 +25,7 @@ public class ItemViewEventMark implements View.OnClickListener, View.OnLongClick
 		super();
 		mTargetListItemPosition = targetListItemPosition;
 		mTargetListItemId = targetListItemId;
-		mWRTargetView = new WeakReference<View>(targetView);
+		mWRTargetView = new WeakReference<>(targetView);
 	}
 
 	@Override

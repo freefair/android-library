@@ -84,7 +84,7 @@ public class Binder {
 	 * @author andy
 	 */
 	public static class InflateResult {
-		public ArrayList<View> processedViews = new ArrayList<View>();
+		public ArrayList<View> processedViews = new ArrayList<>();
 		public View rootView;
 	}
 }

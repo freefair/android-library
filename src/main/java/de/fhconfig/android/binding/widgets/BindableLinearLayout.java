@@ -112,14 +112,14 @@ public class BindableLinearLayout extends LinearLayout implements IBindableView<
 					return updateEnabled;
 				}
 			};
-	private ObservableMultiplexer<Object> observableItemsLayoutID = new ObservableMultiplexer<Object>(new Observer() {
+	private ObservableMultiplexer<Object> observableItemsLayoutID = new ObservableMultiplexer<>(new Observer() {
 		@Override
 		public void onPropertyChanged(IObservable<?> prop, Collection<Object> initiators) {
 			if (initiators == null || initiators.size() < 1)
 				return;
 			Object parent = initiators.toArray()[0];
 			int pos = currentList.indexOf(parent);
-			ArrayList<Object> list = new ArrayList<Object>();
+			ArrayList<Object> list = new ArrayList<>();
 			list.add(parent);
 			removeItems(list);
 			insertItem(pos, parent);
@@ -171,7 +171,7 @@ public class BindableLinearLayout extends LinearLayout implements IBindableView<
 			return;
 		}
 
-		currentList = new WeakList<Object>();
+		currentList = new WeakList<>();
 
 		for (int pos = 0; pos < list.size(); pos++) {
 			Object item = list.getItem(pos);
@@ -223,7 +223,7 @@ public class BindableLinearLayout extends LinearLayout implements IBindableView<
 		if (collection == null)
 			return;
 
-		currentList = new WeakList<Object>();
+		currentList = new WeakList<>();
 		for (pos = 0; pos < collection.size(); pos++) {
 			Object item = collection.getItem(pos);
 			currentList.add(item);
@@ -256,7 +256,7 @@ public class BindableLinearLayout extends LinearLayout implements IBindableView<
 		if (deleteList == null || deleteList.size() == 0 || currentList == null)
 			return;
 
-		ArrayList<Object> currentPositionList = new ArrayList<Object>(Arrays.asList(currentList.toArray()));
+		ArrayList<Object> currentPositionList = new ArrayList<>(Arrays.asList(currentList.toArray()));
 
 		for (Object item : deleteList) {
 			int pos = currentPositionList.indexOf(item);

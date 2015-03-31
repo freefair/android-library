@@ -20,7 +20,7 @@ public class HashMapObservable<K, V> extends ObservableCollection<V>
 	public HashMapObservable(Class<K> keyType, Class<V> valueType) {
 		mKeyType = keyType;
 		mValueType = valueType;
-		mMap = new HashMap<K, V>();
+		mMap = new HashMap<>();
 	}
 
 	@SuppressWarnings("unchecked")

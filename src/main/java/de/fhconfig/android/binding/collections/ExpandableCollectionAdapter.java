@@ -28,7 +28,7 @@ public class ExpandableCollectionAdapter extends BaseExpandableListAdapter imple
 	protected final Handler mHandler;
 	private final String mChildName;
 	private final Layout mChildLayout;
-	private final WeakHashMap<Integer, Adapter> mChildAdapters = new WeakHashMap<Integer, Adapter>();
+	private final WeakHashMap<Integer, Adapter> mChildAdapters = new WeakHashMap<>();
 	private final Adapter mGroupAdapter;
 	private final Context mContext;
 

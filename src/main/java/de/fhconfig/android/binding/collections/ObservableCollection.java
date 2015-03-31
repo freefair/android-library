@@ -13,7 +13,7 @@ import de.fhconfig.android.binding.utility.WeakList;
 public abstract class ObservableCollection<T> implements IObservableCollection<T> {
 
 	private WeakList<CollectionObserver> mCollectionObservers
-			= new WeakList<CollectionObserver>();
+			= new WeakList<>();
 
 	@SuppressWarnings("rawtypes")
 	public Class<IObservableCollection> getType() {
@@ -70,7 +70,7 @@ public abstract class ObservableCollection<T> implements IObservableCollection<T
 	}
 
 	public void notifyCollectionChanged(CollectionChangedEventArg args) {
-		ArrayList<Object> initiators = new ArrayList<Object>();
+		ArrayList<Object> initiators = new ArrayList<>();
 		initiators.add(this);
 		notifyCollectionChanged(args, initiators);
 	}

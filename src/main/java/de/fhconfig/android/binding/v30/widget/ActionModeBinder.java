@@ -34,7 +34,7 @@ public class ActionModeBinder implements ActionMode.Callback, IMenuItemChangedCa
 	private final int mMenuResId;
 	private final Object mModel;
 	private Hashtable<Integer, AbsMenuBridge> items =
-			new Hashtable<Integer, AbsMenuBridge>();
+			new Hashtable<>();
 	private IObservable<?> mTitleObservable;
 	private ActionMode mActionMode;
 	private boolean invalidated = false;
@@ -61,7 +61,7 @@ public class ActionModeBinder implements ActionMode.Callback, IMenuItemChangedCa
 	public static ActionModeBinder startActionMode
 			(Activity activity, int menuResId, Object model, CharSequence title) {
 		ActionModeBinder binder = new ActionModeBinder(activity, menuResId, model,
-				new ConstantObservable<CharSequence>(CharSequence.class, title));
+				new ConstantObservable<>(CharSequence.class, title));
 		activity.startActionMode(binder);
 		return binder;
 	}

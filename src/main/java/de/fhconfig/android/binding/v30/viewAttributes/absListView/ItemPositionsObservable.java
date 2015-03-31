@@ -50,7 +50,7 @@ public class ItemPositionsObservable extends
 
 	public void replaceAll(SparseBooleanArray newArr, Object initiator) {
 		arr = Helper.cloneSBArray(newArr);
-		ArrayList<Object> initiators = new ArrayList<Object>();
+		ArrayList<Object> initiators = new ArrayList<>();
 		initiators.add(initiator);
 		notifyCollectionChanged(new CollectionChangedEventArg(Action.Reset), initiators);
 	}

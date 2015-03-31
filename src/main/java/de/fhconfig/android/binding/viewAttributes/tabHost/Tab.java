@@ -11,10 +11,10 @@ public class Tab {
 	public final ConstantObservable<String> Tag;
 	public StringObservable Activity = new StringObservable();
 	public IntegerObservable ViewId = new IntegerObservable();
-	public Observable<CharSequence> Label = new Observable<CharSequence>(CharSequence.class);
-	public Observable<Drawable> Icon = new Observable<Drawable>(Drawable.class);
+	public Observable<CharSequence> Label = new Observable<>(CharSequence.class);
+	public Observable<Drawable> Icon = new Observable<>(Drawable.class);
 
 	public Tab(String tag) {
-		Tag = new ConstantObservable<String>(String.class, tag);
+		Tag = new ConstantObservable<>(String.class, tag);
 	}
 }

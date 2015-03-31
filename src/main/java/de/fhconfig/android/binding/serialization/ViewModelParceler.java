@@ -70,7 +70,7 @@ public class ViewModelParceler {
 				if (fieldValue != null) {
 					IObservable<?> obs = (IObservable<?>) fieldValue;
 					Object obj = bundle.get(fieldName);
-					obs._setObject(obj, new ArrayList<Object>());
+					obs._setObject(obj, new ArrayList<>());
 				}
 			} catch (IllegalArgumentException e) {
 				continue;

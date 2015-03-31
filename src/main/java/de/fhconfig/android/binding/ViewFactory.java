@@ -15,7 +15,7 @@ public class ViewFactory implements Factory {
 
 	private LayoutInflater mInflater;
 
-	private ArrayList<View> processedViews = new ArrayList<View>();
+	private ArrayList<View> processedViews = new ArrayList<>();
 
 	public ViewFactory(LayoutInflater inflater) {
 		this.mInflater = inflater;

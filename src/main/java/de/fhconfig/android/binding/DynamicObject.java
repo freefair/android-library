@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class DynamicObject extends Observable<DynamicObject> implements IPropertyContainer, Observer {
 	private HashMap<String, IObservable<?>> observables =
-			new HashMap<String, IObservable<?>>();
+			new HashMap<>();
 
 	public DynamicObject() {
 		super(DynamicObject.class);

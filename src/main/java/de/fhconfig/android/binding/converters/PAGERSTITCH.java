@@ -27,7 +27,7 @@ public class PAGERSTITCH extends Converter<PagerAdapterObservable> {
 	public PagerAdapterObservable calculateValue(Object... args) throws Exception {
 		CombinedPagerAdapter combine = new CombinedPagerAdapter();
 		int length = args.length;
-		ArrayList<PagerAdapter> adapters = new ArrayList<PagerAdapter>();
+		ArrayList<PagerAdapter> adapters = new ArrayList<>();
 		for (int i = 0; i < length; i++) {
 			if (args[i] instanceof PagerAdapter) {
 				adapters.add((PagerAdapter) args[i]);
@@ -39,7 +39,7 @@ public class PAGERSTITCH extends Converter<PagerAdapterObservable> {
 	}
 
 	private static class CombinedPagerAdapter extends PagerAdapterObservable {
-		private ArrayList<TranslatedAdapter> mTranslated = new ArrayList<TranslatedAdapter>();
+		private ArrayList<TranslatedAdapter> mTranslated = new ArrayList<>();
 		private int mItemCount;
 		private PagerDataSetObserver observer = new PagerDataSetObserver() {
 			@Override

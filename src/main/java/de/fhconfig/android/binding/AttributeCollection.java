@@ -7,7 +7,7 @@ public class AttributeCollection {
 	private HashMap<String, ViewAttribute<?, ?>> collection;
 
 	public AttributeCollection() {
-		collection = new HashMap<String, ViewAttribute<?, ?>>(5);
+		collection = new HashMap<>(5);
 	}
 
 	public boolean containsAttribute(String attrId) {

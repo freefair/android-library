@@ -26,7 +26,7 @@ public class OptionsMenuBinder implements IMenuItemChangedCallback {
 	private final int mMenuResId;
 	private boolean firstCreate = true;
 	private Hashtable<Integer, AbsMenuBridge> items =
-			new Hashtable<Integer, AbsMenuBridge>();
+			new Hashtable<>();
 
 	private WeakReference<Activity> mActivity;
 
@@ -36,7 +36,7 @@ public class OptionsMenuBinder implements IMenuItemChangedCallback {
 
 	// Called by owner activity
 	public boolean onCreateOptionsMenu(Activity activity, Menu menu, Object model) {
-		mActivity = new WeakReference<Activity>(activity);
+		mActivity = new WeakReference<>(activity);
 		// First inflate the menu - default action
 		activity.getMenuInflater().inflate(mMenuResId, menu);
 

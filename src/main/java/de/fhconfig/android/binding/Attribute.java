@@ -92,7 +92,7 @@ public abstract class Attribute<Th, T> extends Observable<T> {
 		prop.subscribe(mBridge);
 		if (binding.equals(BindingType.TwoWay)) this.subscribe(mBridge);
 
-		ArrayList<Object> initiators = new ArrayList<Object>();
+		ArrayList<Object> initiators = new ArrayList<>();
 		initiators.add(prop);
 		this._setObject(prop.get(), initiators);
 		// Broadcast initial change

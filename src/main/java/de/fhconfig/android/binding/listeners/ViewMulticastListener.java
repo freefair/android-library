@@ -10,7 +10,7 @@ import de.fhconfig.android.binding.MulticastListener;
 
 
 public abstract class ViewMulticastListener<T> extends MulticastListener<View, T> {
-	protected ArrayList<T> listeners = new ArrayList<T>(0);
+	protected ArrayList<T> listeners = new ArrayList<>(0);
 
 	public abstract void registerToView(View v);
 
@@ -33,7 +33,7 @@ public abstract class ViewMulticastListener<T> extends MulticastListener<View, T
 
 	public static class Factory {
 		private static HashMap<Class<?>, Constructor<?>>
-				constructors = new HashMap<Class<?>, Constructor<?>>();
+				constructors = new HashMap<>();
 
 		public static void RegisterConstructorE(Class<?> type, Constructor<?> constructor) {
 			constructors.put(type, constructor);

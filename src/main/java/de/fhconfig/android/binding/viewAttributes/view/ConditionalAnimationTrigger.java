@@ -42,11 +42,11 @@ public class ConditionalAnimationTrigger extends AnimationTrigger implements Obs
 				if (obj.observableExists("condition")) {
 					condition = obj.getObservableByName("condition");
 				} else {
-					condition = new Observable<Object>(Object.class);
+					condition = new Observable<>(Object.class);
 				}
 				type = (IObservable<TriggerType>) obj.getObservableByName("type");
 			} else {
-				type = new Observable<TriggerType>(TriggerType.class, TriggerType.True);
+				type = new Observable<>(TriggerType.class, TriggerType.True);
 			}
 			return new ConditionalAnimationTrigger(id, trigger, type, condition);
 		} catch (Exception e) {

@@ -9,9 +9,9 @@ import java.util.WeakHashMap;
 
 public class EventAggregator {
 	private static WeakHashMap<Context, EventAggregator> instances =
-			new WeakHashMap<Context, EventAggregator>();
+			new WeakHashMap<>();
 	private HashMap<String, ArrayList<EventSubscriber>>
-			EventNameSubscribersMap = new HashMap<String, ArrayList<EventSubscriber>>();
+			EventNameSubscribersMap = new HashMap<>();
 
 	public static EventAggregator getInstance(Context context) {
 		if (!instances.containsKey(context)) {
@@ -50,7 +50,7 @@ public class EventAggregator {
 	public void subscribe(final String eventName, final EventSubscriber subscriber) {
 		ArrayList<EventSubscriber> subscribers = EventNameSubscribersMap.get(eventName);
 		if (subscribers == null) {
-			subscribers = new ArrayList<EventSubscriber>();
+			subscribers = new ArrayList<>();
 			EventNameSubscribersMap.put(eventName, subscribers);
 		}
 
