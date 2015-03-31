@@ -1,7 +1,6 @@
 package de.fhconfig.android.binding.converters;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import de.fhconfig.android.binding.Converter;
