@@ -20,14 +20,14 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import de.fhconfig.android.library.Logger;
+import de.fhconfig.android.library.injection.annotation.Attribute;
+import de.fhconfig.android.library.injection.annotation.Resource;
 import de.fhconfig.android.library.injection.annotation.XmlLayout;
 import de.fhconfig.android.library.injection.annotation.XmlMenu;
 import de.fhconfig.android.library.injection.annotation.XmlView;
 import de.fhconfig.android.library.injection.exceptions.ViewIdNotFoundException;
 import de.fhconfig.android.library.reflection.FieldAnnotationPredicate;
 import de.fhconfig.android.library.reflection.Reflection;
-import de.fhconfig.android.library.injection.annotation.Attribute;
-import de.fhconfig.android.library.injection.annotation.Resource;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;

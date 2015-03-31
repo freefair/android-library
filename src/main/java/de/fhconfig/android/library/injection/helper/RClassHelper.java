@@ -13,6 +13,8 @@ import de.fhconfig.android.library.injection.annotation.RClass;
  */
 public class RClassHelper {
 
+	protected static Logger log = Logger.forClass(RClassHelper.class);
+
 	static Class<?> getRClassFromAnnotation(Object object) {
 		if (object.getClass().isAnnotationPresent(RClass.class)) {
 			Class<?> rClass = object.getClass().getAnnotation(RClass.class).value();
@@ -20,7 +22,7 @@ public class RClassHelper {
 			if (rClassName.equals("R")) {
 				return rClass;
 			} else {
-				Logger.error(RClassHelper.class, "The name of the class given via @RClass should be 'R', but was '" + rClassName + "'");
+				log.error("The name of the class given via @RClass should be 'R', but was '" + rClassName + "'");
 			}
 		}
 		return null;
@@ -28,19 +30,25 @@ public class RClassHelper {
 
 	public static Class<?> getRClassFromFragment(Fragment fragment) {
 		Class<?> rClass = getRClassFromAnnotation(fragment);
-		if (rClass != null) return rClass;
+		if (rClass != null) {
+			return rClass;
+		}
 		return getRClassFromActivity(fragment.getActivity());
 	}
 
 	public static Class<?> getRClassFromActivity(Activity activity) {
 		Class<?> rClass = getRClassFromAnnotation(activity);
-		if (rClass != null) return rClass;
+		if (rClass != null) {
+			return rClass;
+		}
 		return getRClassFromApplication(activity.getApplication());
 	}
 
 	private static Class<?> getRClassFromApplication(Application application) {
 		Class<?> rClass = getRClassFromAnnotation(application);
-		if (rClass != null) return rClass;
+		if (rClass != null) {
+			return rClass;
+		}
 		return getRClassFromPackageName(application.getPackageName());
 	}
 
@@ -49,14 +57,17 @@ public class RClassHelper {
 		try {
 			return Class.forName(rClassName);
 		} catch (ClassNotFoundException e) {
+			log.error("No R class found for given package name " + packageName, e);
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-    public static Class<?> getRClassFromViewGroup(ViewGroup object) {
-        Class<?> rClass = getRClassFromAnnotation(object);
-        if (rClass != null) return rClass;
-        return getRClassFromActivity((Activity) object.getContext());
-    }
+	public static Class<?> getRClassFromViewGroup(ViewGroup object) {
+		Class<?> rClass = getRClassFromAnnotation(object);
+		if (rClass != null) {
+			return rClass;
+		}
+		return getRClassFromActivity((Activity) object.getContext());
+	}
 }
