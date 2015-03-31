@@ -67,7 +67,7 @@ public class WeakList<E> extends AbstractList<E> {
 
 	public E get(int index) {
 		synchronized (this) {
-			return ((WeakReference<E>) items.get(index)).get();
+			return items.get(index).get();
 		}
 	}
 
@@ -75,7 +75,7 @@ public class WeakList<E> extends AbstractList<E> {
 		synchronized (this) {
 			ArrayList<WeakReference<E>> removeList = new ArrayList<>();
 			for (Iterator<WeakReference<E>> it = items.iterator(); it.hasNext(); ) {
-				WeakReference<E> ref = (WeakReference<E>) it.next();
+				WeakReference<E> ref = it.next();
 				if (ref.get() == null) removeList.add(ref);
 			}
 			for (int i = 0; i < removeList.size(); i++) {

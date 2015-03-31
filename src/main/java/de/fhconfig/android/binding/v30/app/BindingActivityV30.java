@@ -86,11 +86,11 @@ public class BindingActivityV30 extends BindingActivity {
 					if (tagName.equals("optionsmenu")) {
 						mBindableOptionsMenuRef = createBindableOptionsMenu();
 						if (mBindableOptionsMenuRef != null)
-							Binder.putBindingMapToView((View) mBindableOptionsMenuRef,
+							Binder.putBindingMapToView(mBindableOptionsMenuRef,
 									Utility.createBindingMap(Xml.asAttributeSet(parser)));
 					} else if (tagName.equals("rootview")) {
 						mBindableRootViewRef = createBindableRootView();
-						Binder.putBindingMapToView((View) mBindableRootViewRef,
+						Binder.putBindingMapToView(mBindableRootViewRef,
 								Utility.createBindingMap(Xml.asAttributeSet(parser)));
 					} else if (tagName.equals("actionbar")) {
 						View bar = createBindableActionBar();
@@ -136,12 +136,12 @@ public class BindingActivityV30 extends BindingActivity {
 
 	protected void bindOptionsMenu(Object model) {
 		if (mBindableOptionsMenuRef == null) return;
-		AttributeBinder.getInstance().bindView(this, (View) mBindableOptionsMenuRef, model);
+		AttributeBinder.getInstance().bindView(this, mBindableOptionsMenuRef, model);
 	}
 
 	protected void bindRootView(Object model) {
 		if (mBindableRootViewRef == null) return;
-		AttributeBinder.getInstance().bindView(this, (View) mBindableRootViewRef, model);
+		AttributeBinder.getInstance().bindView(this, mBindableRootViewRef, model);
 	}
 
 	/**

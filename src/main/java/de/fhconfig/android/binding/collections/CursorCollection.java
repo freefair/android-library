@@ -29,7 +29,7 @@ public class CursorCollection<T extends ICursorRowModel> extends ObservableColle
 		@Override
 		public void onChanged() {
 			reInitCacheCursorRowCount();
-			CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Reset, (List<?>) null);
+			CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Reset, null);
 			notifyCollectionChanged(e);
 		}
 	};
@@ -244,12 +244,12 @@ public class CursorCollection<T extends ICursorRowModel> extends ObservableColle
 
 		@Override
 		public void put(int key, T value) {
-			mCache.put((Integer) key, value);
+			mCache.put(key, value);
 		}
 
 		@Override
 		public T get(int key) {
-			return mCache.get((Integer) key);
+			return mCache.get(key);
 		}
 
 		@Override

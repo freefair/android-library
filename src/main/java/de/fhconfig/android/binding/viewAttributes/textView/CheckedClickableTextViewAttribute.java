@@ -30,7 +30,7 @@ public class CheckedClickableTextViewAttribute extends ViewAttribute<CheckedText
 			changeTo = (Boolean) newValue;
 		}
 		if (newValue instanceof Number) {
-			changeTo = !((Number) newValue).equals(0);
+			changeTo = !newValue.equals(0);
 		}
 		if (changeTo != getView().isChecked()) {
 			Binder.getMulticastListenerForView(getView(), OnClickListenerMulticast.class).nextActionIsNotFromUser();

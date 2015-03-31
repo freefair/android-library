@@ -54,7 +54,7 @@ public class ArrayListObservable<T>
 	}
 
 	public void clear() {
-		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Reset, (List<?>) null);
+		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Reset, null);
 		mArray.clear();
 		this.notifyCollectionChanged(e);
 	}
@@ -179,7 +179,7 @@ public class ArrayListObservable<T>
 	public boolean add(T object) {
 		boolean result = mArray.add(object);
 		if (result) {
-			CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Add, Arrays.asList(object), (int) mArray.size() - 1);
+			CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Add, Arrays.asList(object), mArray.size() - 1);
 			this.notifyCollectionChanged(e);
 		}
 		return result;

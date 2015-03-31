@@ -44,7 +44,7 @@ public class HashMapObservable<K, V> extends ObservableCollection<V>
 	}
 
 	public void clear() {
-		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Reset, (List<V>) null);
+		CollectionChangedEventArg e = new CollectionChangedEventArg(Action.Reset, null);
 		mMap.clear();
 		this.notifyCollectionChanged(e);
 	}

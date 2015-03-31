@@ -20,7 +20,7 @@ public class CheckedTextViewAttribute extends ViewAttribute<CheckedTextView, Boo
 			changeTo = (Boolean) newValue;
 		}
 		if (newValue instanceof Number) {
-			changeTo = !((Number) newValue).equals(0);
+			changeTo = !newValue.equals(0);
 		}
 		if (changeTo != getView().isChecked()) {
 			getView().setChecked(changeTo);

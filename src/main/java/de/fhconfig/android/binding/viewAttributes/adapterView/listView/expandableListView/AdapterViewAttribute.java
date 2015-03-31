@@ -31,7 +31,7 @@ public class AdapterViewAttribute extends ViewAttribute<ExpandableListView, Expa
 			getView().setAdapter((ExpandableListAdapter) newValue);
 			if (newValue instanceof LazyLoadAdapter) {
 				if (getView() instanceof AbsListView)
-					((LazyLoadAdapter) newValue).setRoot((AbsListView) getView());
+					((LazyLoadAdapter) newValue).setRoot(getView());
 			}
 		}
 	}

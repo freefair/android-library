@@ -18,7 +18,7 @@ public abstract class DependentCollectionObservable<T> extends Observable<T> imp
 	public DependentCollectionObservable(Class<T> type, IObservableCollection<?>... dependents) {
 		super(type);
 		for (IObservableCollection<?> o : dependents) {
-			o.subscribe((CollectionObserver) this);
+			o.subscribe(this);
 		}
 		this.mDependents = dependents;
 		ArrayList<Object> initiators = new ArrayList<>();
@@ -38,7 +38,7 @@ public abstract class DependentCollectionObservable<T> extends Observable<T> imp
 		int len2 = dependents.length;
 		for (int i = 0; i < len2; i++) {
 			mDependents[i + len] = dependents[i];
-			dependents[i].subscribe((CollectionObserver) this);
+			dependents[i].subscribe(this);
 		}
 		ArrayList<Object> initiators = new ArrayList<>();
 		initiators.add(this);

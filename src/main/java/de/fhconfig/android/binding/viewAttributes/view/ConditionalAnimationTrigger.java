@@ -95,7 +95,7 @@ public class ConditionalAnimationTrigger extends AnimationTrigger implements Obs
 
 	public void onPropertyChanged(IObservable<?> prop,
 	                              Collection<Object> initiators) {
-		setAnimationId((int) mId.get());
+		setAnimationId(mId.get());
 		TriggerValue = mTrigger.get();
 		Type = mType.get();
 		TriggerCondition = mCondition.get();

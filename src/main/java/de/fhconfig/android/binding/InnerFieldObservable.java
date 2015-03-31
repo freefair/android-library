@@ -123,7 +123,7 @@ public class InnerFieldObservable<T> implements IObservable<T>, Undetermined {
 	public Class<T> getType() {
 		if (mChild != null)
 			return mChild.getType();
-		return (Class<T>) mObservable.getType();
+		return mObservable.getType();
 	}
 
 	@Override

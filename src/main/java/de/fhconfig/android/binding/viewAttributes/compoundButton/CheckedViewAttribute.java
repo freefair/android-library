@@ -40,7 +40,7 @@ public class CheckedViewAttribute extends ViewAttribute<CompoundButton, Boolean>
 			changeTo = (Boolean) newValue;
 		}
 		if (newValue instanceof Number) {
-			changeTo = !((Number) newValue).equals(0);
+			changeTo = !newValue.equals(0);
 		}
 		if (changeTo != getView().isChecked()) {
 			Binder.getMulticastListenerForView(getView(), OnCheckedChangeListenerMulticast.class).nextActionIsNotFromUser();
