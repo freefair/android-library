@@ -10,7 +10,7 @@ android-library
 ```gradle
 dependencies {
     ...
-    compile 'de.larsgrefer:android-library:0.7.1'
+    compile 'de.larsgrefer:android-library:0.7.2'
     ...
 }
 ```
