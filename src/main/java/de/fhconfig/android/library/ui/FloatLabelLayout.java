@@ -17,7 +17,9 @@ package de.fhconfig.android.library.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -66,7 +68,7 @@ public class FloatLabelLayout extends FrameLayout {
 	private int labelActiveColor;
 
 	private EditText editText;
-	private CharSequence hint;
+	private ColorStateList hintTextColors;
 	private TextView label;
 
 	public FloatLabelLayout(Context context) {
@@ -132,7 +134,16 @@ public class FloatLabelLayout extends FrameLayout {
 
 	private void setEditText(EditText editText) {
 		this.editText = editText;
-		updateHint();
+
+		updateHintTextColors();
+
+		label.setText(this.editText.getHint());
+
+		if (TextUtils.isEmpty(this.editText.getText())) {
+			hideLabel(0);
+		} else {
+			showLabel(0);
+		}
 
 		// Add a TextWatcher so that we know when the text input has changed
 		this.editText.addTextChangedListener(new TextWatcher() {
@@ -142,12 +153,12 @@ public class FloatLabelLayout extends FrameLayout {
 				if (TextUtils.isEmpty(s)) {
 					// The text is empty, so hide the label if it is visible
 					if (label.getVisibility() == View.VISIBLE) {
-						hideLabel();
+						hideLabel(animationDuration);
 					}
 				} else {
 					// The text is not empty, so show the label if it is not visible
 					if (label.getVisibility() != View.VISIBLE) {
-						showLabel();
+						showLabel(animationDuration);
 					}
 				}
 			}
@@ -170,8 +181,13 @@ public class FloatLabelLayout extends FrameLayout {
 				updateLabelTextColor();
 			}
 		});
+		updateLabelTextColor();
+	}
 
-		label.setText(this.editText.getHint());
+	private void updateHintTextColors() {
+		if (Color.alpha(this.editText.getCurrentHintTextColor()) > 0) {
+			hintTextColors = this.editText.getHintTextColors();
+		}
 	}
 
 	@TargetApi(11)
@@ -184,7 +200,7 @@ public class FloatLabelLayout extends FrameLayout {
 	/**
 	 * Show the label using an animation
 	 */
-	private void showLabel() {
+	private void showLabel(long animationDuration) {
 
 		AnimationSet animationSet = new AnimationSet(true);
 
@@ -201,7 +217,6 @@ public class FloatLabelLayout extends FrameLayout {
 		tcAnimation.setDuration(animationDuration);
 		animationSet.addAnimation(tcAnimation);
 
-
 		TextSizeAnimation textSizeAnimation = new TextSizeAnimation(label, editText.getTextSize(), labelTextSize);
 		textSizeAnimation.setDuration(animationDuration);
 		textSizeAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -210,8 +225,7 @@ public class FloatLabelLayout extends FrameLayout {
 
 			@Override
 			public void onAnimationStart(Animation animation) {
-				updateHint();
-				label.setText(hint);
+				label.setText(editText.getHint());
 				label.setVisibility(VISIBLE);
 			}
 
@@ -225,7 +239,7 @@ public class FloatLabelLayout extends FrameLayout {
 
 			}
 		});
-
+		label.clearAnimation();
 		label.startAnimation(animationSet);
 	}
 
@@ -236,7 +250,7 @@ public class FloatLabelLayout extends FrameLayout {
 	/**
 	 * Hide the label using an animation
 	 */
-	private void hideLabel() {
+	private void hideLabel(long animationDuration) {
 		AnimationSet animationSet = new AnimationSet(true);
 
 		TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
@@ -255,19 +269,17 @@ public class FloatLabelLayout extends FrameLayout {
 
 		animationSet.setAnimationListener(new Animation.AnimationListener() {
 
-
-
 			@Override
 			public void onAnimationStart(Animation animation) {
-				updateHint();
-				editText.setHint("");
-				label.setText(hint);
+				label.setText(editText.getHint());
+				updateHintTextColors();
+				editText.setHintTextColor(Color.TRANSPARENT);
 			}
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				label.setVisibility(INVISIBLE);
-				editText.setHint(hint);
+				editText.setHintTextColor(hintTextColors);
 			}
 
 			@Override
@@ -276,13 +288,8 @@ public class FloatLabelLayout extends FrameLayout {
 			}
 		});
 
+		label.clearAnimation();
 		label.startAnimation(animationSet);
-	}
-
-	private void updateHint() {
-		if(!TextUtils.isEmpty(editText.getHint())) {
-			hint = editText.getHint();
-		}
 	}
 
 	/**
