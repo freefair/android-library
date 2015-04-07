@@ -1,31 +1,21 @@
 android-library
 ===============
-
-by
-<table>
-	<tr>
-		<td><a href="//github.com/Frisch12/" target="_blank"><img src="https://de.gravatar.com/userimage/63287007/45a67c3e3d367da058c3f3a8d61b3a5b.jpg" /></a></td>
-		<td><a href="//github.com/larsgrefer/" target="_blank"><img src="http://0.gravatar.com/avatar/0bc5394f410f232a835c831656b2c542"/></a></td>
-	</tr>
-	<tr>
-		<td>Dennis Fricke</td>
-		<td>Lars Grefer</td>
-	</tr>
-</table>
-
-Latest available Version: [ ![Download](https://api.bintray.com/packages/larsgrefer/maven/android-library/images/download.svg) ](https://bintray.com/larsgrefer/maven/android-library/_latestVersion)
+|master                                                                                                                                                                    |develop                                                                                                                                 |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+|[![Build Status](https://travis-ci.org/larsgrefer/android-library.svg?branch=master)](https://travis-ci.org/larsgrefer/android-library)                                   |[![Build Status](https://travis-ci.org/larsgrefer/android-library.svg?branch=develop)](https://travis-ci.org/larsgrefer/android-library)|
+|[![Download](https://api.bintray.com/packages/larsgrefer/maven/android-library/images/download.svg) ](https://bintray.com/larsgrefer/maven/android-library/_latestVersion)|[oss.jfrog.org](http://oss.jfrog.org/artifactory/webapp/browserepo.html?pathId=oss-snapshot-local%3Ade%2Flarsgrefer%2Fandroid-library)  |
 
 ##How to include:
 <h6>Gradle:</h6>
 ```gradle
 dependencies {
     ...
-    compile 'de.larsgrefer:android-library:0.5'
+    compile 'de.larsgrefer:android-library:0.7.2'
     ...
 }
 ```
 ##Features:
-- All material colors (via "@color/material_red_A200" )
+- All material colors (via ```@color/material_red_A200``` )
 - minSdk 7 (it´s based on AppCompat)
 - Dependency injection with annotations:
 	- Acitivy: 

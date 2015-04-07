@@ -15,13 +15,13 @@ public class TextSizeAnimation extends ViewAnimation<TextView> {
 
 	protected Fader<Float> textSizeFader;
 
-	public TextSizeAnimation(TextView view, Fader<Float> textSizeFader){
+	public TextSizeAnimation(TextView view, Fader<Float> textSizeFader) {
 		super();
 		setView(view);
 		setTextSizeFader(textSizeFader);
 	}
 
-	public TextSizeAnimation(TextView view, float from, float to){
+	public TextSizeAnimation(TextView view, float from, float to) {
 		this(view, new FloatFader(from, to));
 	}
 
@@ -40,7 +40,7 @@ public class TextSizeAnimation extends ViewAnimation<TextView> {
 		this.textSizeFader = textSizeFader;
 	}
 
-	private class TextSizeAnimationListener implements AnimationListener{
+	private class TextSizeAnimationListener implements AnimationListener {
 
 		@Override
 		public void onAnimationStart(Animation animation) {

@@ -1,5 +1,6 @@
 package de.fhconfig.android.library;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -10,6 +11,10 @@ public interface MultiListenerHost<T> {
 	public Set<T> getListeners();
 
 	public void addListener(T listener);
+
+	public void addListeners(T... listeners);
+
+	public void addListeners(Collection<T> listeners);
 
 	public boolean removeListener(T listener);
 }

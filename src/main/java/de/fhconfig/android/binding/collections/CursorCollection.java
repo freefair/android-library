@@ -3,6 +3,8 @@ package de.fhconfig.android.binding.collections;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 
+import com.google.common.base.Optional;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +67,9 @@ public class CursorCollection<T extends ICursorRowModel> extends ObservableColle
 		mFactory = factory == null ?
 				new RowModelFactory<>(rowModelType) : factory;
 		mCursor = cursor;
-		mCacheManager = cacheManager == null ?
-				new DefaultCursorCacheManager<T>() : cacheManager;
+
+		mCacheManager = Optional.fromNullable(cacheManager).or(new DefaultCursorCacheManager<>());
+
 		initFieldDataFromModel();
 		if (null != cursor) {
 			cursor.registerDataSetObserver(mCursorDataSetObserver);

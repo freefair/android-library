@@ -17,7 +17,9 @@ package de.fhconfig.android.library.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -35,7 +37,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import de.fhconfig.android.library.Logger;
-import de.larsgrefer.android.library.R;
+import de.fhconfig.android.library.R;
 import de.fhconfig.android.library.ui.animation.TextColorAnimation;
 import de.fhconfig.android.library.ui.animation.TextSizeAnimation;
 
@@ -66,6 +68,7 @@ public class FloatLabelLayout extends FrameLayout {
 	private int labelActiveColor;
 
 	private EditText editText;
+	private ColorStateList hintTextColors;
 	private TextView label;
 
 	public FloatLabelLayout(Context context) {
@@ -84,7 +87,7 @@ public class FloatLabelLayout extends FrameLayout {
 		final int sidePadding = a.getDimensionPixelSize(R.styleable.FloatLabelLayout_floatLabelSidePadding,
 															   convert.dipToPx(DEFAULT_PADDING_LEFT_RIGHT_DP));
 		label = new TextView(context);
-		label.setPadding(sidePadding, convert.dipToPx(8), sidePadding, 0);
+		label.setPadding(sidePadding, 0, sidePadding, 0);
 		label.setVisibility(INVISIBLE);
 
 		label.setTextAppearance(context, a.getResourceId(R.styleable.FloatLabelLayout_floatLabelTextAppearance,
@@ -95,9 +98,13 @@ public class FloatLabelLayout extends FrameLayout {
 		labelActiveColor = typedArray.getColor(0, 0);
 		labelColor = label.getTextColors().getDefaultColor();
 
-		addView(label, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		FrameLayout.LayoutParams labelLayoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		labelLayoutParams.setMargins(0, convert.dipToPx(16), 0, 0);
+		labelLayoutParams.gravity = Gravity.TOP;
 
-		this.setMinimumHeight(convert.dipToPx(69.333336f));
+		addView(label, labelLayoutParams);
+
+		this.setMinimumHeight(convert.dipToPx(72f));
 
 		a.recycle();
 	}
@@ -113,11 +120,12 @@ public class FloatLabelLayout extends FrameLayout {
 			// Update the layout params so that the EditText is at the bottom, with enough top
 			// margin to show the label
 			final LayoutParams lp = new LayoutParams(params);
-			lp.gravity = Gravity.BOTTOM;
-			lp.topMargin = (int) label.getTextSize() + convert.dipToPx(16);
+			lp.gravity = Gravity.TOP;
+			lp.topMargin = (int) (convert.dipToPx(16) + label.getTextSize());
 			params = lp;
 
 			setEditText((EditText) child);
+
 		}
 
 		// Carry on adding the View...
@@ -127,6 +135,16 @@ public class FloatLabelLayout extends FrameLayout {
 	private void setEditText(EditText editText) {
 		this.editText = editText;
 
+		updateHintTextColors();
+
+		label.setText(this.editText.getHint());
+
+		if (TextUtils.isEmpty(this.editText.getText())) {
+			hideLabel(0);
+		} else {
+			showLabel(0);
+		}
+
 		// Add a TextWatcher so that we know when the text input has changed
 		this.editText.addTextChangedListener(new TextWatcher() {
 
@@ -135,12 +153,12 @@ public class FloatLabelLayout extends FrameLayout {
 				if (TextUtils.isEmpty(s)) {
 					// The text is empty, so hide the label if it is visible
 					if (label.getVisibility() == View.VISIBLE) {
-						hideLabel();
+						hideLabel(animationDuration);
 					}
 				} else {
 					// The text is not empty, so show the label if it is not visible
 					if (label.getVisibility() != View.VISIBLE) {
-						showLabel();
+						showLabel(animationDuration);
 					}
 				}
 			}
@@ -163,8 +181,13 @@ public class FloatLabelLayout extends FrameLayout {
 				updateLabelTextColor();
 			}
 		});
+		updateLabelTextColor();
+	}
 
-		label.setText(this.editText.getHint());
+	private void updateHintTextColors() {
+		if (Color.alpha(this.editText.getCurrentHintTextColor()) > 0) {
+			hintTextColors = this.editText.getHintTextColors();
+		}
 	}
 
 	@TargetApi(11)
@@ -177,7 +200,7 @@ public class FloatLabelLayout extends FrameLayout {
 	/**
 	 * Show the label using an animation
 	 */
-	private void showLabel() {
+	private void showLabel(long animationDuration) {
 
 		AnimationSet animationSet = new AnimationSet(true);
 
@@ -186,14 +209,13 @@ public class FloatLabelLayout extends FrameLayout {
 		}
 
 		TranslateAnimation translateAnimation = new TranslateAnimation(Animation.ABSOLUTE, 0, Animation.RELATIVE_TO_SELF, 0,
-																			  Animation.ABSOLUTE, labelHeight, Animation.ABSOLUTE, 0);
+																			  Animation.ABSOLUTE, labelTextSize + getEditText().getPaddingTop(), Animation.ABSOLUTE, 0);
 		translateAnimation.setDuration(animationDuration);
 		animationSet.addAnimation(translateAnimation);
 
 		TextColorAnimation tcAnimation = new TextColorAnimation(label, editText.getCurrentHintTextColor(), editText.isFocused() ? labelActiveColor : labelColor);
 		tcAnimation.setDuration(animationDuration);
 		animationSet.addAnimation(tcAnimation);
-
 
 		TextSizeAnimation textSizeAnimation = new TextSizeAnimation(label, editText.getTextSize(), labelTextSize);
 		textSizeAnimation.setDuration(animationDuration);
@@ -217,7 +239,7 @@ public class FloatLabelLayout extends FrameLayout {
 
 			}
 		});
-
+		label.clearAnimation();
 		label.startAnimation(animationSet);
 	}
 
@@ -228,11 +250,11 @@ public class FloatLabelLayout extends FrameLayout {
 	/**
 	 * Hide the label using an animation
 	 */
-	private void hideLabel() {
+	private void hideLabel(long animationDuration) {
 		AnimationSet animationSet = new AnimationSet(true);
 
 		TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-																			  Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1);
+																			  Animation.RELATIVE_TO_SELF, 0, Animation.ABSOLUTE, labelTextSize + getEditText().getPaddingTop());
 		translateAnimation.setDuration(animationDuration);
 		animationSet.addAnimation(translateAnimation);
 
@@ -250,13 +272,14 @@ public class FloatLabelLayout extends FrameLayout {
 			@Override
 			public void onAnimationStart(Animation animation) {
 				label.setText(editText.getHint());
-				editText.setHint("");
+				updateHintTextColors();
+				editText.setHintTextColor(Color.TRANSPARENT);
 			}
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				editText.setHint(label.getText());
 				label.setVisibility(INVISIBLE);
+				editText.setHintTextColor(hintTextColors);
 			}
 
 			@Override
@@ -265,6 +288,7 @@ public class FloatLabelLayout extends FrameLayout {
 			}
 		});
 
+		label.clearAnimation();
 		label.startAnimation(animationSet);
 	}
 

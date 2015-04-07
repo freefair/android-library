@@ -26,7 +26,7 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import de.fhconfig.android.library.Logger;
-import de.larsgrefer.android.library.R;
+import de.fhconfig.android.library.R;
 
 public class PagerSlidingTabStrip extends HorizontalScrollView {
 

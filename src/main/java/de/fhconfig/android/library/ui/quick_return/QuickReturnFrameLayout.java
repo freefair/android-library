@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
-import de.larsgrefer.android.library.R;
+import de.fhconfig.android.library.R;
 import de.fhconfig.android.binding.Binder;
 import de.fhconfig.android.binding.v30.app.BindingActivityV30;
 import de.fhconfig.android.binding.widgets.BindableFrameLayout;
