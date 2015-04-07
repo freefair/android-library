@@ -66,7 +66,7 @@ public class CursorCollection<T extends ICursorRowModel> extends ObservableColle
 				new RowModelFactory<>(rowModelType) : factory;
 		mCursor = cursor;
 		mCacheManager = cacheManager == null ?
-				new DefaultCursorCacheManager<>() : cacheManager;
+				new DefaultCursorCacheManager<T>() : cacheManager;
 		initFieldDataFromModel();
 		if (null != cursor) {
 			cursor.registerDataSetObserver(mCursorDataSetObserver);

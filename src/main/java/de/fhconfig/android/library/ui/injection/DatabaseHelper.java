@@ -2,7 +2,9 @@ package de.fhconfig.android.library.ui.injection;
 
 import com.j256.ormlite.android.AndroidConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import de.fhconfig.android.library.data.OpenHelper;
@@ -39,5 +41,13 @@ public class DatabaseHelper
 
 	public void registerObjects(List<Class<?>> objects) {
 		this.objects = objects;
+	}
+
+	public void recreateDatabase() throws SQLException {
+		for(Class<?> clazz : objects)
+		{
+			TableUtils.dropTable(source, clazz, true);
+			TableUtils.createTable(source, clazz);
+		}
 	}
 }

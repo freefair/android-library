@@ -48,8 +48,6 @@ public class ViewProvider extends BindingProvider {
 			return new DisallowInterceptAttribute(view);
 		} else if (attributeId.equals("layout_gravity")) {
 			return new Layout_GravityViewAttribute(view);
-		} else if (attributeId.equals("gravity")) {
-			return new GravityViewAttribute(view);
 		}
 		return null;
 	}
