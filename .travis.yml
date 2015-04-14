@@ -1,16 +1,25 @@
 language: android
 jdk:
-  - openjdk7
-  - oraclejdk7
-  - oraclejdk8
+- openjdk7
+- oraclejdk7
+- oraclejdk8
 android:
   components:
-    - build-tools-22.0.1
-    - android-22
-    - android-7
-    - extra
+  - build-tools-22.0.1
+  - android-22
+  - android-7
+  - extra
 script:
-  - ./gradlew --info build check
+- "./gradlew --info build check"
 after_success:
-- if [ "$TRAVIS_BRANCH" == "develop" ] && [ "$TRAVIS_SECURE_ENV_VARS" == "true" ] ; then ./gradlew uploadArchives ; fi
-
+- if [ "$TRAVIS_BRANCH" == "develop" ] && [ "$TRAVIS_SECURE_ENV_VARS" == "true" ]
+  ; then ./gradlew uploadArchives ; fi
+deploy:
+  provider: releases
+  api_key:
+    secure: V35m6Mzyieg5jMI6OJo4fi4DjpuxxZ2JTj2E8xAPjAWerymccc4Qlp6bLUgTLU19oQI2ADOEgawqP/sGPpHST+rM0ypXiEKNo2UnK+Pt7oan7Q1j3jVKs5ts8wwlPlA7EJW1Pguryyc+Zq0XybYq9tcgjb7LfxVkFZD7EpiK/9Y=
+  file: build/outputs/aar/android-library-release.apk
+  on:
+    repo: larsgrefer/android-library
+    tags: true
+    jdk: oraclejdk8
