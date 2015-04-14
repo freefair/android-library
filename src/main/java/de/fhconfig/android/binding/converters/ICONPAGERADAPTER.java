@@ -44,7 +44,9 @@ public class ICONPAGERADAPTER extends Converter<PagerAdapterObservable> {
 
     @Override
     public PagerAdapterObservable calculateValue(Object... args) throws Exception {
-        return new ObsPagerAdapter((DynamicObject)args[0]);
+	    DynamicObject arg = (DynamicObject) args[0];
+	    if(!arg.observableExists("source")) return null;
+	    return new ObsPagerAdapter(arg);
     }
 
     private class ObsPagerAdapter extends PagerAdapterObservable implements CollectionObserver, PagerSlidingTabStrip.IconTabProvider {
@@ -76,7 +78,7 @@ public class ICONPAGERADAPTER extends Converter<PagerAdapterObservable> {
                 col.subscribe(this);
             } catch (Exception e) {
                 BindingLog.exception("PAGERADAPTER.ObsPagerAdapter.Constructor", e);
-                throw new RuntimeException();
+                throw new RuntimeException(e);
             }
         }
 

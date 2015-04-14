@@ -9,6 +9,7 @@ import de.fhconfig.android.binding.ViewAttribute;
 import de.fhconfig.android.binding.viewAttributes.textView.CheckedClickableTextViewAttribute;
 import de.fhconfig.android.binding.viewAttributes.textView.CheckedTextViewAttribute;
 import de.fhconfig.android.binding.viewAttributes.textView.CompoundDrawableViewAttribute;
+import de.fhconfig.android.binding.viewAttributes.textView.GravityViewAttribute;
 import de.fhconfig.android.binding.viewAttributes.textView.MaxLinesViewAttribute;
 import de.fhconfig.android.binding.viewAttributes.textView.MinLinesViewAttribute;
 import de.fhconfig.android.binding.viewAttributes.textView.OnTextChangedViewEvent;
@@ -71,6 +72,9 @@ public class TextViewProvider extends BindingProvider {
 		if (attributeId.equals("drawableBottom")) {
 			CompoundDrawableViewAttribute attr = new CompoundDrawableViewAttribute((TextView) view, "drawableBottom");
 			return (ViewAttribute<Tv, ?>) attr;
+		}
+		if(attributeId.equals("gravity")) {
+			return (ViewAttribute<Tv, ?>) new GravityViewAttribute((TextView)view);
 		}
 
 		return null;

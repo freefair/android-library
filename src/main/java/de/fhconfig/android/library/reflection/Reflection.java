@@ -43,9 +43,9 @@ public class Reflection {
 		Class<?> currentClass = clazz;
 
 		do {
-			log.debug("Now checking class " + clazz.getName());
+			log.verbose("Now checking class " + clazz.getName());
 			for (Field field : currentClass.getDeclaredFields()){
-				log.debug("Checking field " + field.getName());
+				log.verbose("Checking field " + field.getName());
 				if(filter.apply(field)) {
 					fields.add(field);
 				}

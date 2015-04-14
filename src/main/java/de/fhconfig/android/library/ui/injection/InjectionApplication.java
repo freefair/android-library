@@ -31,8 +31,7 @@ public class InjectionApplication extends Application
 		return injector;
 	}
 
-	protected void enableOrm(List<Class<?>> objects, int version)
-	{
+	protected void enableOrm(List<Class<?>> objects, int version) {
 		new DatabaseHelper(new OpenHelper(this, version)).registerObjects(objects);
 	}
 }
