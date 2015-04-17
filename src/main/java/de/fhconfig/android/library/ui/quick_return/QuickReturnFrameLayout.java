@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
+import java.lang.ref.WeakReference;
+
 import de.fhconfig.android.library.R;
 import de.fhconfig.android.binding.Binder;
 import de.fhconfig.android.binding.v30.app.BindingActivityV30;
@@ -33,7 +35,7 @@ public class QuickReturnFrameLayout extends BindableFrameLayout implements Callb
 	private View mQuickReturnView;
 	private View mPlaceholderView;
 	private IObservableScrollView mObservableScrollView;
-	private ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
+	private ScrollSettleHandler mScrollSettleHandler;
 	private int mQuickReturnHeight;
 	private int mMaxScrollY;
 
@@ -65,6 +67,7 @@ public class QuickReturnFrameLayout extends BindableFrameLayout implements Callb
 
 	private void init(AttributeSet attrs)
 	{
+		mScrollSettleHandler = new ScrollSettleHandler(new WeakReference<QuickReturnFrameLayout>(this));    
 		if(attrs == null) return;
 		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.QuickReturnFrameLayout);
 		scrollViewId = typedArray.getResourceId(R.styleable.QuickReturnFrameLayout_qrflScrollViewId, -1);
@@ -183,11 +186,18 @@ public class QuickReturnFrameLayout extends BindableFrameLayout implements Callb
 		mScrollSettleHandler.onScroll(mObservableScrollView.getCurrentScrollY());
 	}
 
-	private class ScrollSettleHandler extends Handler {
+	private static class ScrollSettleHandler extends Handler {
 		private static final int SETTLE_DELAY_MILLIS = 100;
+
+		private WeakReference<QuickReturnFrameLayout> weakReference;
 
 		private int mSettledScrollY = 0;
 		private boolean mSettleEnabled;
+
+		public ScrollSettleHandler(WeakReference<QuickReturnFrameLayout> reference)
+		{
+			weakReference = reference;
+		}
 
 		public void onScroll(int scrollY) {
 			if (mSettledScrollY != scrollY) {
@@ -207,16 +217,18 @@ public class QuickReturnFrameLayout extends BindableFrameLayout implements Callb
 			// Handle the scroll settling.
 			if (mSettleEnabled) {
 				int mDestTranslationY;
-				if (-mQuickReturnView.getTranslationY() > mQuickReturnHeight / 2 && oldScroll > mQuickReturnHeight) {
-					mState = STATE_OFFSCREEN;
-					mDestTranslationY = -mQuickReturnHeight;
+				QuickReturnFrameLayout quickReturnFrameLayout = weakReference.get();
+
+				if (-quickReturnFrameLayout.mQuickReturnView.getTranslationY() > quickReturnFrameLayout.mQuickReturnHeight / 2 && quickReturnFrameLayout.oldScroll > quickReturnFrameLayout.mQuickReturnHeight) {
+					quickReturnFrameLayout.mState = STATE_OFFSCREEN;
+					mDestTranslationY = -quickReturnFrameLayout.mQuickReturnHeight;
 				} else {
 					mDestTranslationY = 0;
 				}
 
-				mMinRawY = mPlaceholderView.getTop() - mQuickReturnHeight - mDestTranslationY;
+				quickReturnFrameLayout.mMinRawY = quickReturnFrameLayout.mPlaceholderView.getTop() - quickReturnFrameLayout.mQuickReturnHeight - mDestTranslationY;
 
-				mQuickReturnView.animate().translationY(mDestTranslationY);
+				quickReturnFrameLayout.mQuickReturnView.animate().translationY(mDestTranslationY);
 			}
 			mSettledScrollY = Integer.MIN_VALUE; // reset
 		}
