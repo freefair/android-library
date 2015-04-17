@@ -17,6 +17,6 @@ public class UPPER extends Converter<Object> {
 		if (args.length < 1 || args[0] == null) return null;
 		if (locale != null)
 			return String.valueOf(args[0]).toUpperCase(locale);
-		return String.valueOf(args[0]).toUpperCase();
+		return String.valueOf(args[0]).toUpperCase(Locale.getDefault());
 	}
 }

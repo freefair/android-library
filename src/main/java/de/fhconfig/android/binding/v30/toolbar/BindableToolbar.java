@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
+import java.util.Locale;
 
 import de.fhconfig.android.binding.BindingLog;
 import de.fhconfig.android.binding.IBindableView;
@@ -45,7 +46,7 @@ public class BindableToolbar extends Toolbar implements IBindableView<BindableTo
 	@Override
 	public ViewAttribute<? extends View, ?> createViewAttribute(String attributeId) {
 		try {
-			String capId = attributeId.substring(0, 1).toUpperCase() + attributeId.substring(1);
+			String capId = attributeId.substring(0, 1).toUpperCase(Locale.US) + attributeId.substring(1);
 			String className = "de.fhconfig.android.binding.v30.toolbar.attributes." + capId;
 			return (ViewAttribute<?, ?>) Class.forName(className)
 					.getConstructor(BindableToolbar.class)

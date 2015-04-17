@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.Locale;
+
 import de.fhconfig.android.binding.AttributeBinder;
 import de.fhconfig.android.binding.Binder;
 import de.fhconfig.android.binding.Binder.InflateResult;
@@ -82,7 +84,7 @@ public class BindingActivityV30 extends BindingActivity {
 			int eventType = parser.getEventType();
 			while (eventType != XmlResourceParser.END_DOCUMENT) {
 				if (eventType == XmlResourceParser.START_TAG) {
-					String tagName = parser.getName().toLowerCase();
+					String tagName = parser.getName().toLowerCase(Locale.US);
 					if (tagName.equals("optionsmenu")) {
 						mBindableOptionsMenuRef = createBindableOptionsMenu();
 						if (mBindableOptionsMenuRef != null)

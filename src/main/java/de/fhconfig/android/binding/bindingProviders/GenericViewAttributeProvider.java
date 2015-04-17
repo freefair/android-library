@@ -3,6 +3,7 @@ package de.fhconfig.android.binding.bindingProviders;
 import android.view.View;
 
 import java.lang.reflect.Method;
+import java.util.Locale;
 
 import de.fhconfig.android.binding.ViewAttribute;
 import de.fhconfig.android.binding.viewAttributes.GenericViewAttribute;
@@ -19,7 +20,7 @@ public class GenericViewAttributeProvider extends BindingProvider {
 	private ViewAttribute<View, ?> tryCreateGenericViewAttribute(View view,
 	                                                             String attributeId) {
 		try {
-			String capAttrib = attributeId.substring(0, 1).toUpperCase() + attributeId.substring(1);
+			String capAttrib = attributeId.substring(0, 1).toUpperCase(Locale.US) + attributeId.substring(1);
 
 			Method getter = view.getClass().getMethod("get" + capAttrib);
 			Method setter = null;

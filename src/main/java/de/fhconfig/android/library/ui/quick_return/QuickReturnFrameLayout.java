@@ -67,7 +67,7 @@ public class QuickReturnFrameLayout extends BindableFrameLayout implements Callb
 
 	private void init(AttributeSet attrs)
 	{
-		mScrollSettleHandler = new ScrollSettleHandler(new WeakReference<QuickReturnFrameLayout>(this));    
+		mScrollSettleHandler = new ScrollSettleHandler(new WeakReference<QuickReturnFrameLayout>(this));
 		if(attrs == null) return;
 		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.QuickReturnFrameLayout);
 		scrollViewId = typedArray.getResourceId(R.styleable.QuickReturnFrameLayout_qrflScrollViewId, -1);

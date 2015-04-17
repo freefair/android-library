@@ -14,6 +14,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Hashtable;
+import java.util.Locale;
 
 import de.fhconfig.android.binding.Binder;
 import de.fhconfig.android.binding.BindingLog;
@@ -121,7 +122,7 @@ public class BindableOptionsMenu extends View
 	public ViewAttribute<? extends View, ?> createViewAttribute(
 			String attributeId) {
 		try {
-			String capId = attributeId.substring(0, 1).toUpperCase() + attributeId.substring(1);
+			String capId = attributeId.substring(0, 1).toUpperCase(Locale.US) + attributeId.substring(1);
 			String className = "de.fhconfig.android.binding.menu.viewAttributes." + capId;
 			return (ViewAttribute<?, ?>) Class.forName(className)
 					.getConstructor(BindableOptionsMenu.class)
