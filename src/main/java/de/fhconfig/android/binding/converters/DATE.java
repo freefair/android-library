@@ -1,5 +1,7 @@
 package de.fhconfig.android.binding.converters;
 
+import android.annotation.SuppressLint;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -27,7 +29,9 @@ public class DATE extends Converter<CharSequence> {
             format = (String)objects[1];
         }
 
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+
 		Date date = null;
         if(object instanceof Date)
         {
