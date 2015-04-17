@@ -14,8 +14,7 @@ public class InjectionApplication extends Application
 	private RoboBuilder builder = new RoboBuilder();
 	private RoboContainer injector;
 
-	protected void addModule(RoboModule module)
-	{
+	protected void addModule(RoboModule module) {
 		builder.registerModule(module);
 	}
 

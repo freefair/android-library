@@ -39,6 +39,7 @@ public class ItemViewEventMark implements View.OnClickListener, View.OnLongClick
 
 	@Override
 	public void onClick(View v) {
+		if(!(v instanceof AdapterView<?>)) return;
 		OnItemClickListenerMulticast listener = getOnItemClickListenerMulticast();
 		if (null != listener) {
 			listener.onItemClick((AdapterView<?>) getView(), v, mTargetListItemPosition, mTargetListItemId);

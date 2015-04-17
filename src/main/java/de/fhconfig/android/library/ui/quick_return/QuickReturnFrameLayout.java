@@ -18,6 +18,11 @@ import de.fhconfig.android.binding.widgets.BindableFrameLayout;
 
 import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 
+/**
+ * @author Dennis Fricke
+ *
+ * Only for use off ICE_CREAM_SANDWICH or higher due to use of new animation api (in first step no other way)
+ */
 @TargetApi(ICE_CREAM_SANDWICH)
 public class QuickReturnFrameLayout extends BindableFrameLayout implements Callbacks {
 	private enum State {
