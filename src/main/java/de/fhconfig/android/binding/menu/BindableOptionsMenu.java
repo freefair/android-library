@@ -1,5 +1,6 @@
 package de.fhconfig.android.binding.menu;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import de.fhconfig.android.binding.labs.EventAggregator;
 
 // Each OptionsMenuBinder correspond to one AbsMenuBridge xml. 
 // Instance should be kept by the activity
+@SuppressLint("ViewConstructor")
 public class BindableOptionsMenu extends View
 		implements IMenuItemChangedCallback, IBindableView<BindableOptionsMenu> {
 

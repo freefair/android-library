@@ -1,5 +1,6 @@
 package de.fhconfig.android.binding.v30.actionbar;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +13,7 @@ import de.fhconfig.android.binding.BindingLog;
 import de.fhconfig.android.binding.IBindableView;
 import de.fhconfig.android.binding.ViewAttribute;
 
+@SuppressLint("ViewConstructor")
 public class BindableActionBar extends View implements IBindableView<BindableActionBar> {
 
 	WeakReference<ActionBarActivity> mActivityRef;
