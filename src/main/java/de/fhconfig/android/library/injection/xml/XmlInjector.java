@@ -20,11 +20,11 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import de.fhconfig.android.library.Logger;
-import de.fhconfig.android.library.injection.annotation.Attribute;
-import de.fhconfig.android.library.injection.annotation.Resource;
+import de.fhconfig.android.library.injection.annotation.InjectAttribute;
+import de.fhconfig.android.library.injection.annotation.InjectResource;
 import de.fhconfig.android.library.injection.annotation.XmlLayout;
 import de.fhconfig.android.library.injection.annotation.XmlMenu;
-import de.fhconfig.android.library.injection.annotation.XmlView;
+import de.fhconfig.android.library.injection.annotation.InjectView;
 import de.fhconfig.android.library.injection.exceptions.ViewIdNotFoundException;
 import de.fhconfig.android.library.reflection.FieldAnnotationPredicate;
 import de.fhconfig.android.library.reflection.Reflection;
@@ -103,7 +103,7 @@ public abstract class XmlInjector<T> {
 	}
 
 	public void injectViews() throws ViewIdNotFoundException {
-		List<Field> viewFields = Reflection.getAllFields(getObjectClass(), new FieldAnnotationPredicate(XmlView.class));
+		List<Field> viewFields = Reflection.getAllFields(getObjectClass(), new FieldAnnotationPredicate(InjectView.class));
 
 		for (Field field : viewFields) {
 			field.setAccessible(true);
@@ -120,14 +120,14 @@ public abstract class XmlInjector<T> {
 
 	public void injectAttributes() {
 		log.debug("injectAttributes()");
-		List<Field> attrFields = Reflection.getAllFields(getObjectClass(), new FieldAnnotationPredicate(Attribute.class));
+		List<Field> attrFields = Reflection.getAllFields(getObjectClass(), new FieldAnnotationPredicate(InjectAttribute.class));
 		log.debug(attrFields.toString());
 		int[] attrIds = new int[attrFields.size()];
 
 		for (int i = 0; i < attrFields.size(); i++) {
 
 			Field field = attrFields.get(i);
-			Attribute annotation = field.getAnnotation(Attribute.class);
+			InjectAttribute annotation = field.getAnnotation(InjectAttribute.class);
 			attrIds[i] = annotation.id();
 
 			if (!field.getType().isAssignableFrom(annotation.type().getClazz())) {
@@ -141,7 +141,7 @@ public abstract class XmlInjector<T> {
 
 			Field field = attrFields.get(index);
 			field.setAccessible(true);
-			Attribute annotation = field.getAnnotation(Attribute.class);
+			InjectAttribute annotation = field.getAnnotation(InjectAttribute.class);
 
 			try {
 				switch (annotation.type()) {
@@ -263,12 +263,12 @@ public abstract class XmlInjector<T> {
 	@TargetApi(LOLLIPOP)
 	public void injectResources() {
 		log.debug("injectResources()");
-		List<Field> resourceFields = Reflection.getAllFields(getObjectClass(), Object.class, new FieldAnnotationPredicate(Resource.class));
+		List<Field> resourceFields = Reflection.getAllFields(getObjectClass(), Object.class, new FieldAnnotationPredicate(InjectResource.class));
 		log.debug(resourceFields.toString());
 
 		Resources resources = getResources();
 		for (Field field : resourceFields) {
-			Resource annotation = field.getAnnotation(Resource.class);
+			InjectResource annotation = field.getAnnotation(InjectResource.class);
 			int resourceId = annotation.id();
 
 			if (!field.getType().isAssignableFrom(annotation.type().getClazz())) {
@@ -405,10 +405,10 @@ public abstract class XmlInjector<T> {
 	@IdRes
 	protected int findViewId(Field field) throws ViewIdNotFoundException {
 
-		if (field.isAnnotationPresent(XmlView.class)) {
-			XmlView xmlViewAnnotation = field.getAnnotation(XmlView.class);
-			if (xmlViewAnnotation.value() != XmlView.DEFAULT_ID) {
-				return xmlViewAnnotation.value();
+		if (field.isAnnotationPresent(InjectView.class)) {
+			InjectView injectViewAnnotation = field.getAnnotation(InjectView.class);
+			if (injectViewAnnotation.value() != InjectView.DEFAULT_ID) {
+				return injectViewAnnotation.value();
 			}
 		}
 

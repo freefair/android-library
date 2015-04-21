@@ -18,6 +18,5 @@ import static java.lang.annotation.RetentionPolicy.*;
 @Retention(RUNTIME)
 @Inherited
 public @interface XmlMenu {
-	@MenuRes
-	public int value();
+	@MenuRes int value();
 }

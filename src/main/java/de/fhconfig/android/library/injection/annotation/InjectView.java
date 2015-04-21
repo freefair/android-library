@@ -17,9 +17,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(FIELD)
 @Retention(RUNTIME)
 @Inherited
-public @interface XmlView {
-	@IdRes
-	public int value() default DEFAULT_ID;
+public @interface InjectView {
+	@IdRes int value() default DEFAULT_ID;
 
-	public static final int DEFAULT_ID = -1;
+	int DEFAULT_ID = -1;
 }

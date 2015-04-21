@@ -7,9 +7,11 @@ import org.junit.Test;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import de.fhconfig.android.library.injection.annotation.Attribute;
-import de.fhconfig.android.library.injection.annotation.Resource;
-import de.fhconfig.android.library.injection.annotation.XmlView;
+import de.fhconfig.android.library.injection.annotation.AttributeType;
+import de.fhconfig.android.library.injection.annotation.InjectAttribute;
+import de.fhconfig.android.library.injection.annotation.InjectResource;
+import de.fhconfig.android.library.injection.annotation.InjectView;
+import de.fhconfig.android.library.injection.annotation.ResourceType;
 import de.fhconfig.android.library.predicate.Predicate;
 
 import static org.junit.Assert.*;
@@ -21,38 +23,38 @@ public class ReflectionTest {
 		List<Field> declaredFields = Reflection.getAllFields(ClassC.class, Optional.<Class<? super ClassC>>of(Object.class), new Predicate<Field>() {
 			@Override
 			public boolean apply(Field input) {
-				return input.isAnnotationPresent(XmlView.class);
+				return input.isAnnotationPresent(InjectView.class);
 			}
 		});
 
 		assertEquals(2, declaredFields.size());
 
-		declaredFields = Reflection.getAllFields(ClassC.class, new FieldAnnotationPredicate(Attribute.class));
+		declaredFields = Reflection.getAllFields(ClassC.class, new FieldAnnotationPredicate(InjectAttribute.class));
 		assertEquals(1, declaredFields.size());
 
-		declaredFields = Reflection.getAllFields(ClassC.class, new FieldAnnotationPredicate(Resource.class));
+		declaredFields = Reflection.getAllFields(ClassC.class, new FieldAnnotationPredicate(InjectResource.class));
 		assertEquals(1, declaredFields.size());
 
-		declaredFields = Reflection.getAllFields(ClassC.class, ClassB.class, new FieldAnnotationPredicate(XmlView.class));
+		declaredFields = Reflection.getAllFields(ClassC.class, ClassB.class, new FieldAnnotationPredicate(InjectView.class));
 		assertEquals(1, declaredFields.size());
 	}
 
 	class ClassA{
-		@XmlView()
+		@InjectView()
 		private int aa;
-		@Attribute(id = 55, type = Attribute.Type.FLOAT)
+		@InjectAttribute(id = 55, type = AttributeType.FLOAT)
 		private double ab;
 	}
 
 	class ClassB extends ClassA{
 		public float ba;
-		@Resource(id = 44, type = Resource.Type.MOVIE)
+		@InjectResource(id = 44, type = ResourceType.MOVIE)
 		public Object ab;
 	}
 
 	class ClassC extends ClassB{
 		ClassA ca;
-		@XmlView()
+		@InjectView()
 		ClassB cb;
 	}
 }
