@@ -18,83 +18,78 @@ allprojects {
     }
 }
 
-apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
+subprojects {
+    apply plugin: 'com.android.library'
+    apply plugin: 'com.github.dcendents.android-maven'
 
-version = '0.7.3'
-group = 'de.larsgrefer'
+    version = '0.7.3'
+    group = 'de.larsgrefer'
 
-android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    android {
+        compileSdkVersion 22
+        buildToolsVersion "22.0.1"
 
-    defaultConfig {
-        minSdkVersion 7
-        targetSdkVersion 22
-        versionCode 1
-        versionName project.version
-    }
+        defaultConfig {
+            minSdkVersion 7
+            targetSdkVersion 22
+            versionCode 1
+            versionName project.version
+        }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+        }
+        testOptions {
+            unitTests.returnDefaultValues = true
+        }
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_7
+            targetCompatibility JavaVersion.VERSION_1_7
         }
     }
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
-}
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
-    compile 'com.google.guava:guava:18.0'
-    compile 'com.j256.ormlite:ormlite-android:4.48'
-
-    testCompile 'junit:junit:4.12'
-}
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: "http://oss.jfrog.org/artifactory/oss-release-local"){
-                authentication(userName: bintray_user, password: bintray_api_key) //set via ~/.gradle/gradle.properties
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                repository(url: "http://oss.jfrog.org/artifactory/oss-release-local") {
+                    authentication(userName: bintray_user, password: bintray_api_key)
+                    //set via ~/.gradle/gradle.properties
+                }
+                snapshotRepository(url: "http://oss.jfrog.org/artifactory/oss-snapshot-local") {
+                    authentication(userName: bintray_user, password: bintray_api_key)
+                    //set via ~/.gradle/gradle.properties
+                }
+                pom.groupId = 'de.larsgrefer'
             }
-            snapshotRepository(url: "http://oss.jfrog.org/artifactory/oss-snapshot-local"){
-                authentication(userName: bintray_user, password: bintray_api_key) //set via ~/.gradle/gradle.properties
-            }
-            pom.groupId = 'de.larsgrefer'
         }
     }
-}
 
-bintray {
-    user = bintray_user
-    key = bintray_api_key
+    bintray {
+        user = bintray_user
+        key = bintray_api_key
 
-    configurations = ['archives'] //When uploading configuration files
-    // - OR -
-    //publications = ['mavenStuff'] //When uploading Maven-based publication files
-    // - AND/OR -
-    dryRun = false //Whether to run this as dry-run, without deploying
-    publish = true //If version should be auto published after an upload
-    pkg {
-        repo = 'maven'
+        configurations = ['archives'] //When uploading configuration files
+        // - OR -
+        //publications = ['mavenStuff'] //When uploading Maven-based publication files
+        // - AND/OR -
+        dryRun = false //Whether to run this as dry-run, without deploying
+        publish = true //If version should be auto published after an upload
+        pkg {
+            repo = 'maven'
 
-        name = 'android-library'
-        websiteUrl = 'https://github.com/larsgrefer/android-library'
-        issueTrackerUrl = 'https://github.com/larsgrefer/android-library/issues'
-        vcsUrl = 'https://github.com/bintray/android-library.git'
-        //licenses = ['Apache-2.0']
-        //labels = ['gear', 'gore', 'gorilla']
-        publicDownloadNumbers = true
-        //attributes= ['a': ['ay1', 'ay2'], 'b': ['bee'], c: 'cee'] //Optional package-level attributes
-        //Optional version descriptor
-        version project.version
+            name = 'android-library'
+            websiteUrl = 'https://github.com/larsgrefer/android-library'
+            issueTrackerUrl = 'https://github.com/larsgrefer/android-library/issues'
+            vcsUrl = 'https://github.com/bintray/android-library.git'
+            //licenses = ['Apache-2.0']
+            //labels = ['gear', 'gore', 'gorilla']
+            publicDownloadNumbers = true
+            //attributes= ['a': ['ay1', 'ay2'], 'b': ['bee'], c: 'cee'] //Optional package-level attributes
+            //Optional version descriptor
+            version project.version
+        }
     }
 }

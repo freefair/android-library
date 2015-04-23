@@ -2,12 +2,9 @@ package de.fhconfig.android.library.ui.injection;
 
 import android.app.Application;
 
-import de.fhconfig.android.library.data.OpenHelper;
 import de.fhconfig.android.library.injection.RoboBuilder;
 import de.fhconfig.android.library.injection.RoboContainer;
 import de.fhconfig.android.library.injection.RoboModule;
-
-import java.util.List;
 
 public class InjectionApplication extends Application
 {
@@ -20,7 +17,6 @@ public class InjectionApplication extends Application
 
 	@Override
 	public void onCreate() {
-		builder.registerModule(new MainModule());
 		super.onCreate();
 		injector = builder.build();
 	}
@@ -30,7 +26,4 @@ public class InjectionApplication extends Application
 		return injector;
 	}
 
-	protected void enableOrm(List<Class<?>> objects, int version) {
-		new DatabaseHelper(new OpenHelper(this, version)).registerObjects(objects);
-	}
 }

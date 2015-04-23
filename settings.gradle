@@ -1,1 +1,1 @@
-
+include ':android-library-base', ':android-library-orm'

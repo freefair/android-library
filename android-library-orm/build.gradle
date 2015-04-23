@@ -1,0 +1,5 @@
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':android-library-base')
+    compile 'com.j256.ormlite:ormlite-android:4.48'
+}
