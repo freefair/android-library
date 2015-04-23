@@ -81,7 +81,7 @@ subprojects {
         pkg {
             repo = 'maven'
 
-            name = project.namegit stat
+            name = project.name
             websiteUrl = 'https://github.com/larsgrefer/android-library'
             issueTrackerUrl = 'https://github.com/larsgrefer/android-library/issues'
             vcsUrl = 'https://github.com/bintray/android-library.git'
