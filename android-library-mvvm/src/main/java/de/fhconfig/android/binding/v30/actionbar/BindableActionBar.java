@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
@@ -16,9 +17,9 @@ import de.fhconfig.android.binding.ViewAttribute;
 @SuppressLint("ViewConstructor")
 public class BindableActionBar extends View implements IBindableView<BindableActionBar> {
 
-	WeakReference<ActionBarActivity> mActivityRef;
+	WeakReference<AppCompatActivity> mActivityRef;
 
-	public BindableActionBar(ActionBarActivity context) {
+	public BindableActionBar(AppCompatActivity context) {
 		super(context);
 		mActivityRef = new WeakReference<>(context);
 	}

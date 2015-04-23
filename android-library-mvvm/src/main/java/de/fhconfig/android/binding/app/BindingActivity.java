@@ -12,9 +12,9 @@ import java.lang.ref.WeakReference;
 import de.fhconfig.android.binding.Binder;
 import de.fhconfig.android.binding.Binder.InflateResult;
 import de.fhconfig.android.binding.menu.OptionsMenuBinder;
-import de.fhconfig.android.library.ui.injection.InjectionActionBarActivity;
+import de.fhconfig.android.library.ui.injection.InjectionAppCompatActivity;
 
-public class BindingActivity extends InjectionActionBarActivity {
+public class BindingActivity extends InjectionAppCompatActivity {
 
 	OptionsMenuBinder menuBinder;
 	Object mMenuViewModel;

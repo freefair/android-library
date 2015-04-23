@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import android.view.ViewGroup;
 import de.fhconfig.android.library.injection.xml.ActivityXmlInjector;
 import de.fhconfig.android.library.injection.exceptions.ViewIdNotFoundException;
 
-public class InjectionActionBarActivity extends ActionBarActivity {
+public class InjectionAppCompatActivity extends AppCompatActivity {
 	ActivityXmlInjector injector;
 
 	@Override
