@@ -19,11 +19,6 @@
 	</declare-styleable>
 	<!-- END COPYRIGHT BY CHRIS BANES -->
 
-	<declare-styleable name="QuickReturnFrameLayout">
-		<attr name="qrflScrollViewId" format="reference" />
-		<attr name="qrflQuickReturnViewId" format="reference" />
-		<attr name="qrflPlaceholderViewId" format="reference" />
-	</declare-styleable>
 	<declare-styleable name="PagerSlidingTabStrip">
 		<attr name="pstsIndicatorColor" format="color" />
 		<attr name="pstsUnderlineColor" format="color" />

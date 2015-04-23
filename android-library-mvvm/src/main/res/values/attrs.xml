@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="QuickReturnFrameLayout">
+        <attr name="qrflScrollViewId" format="reference" />
+        <attr name="qrflQuickReturnViewId" format="reference" />
+        <attr name="qrflPlaceholderViewId" format="reference" />
+    </declare-styleable>
+
+</resources>

@@ -3,7 +3,6 @@ package de.fhconfig.android.library.ui.quick_return;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -13,8 +12,8 @@ import android.view.ViewTreeObserver;
 
 import java.lang.ref.WeakReference;
 
-import de.fhconfig.android.library.R;
 import de.fhconfig.android.binding.Binder;
+import de.fhconfig.android.binding.R;
 import de.fhconfig.android.binding.v30.app.BindingActivityV30;
 import de.fhconfig.android.binding.widgets.BindableFrameLayout;
 
