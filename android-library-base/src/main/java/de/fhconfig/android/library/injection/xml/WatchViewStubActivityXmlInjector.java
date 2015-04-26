@@ -4,22 +4,28 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.IdRes;
+import android.support.wearable.view.WatchViewStub;
 import android.view.View;
+
 import de.fhconfig.android.library.injection.helper.RClassHelper;
 
-public class ActivityXmlInjector extends XmlInjector<Activity> {
+public class WatchViewStubActivityXmlInjector extends XmlInjector<Activity> {
 
-	public ActivityXmlInjector(Activity activity){
+	private final WatchViewStub stub;
+
+	public WatchViewStubActivityXmlInjector(Activity activity, WatchViewStub stub) {
 		super(activity, RClassHelper.getRClassFromActivity(activity));
+		this.stub = stub;
 	}
 
-	public ActivityXmlInjector(Activity activity, Class<?> rClass){
+	public WatchViewStubActivityXmlInjector(Activity activity, WatchViewStub stub, Class<?> rClass) {
 		super(activity, rClass);
+		this.stub = stub;
 	}
 
 	@Override
 	protected Context getContext() {
-		return getObject();
+		return stub.getContext();
 	}
 
 	@Override
@@ -27,18 +33,9 @@ public class ActivityXmlInjector extends XmlInjector<Activity> {
 		return getObject().getTheme();
 	}
 
-	public boolean tryInjectLayout(){
-		int layoutId = getLayoutId();
-		if(layoutId != 0){
-			getObject().setContentView(layoutId);
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	protected View findViewById(@IdRes int id) {
-		return getObject().findViewById(id);
+		return stub.findViewById(id);
 	}
 
 }
