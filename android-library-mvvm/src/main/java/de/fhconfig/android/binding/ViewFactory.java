@@ -9,7 +9,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 
-public class ViewFactory implements Factory {
+public class ViewFactory implements LayoutInflater.Factory2 {
 
 	public static final String BINDING_NAMESPACE = "http://schemas.android.com/apk/res/de.fhconfig.android.binding";
 
@@ -60,5 +60,11 @@ public class ViewFactory implements Factory {
 
 	public ArrayList<View> getProcessedViews() {
 		return processedViews;
+	}
+
+	@Override
+	public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
+		View v = onCreateView(name, context, attrs);
+		return v;
 	}
 }

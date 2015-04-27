@@ -96,10 +96,11 @@ public abstract class KernelBase implements IKernel {
 	                                 boolean attachToRoot) {
 		LayoutInflater inflater = LayoutInflater.from(context).cloneInContext(context);
 		ViewFactory factory = new ViewFactory(inflater);
-		inflater.setFactory(factory);
+		inflater.setFactory2(factory);
 		InflateResult result = new InflateResult();
 		result.rootView = inflater.inflate(layoutId, parent, attachToRoot);
 		result.processedViews = factory.getProcessedViews();
+
 		return result;
 	}
 
