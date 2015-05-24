@@ -6,7 +6,7 @@ android-library
 |[![Download](https://api.bintray.com/packages/larsgrefer/maven/android-library/images/download.svg) ](https://bintray.com/larsgrefer/maven/android-library/_latestVersion)|[oss.jfrog.org](http://oss.jfrog.org/artifactory/webapp/browserepo.html?pathId=oss-snapshot-local%3Ade%2Flarsgrefer%2Fandroid-library)  |
 
 ##How to include:
-<h6>Gradle:</h6>
+<h6>Cradle:</h6>
 ```gradle
 dependencies {
     ...
