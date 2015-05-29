@@ -5,7 +5,6 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -18,6 +17,7 @@ import de.fhconfig.android.library.annotations.BindTo;
 import de.fhconfig.android.library.annotations.Binding;
 import de.fhconfig.android.library.annotations.Layout;
 import de.fhconfig.android.library.annotations.Menu;
+import de.fhconfig.android.library.annotations.MenuItemClick;
 import de.fhconfig.android.library.annotations.Toolbar;
 import de.fhconfig.android.library.ui.injection.InjectionAppCompatActivity;
 

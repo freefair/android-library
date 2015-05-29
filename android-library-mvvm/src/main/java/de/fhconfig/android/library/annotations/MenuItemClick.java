@@ -1,4 +1,4 @@
-package de.fhconfig.android.library;
+package de.fhconfig.android.library.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
