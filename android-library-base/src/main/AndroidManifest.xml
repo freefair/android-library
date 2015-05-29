@@ -1,7 +1,9 @@
 <manifest
     package="de.fhconfig.android.library"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-sdk tools:overrideLibrary="android.support.wearable"/>
     <application android:allowBackup="true">
     </application>
 </manifest>
