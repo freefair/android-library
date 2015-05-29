@@ -5,6 +5,11 @@ android-library
 |[![Build Status](https://travis-ci.org/larsgrefer/android-library.svg?branch=master)](https://travis-ci.org/larsgrefer/android-library)                                   |[![Build Status](https://travis-ci.org/larsgrefer/android-library.svg?branch=develop)](https://travis-ci.org/larsgrefer/android-library)|
 |[![Download](https://api.bintray.com/packages/larsgrefer/maven/android-library/images/download.svg) ](https://bintray.com/larsgrefer/maven/android-library/_latestVersion)|[oss.jfrog.org](http://oss.jfrog.org/artifactory/webapp/browserepo.html?pathId=oss-snapshot-local%3Ade%2Flarsgrefer%2Fandroid-library)  |
 
+IMPORTANT
+=========
+
+Please use new feature data-binding implemented in Android-SDK since 28.05.2015 insteat until we've updated the library to use better implemented Google behaviour. You can find the documentation here: <a href="https://developer.android.com/tools/data-binding/guide.html">https://developer.android.com/tools/data-binding/guide.html</a>
+
 ##How to include:
 <h6>Gradle:</h6>
 ```gradle
