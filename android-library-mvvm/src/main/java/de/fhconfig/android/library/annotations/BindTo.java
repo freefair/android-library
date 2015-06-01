@@ -8,5 +8,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface BindTo {
+	/**
+	 * This defines the BR class of your application.
+	 * @return BR class of application
+	 */
 	Class<?> value();
 }

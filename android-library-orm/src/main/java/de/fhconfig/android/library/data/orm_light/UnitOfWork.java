@@ -7,6 +7,7 @@ import com.j256.ormlite.support.DatabaseConnection;
 import de.fhconfig.android.library.data.IUnitOfWork;
 import de.fhconfig.android.library.ui.injection.DatabaseHelper;
 
+import java.sql.SQLException;
 import java.sql.Savepoint;
 import java.util.UUID;
 
@@ -65,6 +66,15 @@ public class UnitOfWork implements IUnitOfWork
 		catch (Exception ex)
 		{
 			throw new RuntimeException(ex);
+		}
+	}
+
+	public boolean isOpen()
+	{
+		try {
+			return !connection.isClosed() && !completed;
+		} catch (SQLException e) {
+			return false;
 		}
 	}
 

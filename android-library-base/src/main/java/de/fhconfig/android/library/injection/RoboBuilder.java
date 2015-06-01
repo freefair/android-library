@@ -7,6 +7,7 @@ public class RoboBuilder
 {
 	private ArrayList<RoboModule> modules = new ArrayList<>();
 	private ArrayList<RoboRegistration<?>> registrations = new ArrayList<>();
+	private ArrayList<IRoboFactory> factories = new ArrayList<>();
 
 	public RoboBuilder()
 	{
@@ -32,10 +33,14 @@ public class RoboBuilder
 		return result;
 	}
 
+	public void registerFactory(IRoboFactory factory){
+		factories.add(factory);
+	}
+
 	public RoboContainer build()
 	{
 		for(RoboModule module : modules)
 			module.configure(this);
-		return new RoboContainer(this.registrations);
+		return new RoboContainer(this.registrations, this.factories);
 	}
 }
