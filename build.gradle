@@ -8,7 +8,10 @@ buildscript {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.1'
 	classpath "com.android.databinding:dataBinder:1.0-rc0"
 	classpath 'me.tatarka:gradle-retrolambda:1.3.2'
+	classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
     }
+
+    configurations.classpath.exclude group: 'com.android.tools.external.lombok'
 }
 
 allprojects {
