@@ -10,7 +10,7 @@ public class SessionHelper
 	private SessionHelper() { }
 
 	private static SessionHelper instance;
-	public static SessionHelper getInstance(){
+	protected static SessionHelper getInstance(){
 		if(instance == null)
 			instance = new SessionHelper();
 		return instance;
@@ -20,7 +20,7 @@ public class SessionHelper
 		session.set(new UnitOfWork(type));
 	}
 
-	public IUnitOfWork getSession(){
+	public UnitOfWork getSession(){
 		return session.get();
 	}
 

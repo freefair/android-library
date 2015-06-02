@@ -1,8 +1,5 @@
 package de.fhconfig.android.library.predicate;
 
-/**
- * Created by larsgrefer on 30.03.15.
- */
 public abstract class Predicate<T> implements com.google.common.base.Predicate<T> {
 
 	public Predicate<T> and(com.google.common.base.Predicate<? super T> other){

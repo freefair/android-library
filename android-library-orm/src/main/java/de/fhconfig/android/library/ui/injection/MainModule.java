@@ -35,7 +35,7 @@ public class MainModule extends RoboModule {
 
 		@Override
 		public Object create(Class<?> clazz, RoboContainer container) {
-			return Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz}, new CrudRepositoryInvocationHandler());
+			return Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz}, new CrudRepositoryInvocationHandler(clazz));
 		}
 	}
 

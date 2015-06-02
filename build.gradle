@@ -9,6 +9,9 @@ buildscript {
 	classpath "com.android.databinding:dataBinder:1.0-rc0"
     }
 }
+plugins {
+	id "me.tatarka.retrolambda" version "3.1.0"
+}
 
 allprojects {
     repositories {
@@ -44,9 +47,9 @@ subprojects {
             unitTests.returnDefaultValues = true
         }
         compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
-        }
+			sourceCompatibility JavaVersion.VERSION_1_8
+			targetCompatibility JavaVersion.VERSION_1_8
+		}
     }
 
     dependencies{

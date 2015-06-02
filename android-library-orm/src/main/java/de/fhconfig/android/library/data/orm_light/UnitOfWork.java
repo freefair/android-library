@@ -78,7 +78,7 @@ public class UnitOfWork implements IUnitOfWork
 		}
 	}
 
-	protected ConnectionSource getConnection()
+	public ConnectionSource getConnection()
 	{
 		return connectionSource;
 	}
