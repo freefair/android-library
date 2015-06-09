@@ -5,6 +5,7 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -12,13 +13,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import de.fhconfig.android.library.annotations.BindTo;
 import de.fhconfig.android.library.annotations.Binding;
+import de.fhconfig.android.library.annotations.Event;
 import de.fhconfig.android.library.annotations.Layout;
 import de.fhconfig.android.library.annotations.Menu;
 import de.fhconfig.android.library.annotations.MenuItemClick;
 import de.fhconfig.android.library.annotations.Toolbar;
+import de.fhconfig.android.library.reflection.Reflection;
+import de.fhconfig.android.library.ui.GeneralEventListener;
 import de.fhconfig.android.library.ui.injection.InjectionAppCompatActivity;
 
 public class BindingActivity extends InjectionAppCompatActivity implements android.support.v7.widget.Toolbar.OnMenuItemClickListener {
@@ -32,6 +37,25 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 		super.onCreate(savedInstanceState);
 		resolveAnnotations();
 		inflateAndBind();
+		createEventListener();
+	}
+
+	private void createEventListener() {
+		Method[] declaredMethods = this.getClass().getDeclaredMethods();
+		for (Method method : declaredMethods) {
+			Event annotation = method.getAnnotation(Event.class);
+			if (annotation != null) {
+				int value = annotation.value();
+				String event = annotation.event();
+				if(event == null || "".equals(event)){
+					event = method.getName();
+				}
+				View view = findViewById(value);
+				GeneralEventListener byView = GeneralEventListener.getByView(view);
+				method.setAccessible(true);
+				byView.bindEvent(event, (sender, args) -> method.invoke(this, args));
+			}
+		}
 	}
 
 	private void inflateAndBind(){

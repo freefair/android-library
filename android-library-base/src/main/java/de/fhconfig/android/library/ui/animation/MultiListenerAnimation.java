@@ -8,9 +8,6 @@ import java.util.Set;
 import de.fhconfig.android.library.MultiListenerHelper;
 import de.fhconfig.android.library.MultiListenerHost;
 
-/**
- * Created by larsgrefer on 01.02.15.
- */
 public class MultiListenerAnimation extends Animation implements MultiListenerHost<Animation.AnimationListener> {
 
 	MultiListenerHelper<AnimationListener> multiListenerHelper;

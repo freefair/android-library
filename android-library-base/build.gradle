@@ -3,4 +3,5 @@ dependencies {
 	compile 'com.android.support:appcompat-v7:22.2.0'
 	compile 'com.google.android.support:wearable:1.1.0'
 	compile 'com.google.guava:guava:18.0'
+	compile 'com.intellij:annotations:12.0'
 }
