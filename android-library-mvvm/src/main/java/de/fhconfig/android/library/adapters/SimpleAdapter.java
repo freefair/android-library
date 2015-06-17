@@ -68,7 +68,7 @@ public class SimpleAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewDataBinding inflate = DataBindingUtil.inflate(LayoutInflater.from(view.getContext()).cloneInContext(view.getContext()), layout, parent, false);
-		inflate.setVariable(BR.item, list.get(position));
+		inflate.setVariable(1, list.get(position));
 		return inflate.getRoot();
 	}
 }
