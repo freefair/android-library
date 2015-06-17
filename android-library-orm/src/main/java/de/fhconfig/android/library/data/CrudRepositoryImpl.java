@@ -3,6 +3,9 @@ package de.fhconfig.android.library.data;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
+
+import net.sf.jsqlparser.statement.Statement;
 
 import java.lang.reflect.Method;
 import java.sql.SQLException;
@@ -10,6 +13,7 @@ import java.util.List;
 
 import de.fhconfig.android.library.data.annotation.Query;
 import de.fhconfig.android.library.data.sql.SqlParser;
+import de.fhconfig.android.library.data.sql.SqlStatementVisitor;
 import java8.util.stream.StreamSupport;
 
 public class CrudRepositoryImpl<TType, TKey> implements CrudRepository<TType, TKey> {
@@ -41,7 +45,8 @@ public class CrudRepositoryImpl<TType, TKey> implements CrudRepository<TType, TK
 	}
 
 	private Object parseQuery(String value, Object[] args) {
-		//todo implement sql query parser
+		Statement statement = SqlParser.parseString(value);
+		statement.accept(new SqlStatementVisitor(SessionHelper.getInstance().getSession().getConnection()));
 		return null;
 	}
 
@@ -51,6 +56,24 @@ public class CrudRepositoryImpl<TType, TKey> implements CrudRepository<TType, TK
 			return query.queryForEq(name, args[0]);
 		QueryBuilder<TType, TKey> builder = query.queryBuilder();
 
+		Where<TType, TKey> where = builder.where();
+		String[] ors = name.split("Or");
+		boolean first = true;
+		int i = 0;
+		for(String or: ors){
+			if(!first) where = where.or();
+			if(first) first = false;
+			String[] ands = or.split("And");
+			boolean firstA = true;
+			for(String and : ands) {
+				if(!firstA) where = where.and();
+				if(firstA) firstA = false;
+				where = where.eq(and, args[i]);
+				i++;
+			}
+			i++;
+		}
+
 		return builder.query();
 	}
 
@@ -59,6 +82,24 @@ public class CrudRepositoryImpl<TType, TKey> implements CrudRepository<TType, TK
 		if(args.length == 1)
 			return StreamSupport.stream(query.queryForEq(name, args[0])).findFirst().orElse(null);
 		QueryBuilder<TType, TKey> builder = query.queryBuilder();
+
+		Where<TType, TKey> where = builder.where();
+		String[] ors = name.split("Or");
+		boolean first = true;
+		int i = 0;
+		for(String or: ors){
+			if(!first) where = where.or();
+			if(first) first = false;
+			String[] ands = or.split("And");
+			boolean firstA = true;
+			for(String and : ands) {
+				if(!firstA) where = where.and();
+				if(firstA) firstA = false;
+				where = where.eq(and, args[i]);
+				i++;
+			}
+			i++;
+		}
 
 		return builder.queryForFirst();
 	}
