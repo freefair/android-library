@@ -12,5 +12,5 @@ public @interface BindTo {
 	 * This defines the BR class of your application.
 	 * @return BR class of application
 	 */
-	Class<?> value();
+	Class<?> value() default BindTo.class;
 }

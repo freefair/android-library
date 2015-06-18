@@ -106,7 +106,10 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 				field.setAccessible(true);
 				Object value = field.getType().newInstance();
 				field.set(this, value);
-				Integer o = (Integer) annotation.value().getDeclaredField(field.getName()).get(null);
+				Class<?> value1 = annotation.value();
+				if(value1 != BindTo.class)
+					BRHelper.addBrClass(value1);
+				Integer o = BRHelper.getBrByName(field.getName());
 				binding.setVariable(o, value);
 			}
 		}
