@@ -1,5 +1,6 @@
 package de.fhconfig.android.library.fader;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class IntFaderTest extends TestCase {
@@ -14,6 +15,8 @@ public class IntFaderTest extends TestCase {
 
 		assertEquals(50, intFader.getFrom().intValue());
 		assertEquals(150, intFader.getTo().intValue());
+
+
 	}
 
 	public void testGetValue() throws Exception {

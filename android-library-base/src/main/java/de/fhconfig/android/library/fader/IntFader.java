@@ -2,9 +2,6 @@ package de.fhconfig.android.library.fader;
 
 import static com.google.common.base.MoreObjects.*;
 
-/**
- * Created by larsgrefer on 02.02.15.
- */
 public class IntFader extends BaseFader<Integer> {
 
 	int delta;
