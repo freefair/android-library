@@ -1,7 +1,10 @@
 package de.fhconfig.android.library.injection;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 public class RoboBuilder
 {
@@ -35,6 +38,21 @@ public class RoboBuilder
 
 	public void registerFactory(IRoboFactory factory){
 		factories.add(factory);
+	}
+
+	public <T> void registerSupplier(@NotNull Class<T> clazz, @NotNull IRoboSupplier<T> supplier){
+
+		factories.add(new IRoboFactory() {
+			@Override
+			public boolean canCreate(Class<?> clazzi) {
+				return clazz.isAssignableFrom(clazzi);
+			}
+
+			@Override
+			public T create(Class<?> clazz, RoboContainer container) {
+				return supplier.get();
+			}
+		});
 	}
 
 	public RoboContainer build()
