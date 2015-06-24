@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
+import java8.util.function.Supplier;
+
 public class RoboBuilder
 {
 	private ArrayList<RoboModule> modules = new ArrayList<>();
@@ -40,7 +42,7 @@ public class RoboBuilder
 		factories.add(factory);
 	}
 
-	public <T> void registerSupplier(@NotNull Class<T> clazz, @NotNull IRoboSupplier<T> supplier){
+	public <T> void registerSupplier(@NotNull Class<T> clazz, @NotNull Supplier<T> supplier){
 
 		factories.add(new IRoboFactory() {
 			@Override
