@@ -6,15 +6,13 @@ import com.google.common.base.Optional;
 
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.LinkedList;
 import java.util.List;
 
 import de.fhconfig.android.library.Logger;
-import de.fhconfig.android.library.predicate.Predicate;
+import de.fhconfig.android.library.util.predicate.Predicate;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 

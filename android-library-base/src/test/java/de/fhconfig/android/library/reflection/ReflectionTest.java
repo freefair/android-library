@@ -12,7 +12,7 @@ import de.fhconfig.android.library.injection.annotation.InjectAttribute;
 import de.fhconfig.android.library.injection.annotation.InjectResource;
 import de.fhconfig.android.library.injection.annotation.InjectView;
 import de.fhconfig.android.library.injection.annotation.ResourceType;
-import de.fhconfig.android.library.predicate.Predicate;
+import de.fhconfig.android.library.util.predicate.Predicate;
 
 import static org.junit.Assert.*;
 

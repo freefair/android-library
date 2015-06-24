@@ -1,4 +1,4 @@
-package de.fhconfig.android.library.predicate;
+package de.fhconfig.android.library.util.predicate;
 
 import org.junit.Test;
 

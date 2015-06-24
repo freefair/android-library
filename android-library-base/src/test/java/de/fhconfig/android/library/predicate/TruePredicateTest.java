@@ -1,8 +1,8 @@
-package de.fhconfig.android.library.predicate;
+package de.fhconfig.android.library.util.predicate;
 
 import org.junit.Test;
 
-import static de.fhconfig.android.library.predicate.TruePredicate.getInstance;
+import static de.fhconfig.android.library.util.predicate.TruePredicate.getInstance;
 import static org.junit.Assert.*;
 
 public class TruePredicateTest {

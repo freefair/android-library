@@ -3,7 +3,7 @@ package de.fhconfig.android.library.reflection;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
-import de.fhconfig.android.library.predicate.Predicate;
+import de.fhconfig.android.library.util.predicate.Predicate;
 
 /**
  * Created by larsgrefer on 16.03.15.
