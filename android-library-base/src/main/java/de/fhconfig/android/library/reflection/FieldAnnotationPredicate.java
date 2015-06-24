@@ -3,12 +3,12 @@ package de.fhconfig.android.library.reflection;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
-import de.fhconfig.android.library.util.predicate.Predicate;
+import java8.util.function.Predicate;
 
 /**
  * Created by larsgrefer on 16.03.15.
  */
-public class FieldAnnotationPredicate extends Predicate<Field> {
+public class FieldAnnotationPredicate implements Predicate<Field> {
 
 	private Class<? extends Annotation> annotation;
 
@@ -21,7 +21,8 @@ public class FieldAnnotationPredicate extends Predicate<Field> {
 	}
 
 	@Override
-	public boolean apply(Field input) {
+	public boolean test(Field input) {
 		return input.isAnnotationPresent(annotation);
 	}
+
 }
