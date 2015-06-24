@@ -21,7 +21,7 @@ public class InjectionApplication extends Application
 		injector = builder.build();
 	}
 
-	protected RoboContainer getInjector()
+	public RoboContainer getInjector()
 	{
 		return injector;
 	}
