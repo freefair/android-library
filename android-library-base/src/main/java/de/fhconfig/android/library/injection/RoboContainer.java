@@ -1,5 +1,6 @@
 package de.fhconfig.android.library.injection;
 
+import android.content.Context;
 import android.util.Log;
 import de.fhconfig.android.library.injection.annotation.Inject;
 
@@ -12,6 +13,7 @@ public class RoboContainer
 {
 	private Map<Class<?>, RoboRegistration<?>> _map = new HashMap<>();
 	private ArrayList<IRoboFactory> factories;
+	private Context context;
 
 	public RoboContainer(ArrayList<RoboRegistration<?>> registrations, ArrayList<IRoboFactory> factories) {
 		this.factories = factories;
@@ -19,6 +21,11 @@ public class RoboContainer
 		{
 			_map.put(registration.getToType(), registration);
 		}
+	}
+
+	public RoboContainer(Context context, ArrayList<RoboRegistration<?>> registrations, ArrayList<IRoboFactory> factories){
+		this(registrations, factories);
+		this.context = context;
 	}
 
 	public <TType> TType resolve(Class<TType> clazz)
@@ -54,11 +61,20 @@ public class RoboContainer
 			{
 				try {
 					field.setAccessible(true);
+					if(field.getType() == Context.class){
+						field.set(obj, getContext());
+						continue;
+					}
 					field.set(obj, resolve(field.getType()));
 				} catch (IllegalAccessException e) {
 					Log.e(this.getClass().getName(), "Could not inject field " + field.getName(), e);
 				}
 			}
 		}
+	}
+
+	protected Context getContext()
+	{
+		return this.context;
 	}
 }

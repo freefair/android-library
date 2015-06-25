@@ -1,5 +1,7 @@
 package de.fhconfig.android.library.injection;
 
+import android.content.Context;
+
 import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +53,17 @@ public class RoboRegistration<TType>
 			List<Object> objectList = new ArrayList<>();
 			for(Class<?> cls : parameterTypes)
 			{
+				if(cls == Context.class)
+				{
+					objectList.add(container.getContext());
+					continue;
+				}
 				objectList.add(container.resolve(cls));
 			}
 			return (TType)constructor.newInstance(objectList.toArray());
-		} catch (InstantiationException | IllegalAccessException e) {
+		} catch (InstantiationException e) {
+			throw new RuntimeException("Class " + type.toString() + " not instanciable");
+		} catch (IllegalAccessException e){
 			throw new RuntimeException("Class " + type.toString() + " not instanciable");
 		} catch (InvocationTargetException e) {
 			throw new RuntimeException("Class " + type.toString() + " not instanciable", e);

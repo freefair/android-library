@@ -1,5 +1,7 @@
 package de.fhconfig.android.library.injection;
 
+import android.content.Context;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -62,5 +64,11 @@ public class RoboBuilder
 		for(RoboModule module : modules)
 			module.configure(this);
 		return new RoboContainer(this.registrations, this.factories);
+	}
+
+	public RoboContainer build(Context context){
+		for(RoboModule module : modules)
+			module.configure(this);
+		return new RoboContainer(context, this.registrations, this.factories);
 	}
 }

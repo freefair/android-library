@@ -18,7 +18,7 @@ public class InjectionApplication extends Application
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		injector = builder.build();
+		injector = builder.build(this);
 	}
 
 	public RoboContainer getInjector()
