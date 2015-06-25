@@ -6,118 +6,15 @@ buildscript {
         classpath 'com.android.tools.build:gradle:1.2.3'
         classpath 'com.github.dcendents:android-maven-plugin:1.2'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.1'
-	classpath "com.android.databinding:dataBinder:1.0-rc0"
-	classpath 'me.tatarka:gradle-retrolambda:3.1.0'
-	classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
+        classpath "com.android.databinding:dataBinder:1.0-rc0"
+        classpath 'me.tatarka:gradle-retrolambda:3.1.0'
+        classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
     }
-
     configurations.classpath.exclude group: 'com.android.tools.external.lombok'
 }
 
 allprojects {
     repositories {
         jcenter()
-    }
-}
-
-subprojects {
-    apply plugin: 'com.jfrog.bintray'
-    apply plugin: 'com.android.library'
-    apply plugin: 'com.github.dcendents.android-maven'
-    apply plugin: 'me.tatarka.retrolambda'
-
-    group = 'de.larsgrefer'
-
-    android {
-        compileSdkVersion 22
-        buildToolsVersion "22.0.1"
-
-        defaultConfig {
-            minSdkVersion 7
-            targetSdkVersion 22
-            versionCode 1
-            versionName version
-        }
-
-        buildTypes {
-            release {
-                minifyEnabled false
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            }
-        }
-        testOptions {
-            unitTests.returnDefaultValues = true
-        }
-        compileOptions {
-			sourceCompatibility JavaVersion.VERSION_1_8
-			targetCompatibility JavaVersion.VERSION_1_8
-		}
-    }
-
-    dependencies{
-        testCompile 'junit:junit:4.12'
-    }
-
-    task sourcesJar(type: Jar) {
-        from android.sourceSets.main.java.srcDirs
-        classifier = 'sources'
-    }
-
-    task javadoc(type: Javadoc) {
-        failOnError false
-        source = android.sourceSets.main.java.srcDirs
-        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    }
-
-    task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
-        from javadoc.destinationDir
-    }
-    artifacts {
-        archives javadocJar
-        archives sourcesJar
-    }
-
-
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                repository(url: "http://oss.jfrog.org/artifactory/oss-release-local") {
-                    authentication(userName: bintray_user, password: bintray_api_key)
-                    //set via ~/.gradle/gradle.properties
-                }
-                snapshotRepository(url: "http://oss.jfrog.org/artifactory/oss-snapshot-local") {
-                    authentication(userName: bintray_user, password: bintray_api_key)
-                    //set via ~/.gradle/gradle.properties
-                }
-                pom.groupId = 'de.larsgrefer'
-            }
-        }
-    }
-
-    bintray {
-        user = bintray_user
-        key = bintray_api_key
-
-        configurations = ['archives'] //When uploading configuration files
-        // - OR -
-        //publications = ['mavenStuff'] //When uploading Maven-based publication files
-        // - AND/OR -
-        dryRun = false //Whether to run this as dry-run, without deploying
-        publish = true //If version should be auto published after an upload
-        pkg {
-            repo = 'maven'
-
-            name = project.name
-            websiteUrl = 'https://github.com/larsgrefer/android-library'
-            issueTrackerUrl = 'https://github.com/larsgrefer/android-library/issues'
-            vcsUrl = 'https://github.com/bintray/android-library.git'
-            //licenses = ['Apache-2.0']
-            //labels = ['gear', 'gore', 'gorilla']
-            publicDownloadNumbers = true
-            //attributes= ['a': ['ay1', 'ay2'], 'b': ['bee'], c: 'cee'] //Optional package-level attributes
-            //Optional version descriptor
-            version = version
-        }
     }
 }

@@ -11,6 +11,7 @@ import de.fhconfig.android.library.injection.annotation.InjectAttribute;
 import de.fhconfig.android.library.injection.annotation.InjectResource;
 import de.fhconfig.android.library.injection.annotation.InjectView;
 import de.fhconfig.android.library.injection.annotation.ResourceType;
+
 import java8.util.function.Predicate;
 
 import static org.junit.Assert.*;
