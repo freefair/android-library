@@ -3,7 +3,6 @@ package de.fhconfig.android.library;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuInflater;
@@ -16,7 +15,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import de.fhconfig.android.library.annotations.BindTo;
 import de.fhconfig.android.library.annotations.Binding;
@@ -26,7 +24,6 @@ import de.fhconfig.android.library.annotations.Layout;
 import de.fhconfig.android.library.annotations.Menu;
 import de.fhconfig.android.library.annotations.MenuItemClick;
 import de.fhconfig.android.library.annotations.Toolbar;
-import de.fhconfig.android.library.reflection.Reflection;
 import de.fhconfig.android.library.ui.GeneralEventListener;
 import de.fhconfig.android.library.ui.injection.InjectionAppCompatActivity;
 

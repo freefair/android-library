@@ -1,7 +1,5 @@
 package de.fhconfig.android.library.reflection;
 
-import com.google.common.base.Optional;
-
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -12,7 +10,8 @@ import de.fhconfig.android.library.injection.annotation.InjectAttribute;
 import de.fhconfig.android.library.injection.annotation.InjectResource;
 import de.fhconfig.android.library.injection.annotation.InjectView;
 import de.fhconfig.android.library.injection.annotation.ResourceType;
-import de.fhconfig.android.library.util.predicate.Predicate;
+import java8.util.Optional;
+import java8.util.function.Predicate;
 
 import static org.junit.Assert.*;
 
@@ -20,9 +19,9 @@ public class ReflectionTest {
 
 	@Test
 	public void testGetDeclaredFields() throws Exception {
-		List<Field> declaredFields = Reflection.getAllFields(ClassC.class, Optional.<Class<? super ClassC>>of(Object.class), new Predicate<Field>() {
+		List<Field> declaredFields = Reflection.getAllFields(ClassC.class, Optional.of(Object.class), new Predicate<Field>() {
 			@Override
-			public boolean apply(Field input) {
+			public boolean test(Field input) {
 				return input.isAnnotationPresent(InjectView.class);
 			}
 		});
