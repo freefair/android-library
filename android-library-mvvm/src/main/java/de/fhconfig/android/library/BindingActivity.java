@@ -178,6 +178,9 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		if(drawerToggle.onOptionsItemSelected(item)){
+			return true;
+		}
 		return onMenuItemClick(item);
 	}
 
@@ -189,9 +192,7 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 				menuListeners.get(itemId).invoke(this);
 				return true;
 			}
-		} catch (InvocationTargetException e) {
-			Logger.error(this, "Error while invoke menu item click listener", e);
-		} catch (IllegalAccessException e) {
+		} catch (InvocationTargetException | IllegalAccessException e) {
 			Logger.error(this, "Error while invoke menu item click listener", e);
 		}
 		return false;
