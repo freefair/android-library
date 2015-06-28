@@ -171,9 +171,12 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 
 	@Override
 	public boolean onCreateOptionsMenu(android.view.Menu menu) {
-		MenuInflater menuInflater = getMenuInflater();
-		menuInflater.inflate(menuId, menu);
-		return true;
+		if(menuId > -1) {
+			MenuInflater menuInflater = getMenuInflater();
+			menuInflater.inflate(menuId, menu);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
