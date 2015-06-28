@@ -1,3 +1,39 @@
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.android.library'
+
+
+android {
+	compileSdkVersion 22
+	buildToolsVersion "22.0.1"
+
+	defaultConfig {
+		minSdkVersion 7
+		targetSdkVersion 22
+		versionCode 1
+		versionName version
+	}
+
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+		}
+	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
+
+	testOptions {
+		unitTests.returnDefaultValues = true
+	}
+
+	lintOptions {
+		warning 'InvalidPackage' //http://sourceforge.net/p/streamsupport/tickets/70/
+	}
+}
+
 dependencies {
 	compile fileTree(dir: 'libs', include: ['*.jar'])
 	compile 'com.android.support:appcompat-v7:22.2.0'
@@ -5,3 +41,5 @@ dependencies {
 	compile 'com.google.guava:guava:18.0'
 	compile 'com.intellij:annotations:12.0'
 }
+
+apply from: '../maven.gradle'
