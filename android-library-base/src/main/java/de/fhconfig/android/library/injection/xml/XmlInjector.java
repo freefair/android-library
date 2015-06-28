@@ -16,17 +16,20 @@ import android.view.View;
 
 import com.google.common.base.Optional;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import de.fhconfig.android.library.Logger;
+import de.fhconfig.android.library.injection.annotation.InjectAnnotation;
 import de.fhconfig.android.library.injection.annotation.InjectAttribute;
 import de.fhconfig.android.library.injection.annotation.InjectResource;
+import de.fhconfig.android.library.injection.annotation.InjectView;
 import de.fhconfig.android.library.injection.annotation.XmlLayout;
 import de.fhconfig.android.library.injection.annotation.XmlMenu;
-import de.fhconfig.android.library.injection.annotation.InjectView;
+import de.fhconfig.android.library.injection.exceptions.InjectionException;
 import de.fhconfig.android.library.injection.exceptions.ViewIdNotFoundException;
-import de.fhconfig.android.library.reflection.FieldAnnotationPredicate;
 import de.fhconfig.android.library.reflection.Reflection;
 
 import static android.os.Build.VERSION.SDK_INT;
@@ -39,8 +42,6 @@ public abstract class XmlInjector<T> {
 	private Logger log = Logger.forObject(this);
 	@LayoutRes
 	private int layoutId;
-	@MenuRes
-	private int menuId;
 
 	public XmlInjector(T object, Class<?> rClass) {
 		this.setObject(object);
@@ -75,9 +76,6 @@ public abstract class XmlInjector<T> {
 		if (getObjectClass().isAnnotationPresent(XmlLayout.class)) {
 			setLayoutId(getObjectClass().getAnnotation(XmlLayout.class).value());
 		}
-		if (getObjectClass().isAnnotationPresent(XmlMenu.class)) {
-			setMenuId(getObjectClass().getAnnotation(XmlMenu.class).value());
-		}
 	}
 
 	protected Class<T> getObjectClass() {
@@ -93,34 +91,61 @@ public abstract class XmlInjector<T> {
 		this.layoutId = layoutId;
 	}
 
-	@MenuRes
-	public int getMenuId() {
-		return this.menuId;
-	}
-
-	public void setMenuId(@MenuRes int menuId) {
-		this.menuId = menuId;
-	}
-
 	public void injectViews() throws ViewIdNotFoundException {
-		List<Field> viewFields = Reflection.getAllFields(getObjectClass(), new FieldAnnotationPredicate(InjectView.class));
+		List<Field> viewFields = Reflection.getAllFields(getObjectClass(), field -> field.isAnnotationPresent(InjectView.class));
 
 		for (Field field : viewFields) {
 			field.setAccessible(true);
 
 			int viewId = findViewId(field);
 			View view = findViewById(viewId);
-			try {
-				field.set(object, view);
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+			inject(field, view);
+		}
+	}
+
+	public void injectAnnotations() {
+		List<Field> annotationFields = Reflection.getAllFields(getObjectClass(), field -> field.isAnnotationPresent(InjectAnnotation.class));
+
+		for (Field field : annotationFields) {
+			InjectAnnotation injectAnnotation = field.getAnnotation(InjectAnnotation.class);
+			Class<? extends Annotation> annotationType;
+
+			if (!injectAnnotation.value().equals(InjectAnnotation.DEFAULT)) {
+				annotationType = injectAnnotation.value();
+			} else if (field.getType().isAnnotation()) {
+				annotationType = (Class<? extends Annotation>) field.getType();
+			} else if (field.getGenericType() instanceof ParameterizedType) {
+				ParameterizedType fieldType = (ParameterizedType) field.getGenericType();
+				Class<?> genType = (Class<?>) fieldType.getActualTypeArguments()[0];
+				annotationType = (Class<? extends Annotation>) genType;
+			} else {
+				throw new InjectionException("Could not determine which Annotation to inject.");
 			}
+			Annotation annotation = getObjectClass().getAnnotation(annotationType);
+
+			inject(field, annotation);
+
+		}
+	}
+
+	private void inject(Field field, Object value) {
+		field.setAccessible(true);
+		try {
+			if (field.getType().equals(java8.util.Optional.class)) {
+				field.set(getObject(), java8.util.Optional.ofNullable(value));
+			} else if(field.getType().equals(Optional.class)){
+				field.set(getObject(), Optional.fromNullable(value));
+			} else {
+				field.set(getObject(), value);
+			}
+		} catch (IllegalAccessException e) {
+			log.error("Injection Error", e);
 		}
 	}
 
 	public void injectAttributes() {
 		log.debug("injectAttributes()");
-		List<Field> attrFields = Reflection.getAllFields(getObjectClass(), new FieldAnnotationPredicate(InjectAttribute.class));
+		List<Field> attrFields = Reflection.getAllFields(getObjectClass(), field -> field.isAnnotationPresent(InjectAttribute.class));
 		log.debug(attrFields.toString());
 		int[] attrIds = new int[attrFields.size()];
 
@@ -248,22 +273,22 @@ public abstract class XmlInjector<T> {
 		log.warn("Possible field type missmatch at Field " + field.toString() + ". Going to inject type " + clazz.getName() + " but Field type is " + field.getType().getName());
 	}
 
-	private void logFieldInjection(Field field, int newValue){
+	private void logFieldInjection(Field field, int newValue) {
 		log.debug("Injecting value " + newValue + " into field " + field.getName());
 	}
 
-	private void logFieldInjection(Field field, float newValue){
+	private void logFieldInjection(Field field, float newValue) {
 		log.debug("Injecting value " + newValue + " into field " + field.getName());
 	}
 
-	private void logFieldInjection(Field field, Object newValue){
+	private void logFieldInjection(Field field, Object newValue) {
 		log.debug("Injecting value " + newValue.toString() + " into field " + field.getName());
 	}
 
 	@TargetApi(LOLLIPOP)
 	public void injectResources() {
 		log.debug("injectResources()");
-		List<Field> resourceFields = Reflection.getAllFields(getObjectClass(), Object.class, new FieldAnnotationPredicate(InjectResource.class));
+		List<Field> resourceFields = Reflection.getAllFields(getObjectClass(), Object.class, field -> field.isAnnotationPresent(InjectResource.class));
 		log.debug(resourceFields.toString());
 
 		Resources resources = getResources();

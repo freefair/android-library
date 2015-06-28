@@ -9,16 +9,24 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import de.fhconfig.android.library.injection.annotation.InjectAnnotation;
+import de.fhconfig.android.library.injection.annotation.XmlMenu;
 import de.fhconfig.android.library.injection.xml.ActivityXmlInjector;
 import de.fhconfig.android.library.injection.exceptions.ViewIdNotFoundException;
+import java8.util.Optional;
 
 public class InjectionAppCompatActivity extends AppCompatActivity {
 	ActivityXmlInjector injector;
+
+	@InjectAnnotation
+	private Optional<XmlMenu> xmlMenuAnnotation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		injector = new ActivityXmlInjector(this);
+		injector.injectAnnotations();
+
 		injector.tryInjectLayout();
 
 		injector.injectResources();
@@ -36,11 +44,7 @@ public class InjectionAppCompatActivity extends AppCompatActivity {
 	}
 
 	private void tryInjectViews() {
-		try {
-			injector.injectViews();
-		} catch (ViewIdNotFoundException e) {
-			throw new RuntimeException(e);
-		}
+		injector.injectViews();
 	}
 
 	@Override
@@ -73,8 +77,8 @@ public class InjectionAppCompatActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (injector.getMenuId() != 0) {
-			getMenuInflater().inflate(injector.getMenuId(), menu);
+		if (xmlMenuAnnotation.isPresent()) {
+			getMenuInflater().inflate(xmlMenuAnnotation.get().value(), menu);
 			super.onCreateOptionsMenu(menu);
 			return true;
 		}

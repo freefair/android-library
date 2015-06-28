@@ -3,7 +3,7 @@ package de.fhconfig.android.library.injection.exceptions;
 /**
  * Created by larsgrefer on 23.11.14.
  */
-public class ViewIdNotFoundException extends Exception {
+public class ViewIdNotFoundException extends InjectionException {
 
 	public ViewIdNotFoundException() {
 	}

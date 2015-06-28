@@ -12,14 +12,20 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import de.fhconfig.android.library.injection.annotation.InjectAnnotation;
+import de.fhconfig.android.library.injection.annotation.XmlMenu;
 import de.fhconfig.android.library.injection.xml.FragmentXmlInjector;
 import de.fhconfig.android.library.injection.xml.IViewFinder;
 import de.fhconfig.android.library.injection.exceptions.ViewIdNotFoundException;
+import java8.util.Optional;
 
 /**
  * Created by larsgrefer on 24.11.14.
  */
 public class InjectionFragment extends Fragment {
+
+	@InjectAnnotation
+	Optional<XmlMenu> menuAnnotation;
 
 	FragmentXmlInjector injector;
 
@@ -27,7 +33,8 @@ public class InjectionFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		injector = new FragmentXmlInjector(this);
-		if(injector.getMenuId() != 0){
+		injector.injectAnnotations();
+		if(menuAnnotation.isPresent()){
 			setHasOptionsMenu(true);
 		}
 
@@ -66,8 +73,8 @@ public class InjectionFragment extends Fragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		if (injector.getMenuId() != 0) {
-			inflater.inflate(injector.getMenuId(), menu);
+		if (menuAnnotation.isPresent()) {
+			inflater.inflate(menuAnnotation.get().value(), menu);
 		}
 		super.onCreateOptionsMenu(menu, inflater);
 	}

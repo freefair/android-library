@@ -5,11 +5,9 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -21,27 +19,30 @@ import de.fhconfig.android.library.annotations.Binding;
 import de.fhconfig.android.library.annotations.DrawerToggle;
 import de.fhconfig.android.library.annotations.Event;
 import de.fhconfig.android.library.annotations.Layout;
-import de.fhconfig.android.library.annotations.Menu;
 import de.fhconfig.android.library.annotations.MenuItemClick;
 import de.fhconfig.android.library.annotations.Toolbar;
+import de.fhconfig.android.library.injection.annotation.InjectAnnotation;
 import de.fhconfig.android.library.ui.GeneralEventListener;
 import de.fhconfig.android.library.ui.injection.InjectionAppCompatActivity;
+import java8.util.Optional;
 
 public class BindingActivity extends InjectionAppCompatActivity implements android.support.v7.widget.Toolbar.OnMenuItemClickListener {
-	private int layoutId;
-	private int menuId = -1;
-	private int toolbarId = -1;
-	private int drawerToggleId = -1;
-	private int appNameId = -1;
+
+
 	private Map<Integer, Method> menuListeners = new HashMap<>();
-	private boolean homeAsUp = false;
-	private boolean homeEnabled = false;
-	private ActionBarDrawerToggle drawerToggle;
+
+	@InjectAnnotation
+	private Optional<Layout> layoutAnnotation;
+	@InjectAnnotation
+	private Optional<Toolbar> toolbarAnnotation;
+	@InjectAnnotation
+	private Optional<DrawerToggle> drawerToggleAnnotation;
+
+	private Optional<ActionBarDrawerToggle> drawerToggle = Optional.empty();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		resolveAnnotations();
 		inflateAndBind();
 		createEventListener();
 	}
@@ -66,7 +67,7 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 
 	private void inflateAndBind(){
 		try {
-			ViewDataBinding binding = DataBindingUtil.setContentView(this, layoutId);
+			ViewDataBinding binding = DataBindingUtil.setContentView(this, layoutAnnotation.map( layout -> layout.value()).orElse(-1));
 			bindAll(binding);
 		} catch (IllegalAccessException ex){
 			Logger.error(this, "Error while set binding to annotated field", ex);
@@ -79,19 +80,19 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 
 	private void bindAll(ViewDataBinding binding) throws IllegalAccessException, InstantiationException, NoSuchFieldException {
 		createViewModels(binding);
-		if(toolbarId > -1){
-			android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)binding.getRoot().findViewById(toolbarId);
+		if(toolbarAnnotation.isPresent()){
+			android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)binding.getRoot().findViewById(toolbarAnnotation.get().value());
 			this.setSupportActionBar(toolbar);
 			toolbar.setOnMenuItemClickListener(this);
 			bindMenuListeners();
 			if(getSupportActionBar() == null) throw new RuntimeException("support action bar is null");
-			getSupportActionBar().setHomeButtonEnabled(homeEnabled);
-			getSupportActionBar().setDisplayHomeAsUpEnabled(homeAsUp);
+			getSupportActionBar().setHomeButtonEnabled(toolbarAnnotation.get().homeButton());
+			getSupportActionBar().setDisplayHomeAsUpEnabled(toolbarAnnotation.get().homeAsUp());
 
-			if(drawerToggleId > -1){
-				DrawerLayout viewById = (DrawerLayout)binding.getRoot().findViewById(drawerToggleId);
-				drawerToggle = new ActionBarDrawerToggle(this, viewById, appNameId, appNameId);
-				viewById.setDrawerListener(drawerToggle);
+			if(drawerToggleAnnotation.isPresent()){
+				DrawerLayout viewById = (DrawerLayout)binding.getRoot().findViewById(drawerToggleAnnotation.get().value());
+				drawerToggle = Optional.of(new ActionBarDrawerToggle(this, viewById, drawerToggleAnnotation.get().openDrawerDescRes() , drawerToggleAnnotation.get().closeDrawerDescRes()));
+				viewById.setDrawerListener(drawerToggle.get());
 			}
 		}
 	}
@@ -130,60 +131,28 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 		}
 	}
 
-	private void resolveAnnotations() {
-		Class<? extends BindingActivity> aClass = this.getClass();
-		Annotation[] annotations = aClass.getAnnotations();
-		for (Annotation annotation : annotations){
-			if(annotation instanceof Layout)
-				layoutId = ((Layout)annotation).value();
-			if(annotation instanceof Menu)
-				menuId = ((Menu)annotation).value();
-			if(annotation instanceof Toolbar){
-				Toolbar toolbar = (Toolbar) annotation;
-				toolbarId = toolbar.value();
-				homeEnabled = toolbar.homeButton();
-				homeAsUp = toolbar.homeAsUp();
-			}
-			if(annotation instanceof DrawerToggle){
-				DrawerToggle toggle = (DrawerToggle) annotation;
-				drawerToggleId = toggle.value();
-				appNameId = toggle.appName();
-			}
-		}
-	}
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		if(drawerToggle != null)
-			drawerToggle.syncState();
+		drawerToggle.ifPresent(dt -> dt.syncState());
 	}
 
 	@Override
 	public void onConfigurationChanged(android.content.res.Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		if(drawerToggle != null)
-			drawerToggle.onConfigurationChanged(newConfig);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(android.view.Menu menu) {
-		if(menuId > -1) {
-			MenuInflater menuInflater = getMenuInflater();
-			menuInflater.inflate(menuId, menu);
-			return true;
-		}
-		return false;
+		drawerToggle.ifPresent(dt -> dt.onConfigurationChanged(newConfig));
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if(drawerToggle.onOptionsItemSelected(item)){
+		if(drawerToggle.map(dt -> dt.onOptionsItemSelected(item)).orElse(false)){
 			return true;
 		}
 		return onMenuItemClick(item);
 	}
 
+	@SuppressWarnings("TryWithIdenticalCatches")
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
 		try {
@@ -192,7 +161,9 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 				menuListeners.get(itemId).invoke(this);
 				return true;
 			}
-		} catch (InvocationTargetException | IllegalAccessException e) {
+		} catch (InvocationTargetException e) {
+			Logger.error(this, "Error while invoke menu item click listener", e);
+		} catch (IllegalAccessException e) {
 			Logger.error(this, "Error while invoke menu item click listener", e);
 		}
 		return false;
