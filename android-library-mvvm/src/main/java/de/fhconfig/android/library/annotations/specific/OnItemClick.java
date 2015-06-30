@@ -1,4 +1,4 @@
-package de.fhconfig.android.library.annotations;
+package de.fhconfig.android.library.annotations.specific;
 
 import android.support.annotation.IdRes;
 
@@ -7,13 +7,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import de.fhconfig.android.library.annotations.specific.EventNames;
-
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Event
+@EventName(EventNames.OnItemClick)
+public @interface OnItemClick
 {
 	@IdRes
 	int value();
-	EventNames event() default EventNames.NONE;
 }

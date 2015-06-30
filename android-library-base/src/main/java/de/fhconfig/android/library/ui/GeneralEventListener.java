@@ -35,9 +35,7 @@ public class GeneralEventListener
 		String methodName = "set" + name.substring(0, 1).toUpperCase() + name.substring(1) + "Listener";
 		try {
 			addListener(methodName, listener);
-		} catch (InvocationTargetException e) {
-			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}

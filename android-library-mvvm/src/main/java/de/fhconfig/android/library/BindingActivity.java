@@ -7,11 +7,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.fhconfig.android.library.annotations.BindTo;
@@ -21,10 +24,14 @@ import de.fhconfig.android.library.annotations.Event;
 import de.fhconfig.android.library.annotations.Layout;
 import de.fhconfig.android.library.annotations.MenuItemClick;
 import de.fhconfig.android.library.annotations.Toolbar;
+import de.fhconfig.android.library.annotations.specific.EventName;
+import de.fhconfig.android.library.annotations.specific.EventNames;
 import de.fhconfig.android.library.injection.annotation.InjectAnnotation;
 import de.fhconfig.android.library.ui.GeneralEventListener;
 import de.fhconfig.android.library.ui.injection.InjectionAppCompatActivity;
 import java8.util.Optional;
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 
 public class BindingActivity extends InjectionAppCompatActivity implements android.support.v7.widget.Toolbar.OnMenuItemClickListener {
 
@@ -48,26 +55,53 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 	}
 
 	private void createEventListener() {
+		class AnnotationHolder {
+			Annotation a;
+			EventName name;
+
+			public AnnotationHolder(Annotation a, EventName name) {
+				this.a = a;
+				this.name = name;
+			}
+		}
+
 		Method[] declaredMethods = this.getClass().getDeclaredMethods();
 		for (Method method : declaredMethods) {
 			Event annotation = method.getAnnotation(Event.class);
 			if (annotation != null) {
 				int value = annotation.value();
-				String event = annotation.event();
-				if(event == null || "".equals(event)){
+				String event = annotation.event().getName();
+				if(event == null || EventNames.NONE.getName().equals(event)){
 					event = method.getName();
 				}
 				View view = findViewById(value);
-				GeneralEventListener byView = GeneralEventListener.getByView(view);
-				method.setAccessible(true);
-				byView.bindEvent(event, (sender, args) -> method.invoke(this, args));
+				bindEventToView(method, event, view);
+				continue;
+			}
+			List<AnnotationHolder> collect = StreamSupport.of(method.getAnnotations()).map(a -> new AnnotationHolder(a, a.annotationType().getAnnotation(EventName.class)))
+					.filter(a -> a.name != null).collect(Collectors.toList());
+			for (AnnotationHolder a : collect) {
+				try {
+					Method value = a.a.annotationType().getMethod("value");
+					int invoke = (int)value.invoke(a.a);
+					String event = a.name.value().getName();
+					bindEventToView(method, event, findViewById(invoke));
+				} catch (Exception ex) {
+					throw new RuntimeException(ex);
+				}
 			}
 		}
 	}
 
+	private void bindEventToView(Method method, String event, View view) {
+		GeneralEventListener byView = GeneralEventListener.getByView(view);
+		method.setAccessible(true);
+		byView.bindEvent(event, (sender, args) -> method.invoke(this, args));
+	}
+
 	private void inflateAndBind(){
 		try {
-			ViewDataBinding binding = DataBindingUtil.setContentView(this, layoutAnnotation.map( layout -> layout.value()).orElse(-1));
+			ViewDataBinding binding = DataBindingUtil.setContentView(this, layoutAnnotation.map(Layout::value).orElse(-1));
 			bindAll(binding);
 		} catch (IllegalAccessException ex){
 			Logger.error(this, "Error while set binding to annotated field", ex);
@@ -135,7 +169,7 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		drawerToggle.ifPresent(dt -> dt.syncState());
+		drawerToggle.ifPresent(ActionBarDrawerToggle::syncState);
 	}
 
 	@Override
@@ -146,10 +180,7 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if(drawerToggle.map(dt -> dt.onOptionsItemSelected(item)).orElse(false)){
-			return true;
-		}
-		return onMenuItemClick(item);
+		return drawerToggle.map(dt -> dt.onOptionsItemSelected(item)).orElse(false) || onMenuItemClick(item);
 	}
 
 	@SuppressWarnings("TryWithIdenticalCatches")
