@@ -35,4 +35,6 @@ dependencies {
 	compile project(':android-library-base')
 }
 
-apply from: '../maven.gradle'
+if(rootProject.name.equals("android-library")){
+	apply from: '../maven.gradle'
+}

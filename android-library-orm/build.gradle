@@ -43,4 +43,6 @@ dependencies {
     compile 'com.github.jsqlparser:jsqlparser:0.9'
 }
 
-apply from: '../maven.gradle'
+if(rootProject.name.equals("android-library")){
+    apply from: '../maven.gradle'
+}

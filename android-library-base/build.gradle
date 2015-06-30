@@ -42,4 +42,6 @@ dependencies {
 	compile 'com.intellij:annotations:12.0'
 }
 
-apply from: '../maven.gradle'
+if(rootProject.name.equals("android-library")){
+	apply from: '../maven.gradle'
+}
