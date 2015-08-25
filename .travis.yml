@@ -1,6 +1,6 @@
 language: android
-jdk:
-- oraclejdk8
+jdk: oraclejdk8
+sudo: false
 android:
   components:
   - build-tools-22.0.1
@@ -24,4 +24,3 @@ deploy:
   on:
     repo: larsgrefer/android-library
     tags: true
-    jdk: oraclejdk8
