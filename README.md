@@ -15,7 +15,7 @@ Please use new feature data-binding implemented in Android-SDK since 28.05.2015,
 ```gradle
 dependencies {
     ...
-    compile 'de.larsgrefer:android-library:0.7.2'
+    compile 'de.larsgrefer:android-library-base:0.8.1'
     ...
 }
 ```
