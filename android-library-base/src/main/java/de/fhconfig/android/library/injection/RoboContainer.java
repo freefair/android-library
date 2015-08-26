@@ -52,8 +52,11 @@ public class RoboContainer
 
 	public void inject(Object obj)
 	{
-		Class<?> aClass = obj.getClass();
-		Field[] fields = aClass.getDeclaredFields();
+		inject(obj, obj.getClass());
+	}
+
+	private void inject(Object obj, Class<?> cls){
+		Field[] fields = cls.getDeclaredFields();
 		for(Field field : fields)
 		{
 			Inject annotation = field.getAnnotation(Inject.class);
@@ -71,9 +74,13 @@ public class RoboContainer
 				}
 			}
 		}
+		Class<?> superclass = cls.getSuperclass();
+		if(superclass != null && superclass != Object.class){
+			inject(obj, superclass);
+		}
 	}
 
-	protected Context getContext()
+	public Context getContext()
 	{
 		return this.context;
 	}

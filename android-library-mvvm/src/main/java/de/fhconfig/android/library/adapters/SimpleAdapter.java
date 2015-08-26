@@ -14,10 +14,10 @@ import de.fhconfig.android.library.BRHelper;
 
 public class SimpleAdapter extends BaseAdapter {
 	private final ListView view;
-	private final ObservableArrayList<?> list;
+	private final ObservableList<?> list;
 	private final int layout;
 
-	public SimpleAdapter(ListView view, ObservableArrayList<?> list, int layout) {
+	public SimpleAdapter(ListView view, ObservableList<?> list, int layout) {
 		this.view = view;
 		this.list = list;
 		this.layout = layout;

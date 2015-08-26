@@ -2,47 +2,48 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.android.library'
 
 repositories {
-    jcenter()
-    maven {
-        url 'https://oss.sonatype.org/content/groups/public/'
-    }
+	jcenter()
+	maven {
+		url 'https://oss.sonatype.org/content/groups/public/'
+	}
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.0"
+	compileSdkVersion 23
+	buildToolsVersion "23.0.0"
 
-    defaultConfig {
-        minSdkVersion 7
-        targetSdkVersion 23
-        versionCode 1
-        versionName version
-    }
+	defaultConfig {
+		minSdkVersion 7
+		targetSdkVersion 23
+		versionCode 1
+		versionName version
+	}
 
-    buildTypes {
-        release {
-            minifyEnabled false
+	buildTypes {
+		release {
+			minifyEnabled false
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+		}
+	}
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
 
-    lintOptions {
-        warning 'InvalidPackage' //http://sourceforge.net/p/streamsupport/tickets/70/
-    }
+	lintOptions {
+		warning 'InvalidPackage' //http://sourceforge.net/p/streamsupport/tickets/70/
+	}
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':android-library-base')
-    compile 'com.j256.ormlite:ormlite-android:4.48'
-    compile 'com.github.jsqlparser:jsqlparser:0.9'
+	compile fileTree(dir: 'libs', include: ['*.jar'])
+	compile project(':android-library-base')
+	compile 'com.j256.ormlite:ormlite-android:4.48'
+	compile 'com.google.dexmaker:dexmaker:1.2'
+	compile 'com.github.jsqlparser:jsqlparser:0.9'
 }
 
-if(rootProject.name.equals("android-library")){
-    apply from: '../maven.gradle'
+if (rootProject.name.equals("android-library")) {
+	apply from: '../maven.gradle'
 }

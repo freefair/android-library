@@ -1,6 +1,14 @@
 package de.fhconfig.android.library.ui.injection;
 
+import android.content.Context;
+
+
+import com.google.dexmaker.stock.ProxyBuilder;
+
+import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.fhconfig.android.library.data.CrudRepository;
 import de.fhconfig.android.library.data.CrudRepositoryInvocationHandler;
@@ -39,7 +47,10 @@ public class MainModule extends RoboModule {
 		}
 	}
 
+	static final Map<Class<?>, Class<?>> proxyClasses = new HashMap<>();
+
 	private class ServiceRoboFactory implements IRoboFactory {
+
 		@Override
 		public boolean canCreate(Class<?> clazz) {
 			return clazz.getAnnotation(Service.class) != null;
@@ -47,9 +58,21 @@ public class MainModule extends RoboModule {
 
 		@Override
 		public Object create(Class<?> clazz, RoboContainer container) {
-			Object o = Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz}, new ServiceInvocationHandler());
-			container.inject(o);
-			return o;
+
+			try {
+				if (!proxyClasses.containsKey(clazz)) {
+					Class<?> cls = ProxyBuilder.forClass(clazz)
+							.dexCache(container.getContext().getDir("dx", Context.MODE_PRIVATE))
+							.handler(new ServiceInvocationHandler())
+							.buildProxyClass();
+					proxyClasses.put(clazz, cls);
+				}
+				Object o = proxyClasses.get(clazz).newInstance();
+				container.inject(o);
+				return o;
+			} catch (Exception ex) {
+				throw new RuntimeException(ex);
+			}
 		}
 	}
 }
