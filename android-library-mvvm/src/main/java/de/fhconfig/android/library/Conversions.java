@@ -6,6 +6,7 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 import android.widget.ListView;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 import de.fhconfig.android.library.adapters.SimpleAdapter;
@@ -29,6 +30,6 @@ public class Conversions {
 
 	@BindingConversion
 	public static String convertDateToString(Date date){
-		return date.toString();
+		return DateFormat.getDateTimeInstance().format(date);
 	}
 }
