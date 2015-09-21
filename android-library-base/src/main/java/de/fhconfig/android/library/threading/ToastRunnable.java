@@ -1,5 +1,6 @@
 package de.fhconfig.android.library.threading;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ public class ToastRunnable implements Runnable {
 	}
 
 	@Override
+	@SuppressLint("WrongConstant")
 	public void run() {
 		Toast.makeText(context, message, duration).show();
 	}
