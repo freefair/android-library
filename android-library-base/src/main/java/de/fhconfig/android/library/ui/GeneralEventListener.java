@@ -59,6 +59,7 @@ public class GeneralEventListener
 				return;
 			}
 		}
+		throw new RuntimeException("Method with name " + methodName + " not found!");
 	}
 
 	public interface EventListener {
