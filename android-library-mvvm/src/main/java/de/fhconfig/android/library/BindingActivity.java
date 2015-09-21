@@ -76,6 +76,8 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 					event = method.getName();
 				}
 				View view = findViewById(value);
+				if(view == null)
+					throw new RuntimeException("View with id " + value + " not found");
 				bindEventToView(method, event, view);
 				continue;
 			}
