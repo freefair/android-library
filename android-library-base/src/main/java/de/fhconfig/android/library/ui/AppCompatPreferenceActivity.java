@@ -190,7 +190,7 @@ public class AppCompatPreferenceActivity extends PreferenceActivity implements A
     public boolean supportRequestWindowFeature(int featureId) {
         return getDelegate().requestWindowFeature(featureId);
     }
-    
+
     public void supportInvalidateOptionsMenu() {
         getDelegate().invalidateOptionsMenu();
     }
@@ -409,19 +409,6 @@ public class AppCompatPreferenceActivity extends PreferenceActivity implements A
      */
     public void supportNavigateUpTo(Intent upIntent) {
         NavUtils.navigateUpTo(this, upIntent);
-    }
-
-    @Override
-    public void onContentChanged() {
-        // Call onSupportContentChanged() for legacy reasons
-        onSupportContentChanged();
-    }
-
-    /**
-     * @deprecated Use {@link #onContentChanged()} instead.
-     */
-    @Deprecated
-    public void onSupportContentChanged() {
     }
 
     @Nullable
