@@ -24,15 +24,19 @@ public class GeneralEventListener
 
 	public static GeneralEventListener getByView(View view){
 		Object tag = view.getTag(R.id.event_listener_id);
-		if(tag == null || !(tag instanceof GeneralEventListener)){
+		if(tag == null || !(tag instanceof GeneralEventListener)) {
 			tag = new GeneralEventListener(view);
 			view.setTag(R.id.event_listener_id, tag);
 		}
 		return (GeneralEventListener)tag;
 	}
 
-	public void bindEvent(String name, EventListener listener){
-		String methodName = "set" + name.substring(0, 1).toUpperCase() + name.substring(1) + "Listener";
+	public static String buildMethodName(String name){
+		return "set" + name.substring(0, 1).toUpperCase() + name.substring(1) + "Listener";
+	}
+
+	public void bindEvent(String name, EventListener listener) {
+		String methodName = buildMethodName(name);
 		try {
 			addListener(methodName, listener);
 		} catch (Exception e) {
@@ -62,6 +66,10 @@ public class GeneralEventListener
 		throw new RuntimeException("Method with name " + methodName + " not found!");
 	}
 
+	public Map<String, List<EventListener>> getListeners() {
+		return listeners;
+	}
+
 	public interface EventListener {
 		void invoke(View sender, Object... args) throws Throwable;
 	}
@@ -76,8 +84,9 @@ public class GeneralEventListener
 		@Override
 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 			try {
+				if(args == null) args = new Object[0];
 				List<EventListener> eventListeners = listeners.get(methodName);
-				for(EventListener eventListener : eventListeners){
+				for(EventListener eventListener : eventListeners) {
 					eventListener.invoke(view, args);
 				}
 			} catch (Exception ex) {

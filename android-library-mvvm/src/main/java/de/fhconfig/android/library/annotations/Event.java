@@ -16,4 +16,5 @@ public @interface Event
 	@IdRes
 	int value();
 	EventNames event() default EventNames.NONE;
+	boolean required() default false;
 }

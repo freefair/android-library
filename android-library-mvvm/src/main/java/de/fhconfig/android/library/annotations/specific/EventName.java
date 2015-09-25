@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface EventName
 {
 	EventNames value();
+	boolean required() default false;
 }

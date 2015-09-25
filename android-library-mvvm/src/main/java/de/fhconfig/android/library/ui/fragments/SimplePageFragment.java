@@ -17,22 +17,19 @@ import de.fhconfig.android.library.viewmodels.Page;
 @SuppressLint("ValidFragment")
 public class SimplePageFragment extends Fragment {
 	private Page page;
-	private int layout = R.layout.simple_fragment;
 
 	public SimplePageFragment() {
 	}
 
-	public SimplePageFragment(Page page, int layout) {
+	public SimplePageFragment(Page page) {
 		this.page = page;
-		this.layout = layout;
 	}
 
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//		ViewDataBinding inflate = DataBindingUtil.inflate(inflater, layout, container, container != null);
-//		inflate.setVariable(BRHelper.getBrByName("item"), page);
-//		return inflate.getRoot();
-		return inflater.inflate(R.layout.simple_fragment, container, false);
+		ViewDataBinding inflate = DataBindingUtil.inflate(inflater, page.layout.get(), container, false);
+		inflate.setVariable(BRHelper.getBrByName("item"), page.model.get());
+		return inflate.getRoot();
 	}
 }

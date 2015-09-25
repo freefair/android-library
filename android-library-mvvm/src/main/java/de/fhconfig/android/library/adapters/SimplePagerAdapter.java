@@ -2,6 +2,7 @@ package de.fhconfig.android.library.adapters;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -13,12 +14,10 @@ import de.fhconfig.android.library.viewmodels.Page;
 
 public class SimplePagerAdapter extends FragmentStatePagerAdapter {
 	private ObservableArrayList<Page> list;
-	private int layout;
 
-	public SimplePagerAdapter(ViewPager pager, ObservableArrayList<Page> list, int layout) {
+	public SimplePagerAdapter(ViewPager pager, ObservableArrayList<Page> list) {
 		super(((AppCompatActivity)pager.getContext()).getSupportFragmentManager());
 		this.list = list;
-		this.layout = layout;
 	}
 
 	@Override
@@ -28,12 +27,12 @@ public class SimplePagerAdapter extends FragmentStatePagerAdapter {
 
 	@Override
 	public Fragment getItem(int position) {
-		return new SimplePageFragment(list.get(position), layout);
+		return new SimplePageFragment(list.get(position));
 	}
 
 	@Override
-	public boolean isViewFromObject(View view, Object object) {
-		return false;
+	public CharSequence getPageTitle(int position) {
+		return list.get(position).title.get();
 	}
 
 	public void updateList(ObservableArrayList<Page> list) {
@@ -65,13 +64,6 @@ public class SimplePagerAdapter extends FragmentStatePagerAdapter {
 					SimplePagerAdapter.this.notifyDataSetChanged();
 				}
 			});
-			this.notifyDataSetChanged();
-		}
-	}
-
-	public void updateLayout(int layout){
-		if(this.layout != layout) {
-			this.layout = layout;
 			this.notifyDataSetChanged();
 		}
 	}

@@ -1,6 +1,7 @@
 package de.fhconfig.android.library;
 
 import android.databinding.DataBindingUtil;
+import android.databinding.OnRebindCallback;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -76,8 +77,10 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 					event = method.getName();
 				}
 				View view = findViewById(value);
-				if(view == null)
-					throw new RuntimeException("View with id " + value + " not found");
+				if(view == null && !annotation.required())
+					continue;
+				else if (view == null && annotation.required())
+					throw new RuntimeException("View with id "  + value +  " not found");
 				bindEventToView(method, event, view);
 				continue;
 			}
@@ -88,7 +91,12 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 					Method value = a.a.annotationType().getMethod("value");
 					int invoke = (int) value.invoke(a.a);
 					String event = a.name.value().getName();
-					bindEventToView(method, event, findViewById(invoke));
+					View viewById = findViewById(invoke);
+					if(viewById == null && a.name.required())
+						throw new RuntimeException("View with id " + invoke + " not found");
+					else if (viewById == null && !a.name.required())
+						continue;
+					bindEventToView(method, event, viewById);
 				} catch (Exception ex) {
 					throw new RuntimeException(ex);
 				}
@@ -134,14 +142,46 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 
 	private void bindEventToView(Method method, String event, View view) {
 		GeneralEventListener byView = GeneralEventListener.getByView(view);
+		if(hasListenerForMethod(byView, event, method)) return;
 		method.setAccessible(true);
 		byView.bindEvent(event, new MethodListener(method));
+	}
+
+	private boolean hasListenerForMethod(GeneralEventListener byView, String event, Method method) {
+		Map<String, List<GeneralEventListener.EventListener>> events = byView.getListeners();
+		String methodName = GeneralEventListener.buildMethodName(event);
+		if(!events.containsKey(methodName)) return false;
+		List<GeneralEventListener.EventListener> listeners = events.get(methodName);
+		for (GeneralEventListener.EventListener listener :
+				listeners) {
+			if (listener instanceof MethodListener)
+			{
+				if(((MethodListener) listener).method == method)
+					return true;
+			}
+		}
+		return false;
 	}
 
 	private void inflateAndBind() {
 		try {
 			ViewDataBinding binding = DataBindingUtil.setContentView(this, layoutAnnotation.map(Layout::value).orElse(-1));
 			bindAll(binding);
+			binding.addOnRebindCallback(new OnRebindCallback() {
+				@Override
+				public void onBound(ViewDataBinding binding) {
+					try {
+						bindAll(binding);
+						createEventListener();
+					} catch (IllegalAccessException ex) {
+						Logger.error(this, "Error while set binding to annotated field", ex);
+					} catch (InstantiationException ex) {
+						Logger.error(this, "Error while creating view model", ex);
+					} catch (NoSuchFieldException ex) {
+						Logger.error(this, "Error while set view model to binding", ex);
+					}
+				}
+			});
 		} catch (IllegalAccessException ex) {
 			Logger.error(this, "Error while set binding to annotated field", ex);
 		} catch (InstantiationException ex) {
@@ -183,17 +223,20 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 		}
 	}
 
+	private boolean viewmodelsCreated = false;
 	private void createViewModels(ViewDataBinding binding) throws IllegalAccessException, InstantiationException, NoSuchFieldException {
+		if(viewmodelsCreated) return;
+
 		Class<? extends BindingActivity> aClass = this.getClass();
 		Field[] fields = aClass.getDeclaredFields();
 		for (Field field : fields) {
+			if(!field.isAccessible()) field.setAccessible(true);
+
 			if (field.getAnnotation(Binding.class) != null) {
-				field.setAccessible(true);
 				field.set(this, binding);
 			}
 			BindTo annotation = field.getAnnotation(BindTo.class);
 			if (annotation != null) {
-				field.setAccessible(true);
 				Object value = field.getType().newInstance();
 				field.set(this, value);
 				Class<?> value1 = annotation.value();
@@ -203,6 +246,7 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 				binding.setVariable(o, value);
 			}
 		}
+		viewmodelsCreated = true;
 	}
 
 

@@ -1,5 +1,6 @@
 package de.fhconfig.android.library;
 
+import android.app.Activity;
 import android.content.res.TypedArray;
 import android.databinding.BindingAdapter;
 import android.databinding.BindingConversion;
@@ -7,8 +8,10 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -59,23 +62,30 @@ public class Conversions {
 	}
 
 
-	@BindingAdapter({"bind:items", "bind:layout"})
-	public static void viewPagerAdapter(ViewPager pager, ObservableArrayList<Page> list, int layout){
+	@BindingAdapter({"bind:items"})
+	public static void viewPagerAdapter(ViewPager pager, ObservableArrayList<Page> list){
 		Object tag = pager.getTag(R.id.adapter_id);
 		if(tag == null || !(tag instanceof SimplePagerAdapter))
 		{
-			SimplePagerAdapter adapter = new SimplePagerAdapter(pager, list, layout);
+			SimplePagerAdapter adapter = new SimplePagerAdapter(pager, list);
 			pager.setTag(R.id.adapter_id, adapter);
 			pager.setAdapter(adapter);
 			tag = adapter;
 		}
 		SimplePagerAdapter adapter = (SimplePagerAdapter)tag;
 		adapter.updateList(list);
-		adapter.updateLayout(layout);
 	}
 
 	@BindingConversion
 	public static String convertDateToString(Date date){
 		return DateFormat.getDateTimeInstance().format(date);
+	}
+
+	@BindingAdapter({"bind:tabLayout"})
+	public static void setViewPager(ViewPager viewPager, int id){
+		Activity context = (Activity) viewPager.getContext();
+		TabLayout viewById = (TabLayout) context.findViewById(id);
+		if(viewById == null) throw new RuntimeException("TabLayout with id " + id + " not found");
+		viewById.setupWithViewPager(viewPager);
 	}
 }

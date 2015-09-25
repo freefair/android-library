@@ -3,7 +3,6 @@ package de.fhconfig.android.library.ui.injection;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.wearable.view.WatchViewStub;
 
 import de.fhconfig.android.library.injection.exceptions.ViewIdNotFoundException;
