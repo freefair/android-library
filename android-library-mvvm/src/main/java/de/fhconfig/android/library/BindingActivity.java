@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.common.base.Optional;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -31,9 +33,6 @@ import de.fhconfig.android.library.annotations.specific.EventNames;
 import de.fhconfig.android.library.injection.annotation.InjectAnnotation;
 import de.fhconfig.android.library.ui.GeneralEventListener;
 import de.fhconfig.android.library.ui.injection.InjectionAppCompatActivity;
-import java8.util.Optional;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
 
 public class BindingActivity extends InjectionAppCompatActivity implements android.support.v7.widget.Toolbar.OnMenuItemClickListener {
 
@@ -47,7 +46,7 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 	@InjectAnnotation
 	private Optional<DrawerToggle> drawerToggleAnnotation;
 
-	private Optional<ActionBarDrawerToggle> drawerToggle = Optional.empty();
+	private Optional<ActionBarDrawerToggle> drawerToggle = Optional.absent();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +83,13 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 				bindEventToView(method, event, view);
 				continue;
 			}
-			List<AnnotationHolder> collect = StreamSupport.of(method.getAnnotations()).map(a -> new AnnotationHolder(a, a.annotationType().getAnnotation(EventName.class)))
-					.filter(a -> a.name != null).collect(Collectors.toList());
+			List<AnnotationHolder> collect = new ArrayList<>();
+			for (Annotation annot : method.getAnnotations()) {
+				AnnotationHolder annotationHolder = new AnnotationHolder(annot, annot.annotationType().getAnnotation(EventName.class));
+				if(annotationHolder.name != null)
+					collect.add(annotationHolder);
+			}
+
 			for (AnnotationHolder a : collect) {
 				try {
 					Method value = a.a.annotationType().getMethod("value");
@@ -165,7 +169,7 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 
 	private void inflateAndBind() {
 		try {
-			ViewDataBinding binding = DataBindingUtil.setContentView(this, layoutAnnotation.map(Layout::value).orElse(-1));
+			ViewDataBinding binding = DataBindingUtil.setContentView(this, layoutAnnotation.transform(Layout::value).or(-1));
 			bindAll(binding);
 			binding.addOnRebindCallback(new OnRebindCallback() {
 				@Override
@@ -253,18 +257,20 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		drawerToggle.ifPresent(ActionBarDrawerToggle::syncState);
+		if(drawerToggle.isPresent())
+			drawerToggle.get().syncState();
 	}
 
 	@Override
 	public void onConfigurationChanged(android.content.res.Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		drawerToggle.ifPresent(dt -> dt.onConfigurationChanged(newConfig));
+		if(drawerToggle.isPresent())
+			drawerToggle.get().onConfigurationChanged(newConfig);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		return drawerToggle.map(dt -> dt.onOptionsItemSelected(item)).orElse(false) || onMenuItemClick(item);
+		return drawerToggle.transform(dt -> dt.onOptionsItemSelected(item)).or(false) || onMenuItemClick(item);
 	}
 
 	@SuppressWarnings("TryWithIdenticalCatches")

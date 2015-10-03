@@ -14,7 +14,6 @@ import java.util.List;
 import de.fhconfig.android.library.data.annotation.Query;
 import de.fhconfig.android.library.data.sql.SqlParser;
 import de.fhconfig.android.library.data.sql.SqlStatementVisitor;
-import java8.util.stream.StreamSupport;
 
 public class CrudRepositoryImpl<TType, TKey> implements CrudRepository<TType, TKey> {
 	private Class<TType> entityType;
@@ -79,8 +78,10 @@ public class CrudRepositoryImpl<TType, TKey> implements CrudRepository<TType, TK
 
 	private Object parseFindMethod(String name, Object[] args) throws SQLException {
 		Dao<TType, TKey> query = query();
-		if(args.length == 1)
-			return StreamSupport.stream(query.queryForEq(name, args[0])).findFirst().orElse(null);
+		if(args.length == 1) {
+			List<TType> resultList = query.queryForEq(name, args[0]);
+			return resultList.isEmpty() ? null : resultList.get(0);
+		}
 		QueryBuilder<TType, TKey> builder = query.queryBuilder();
 
 		Where<TType, TKey> where = builder.where();
