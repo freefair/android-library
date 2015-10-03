@@ -12,12 +12,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.common.base.Optional;
+
 import de.fhconfig.android.library.injection.annotation.InjectAnnotation;
 import de.fhconfig.android.library.injection.annotation.XmlMenu;
 import de.fhconfig.android.library.injection.xml.FragmentXmlInjector;
 import de.fhconfig.android.library.injection.xml.IViewFinder;
 import de.fhconfig.android.library.injection.exceptions.ViewIdNotFoundException;
-import java8.util.Optional;
 
 /**
  * Created by larsgrefer on 24.11.14.

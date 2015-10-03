@@ -3,17 +3,16 @@ package de.fhconfig.android.library.ui.injection;
 import android.app.Application;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.common.base.Optional;
+
 import de.fhconfig.android.library.injection.annotation.InjectAnnotation;
 import de.fhconfig.android.library.injection.annotation.XmlMenu;
 import de.fhconfig.android.library.injection.xml.ActivityXmlInjector;
-import de.fhconfig.android.library.injection.exceptions.ViewIdNotFoundException;
-import java8.util.Optional;
 
 public class InjectionAppCompatActivity extends AppCompatActivity {
 	ActivityXmlInjector injector;

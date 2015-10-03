@@ -2,13 +2,12 @@ package de.fhconfig.android.library.injection;
 
 import android.content.Context;
 
+import com.google.common.base.Supplier;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;
-
-import java8.util.function.Supplier;
 
 public class RoboBuilder
 {

@@ -1,9 +1,9 @@
 package de.fhconfig.android.library.reflection;
 
+import com.google.common.base.Predicate;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-
-import java8.util.function.Predicate;
 
 /**
  * Created by larsgrefer on 16.03.15.
@@ -21,7 +21,7 @@ public class FieldAnnotationPredicate implements Predicate<Field> {
 	}
 
 	@Override
-	public boolean test(Field input) {
+	public boolean apply(Field input) {
 		return input.isAnnotationPresent(annotation);
 	}
 

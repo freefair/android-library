@@ -131,9 +131,7 @@ public abstract class XmlInjector<T> {
 	private void inject(Field field, Object value) {
 		field.setAccessible(true);
 		try {
-			if (field.getType().equals(java8.util.Optional.class)) {
-				field.set(getObject(), java8.util.Optional.ofNullable(value));
-			} else if(field.getType().equals(Optional.class)){
+			if(field.getType().equals(Optional.class)){
 				field.set(getObject(), Optional.fromNullable(value));
 			} else {
 				field.set(getObject(), value);

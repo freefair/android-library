@@ -1,18 +1,18 @@
 package de.fhconfig.android.library.reflection;
 
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+
 import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.util.List;
-import java8.util.Optional;
 
 import de.fhconfig.android.library.injection.annotation.AttributeType;
 import de.fhconfig.android.library.injection.annotation.InjectAttribute;
 import de.fhconfig.android.library.injection.annotation.InjectResource;
 import de.fhconfig.android.library.injection.annotation.InjectView;
 import de.fhconfig.android.library.injection.annotation.ResourceType;
-
-import java8.util.function.Predicate;
 
 import static org.junit.Assert.*;
 
@@ -22,7 +22,7 @@ public class ReflectionTest {
 	public void testGetDeclaredFields() throws Exception {
 		List<Field> declaredFields = Reflection.getAllFields(ClassC.class, Optional.of(Object.class), new Predicate<Field>() {
 			@Override
-			public boolean test(Field input) {
+			public boolean apply(Field input) {
 				return input.isAnnotationPresent(InjectView.class);
 			}
 		});
