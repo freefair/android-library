@@ -30,10 +30,6 @@ android {
 		sourceCompatibility JavaVersion.VERSION_1_8
 		targetCompatibility JavaVersion.VERSION_1_8
 	}
-
-	lintOptions {
-		warning 'InvalidPackage' //http://sourceforge.net/p/streamsupport/tickets/70/
-	}
 }
 
 dependencies {
