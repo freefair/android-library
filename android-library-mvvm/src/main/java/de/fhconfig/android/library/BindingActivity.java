@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.common.base.Function;
 import com.google.common.base.Optional;
 
 import java.lang.annotation.Annotation;
@@ -169,7 +170,12 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 
 	private void inflateAndBind() {
 		try {
-			ViewDataBinding binding = DataBindingUtil.setContentView(this, layoutAnnotation.transform(Layout::value).or(-1));
+			ViewDataBinding binding = DataBindingUtil.setContentView(this, layoutAnnotation.transform(new Function<Layout, Integer>() {
+				@Override
+				public Integer apply(Layout layout) {
+					return layout.value();
+				}
+			}).or(-1));
 			bindAll(binding);
 			binding.addOnRebindCallback(new OnRebindCallback() {
 				@Override
@@ -269,8 +275,13 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		return drawerToggle.transform(dt -> dt.onOptionsItemSelected(item)).or(false) || onMenuItemClick(item);
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		return drawerToggle.transform(new Function<ActionBarDrawerToggle, Boolean>() {
+			@Override
+			public Boolean apply(ActionBarDrawerToggle dt) {
+				return dt.onOptionsItemSelected(item);
+			}
+		}).or(false) || onMenuItemClick(item);
 	}
 
 	@SuppressWarnings("TryWithIdenticalCatches")

@@ -18,7 +18,7 @@ public abstract class CachingSupplier<T> implements Supplier<T> {
 
 	protected abstract T create();
 
-	public static <X> CachingSupplier<X> of(Supplier<X> baseSupplier){
+	public static <X> CachingSupplier<X> of(final Supplier<X> baseSupplier){
 		return new CachingSupplier<X>() {
 			@Override
 			protected X create() {

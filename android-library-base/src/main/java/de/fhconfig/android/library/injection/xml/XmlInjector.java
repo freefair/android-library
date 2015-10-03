@@ -15,6 +15,7 @@ import android.util.TypedValue;
 import android.view.View;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -30,6 +31,7 @@ import de.fhconfig.android.library.injection.annotation.XmlLayout;
 import de.fhconfig.android.library.injection.annotation.XmlMenu;
 import de.fhconfig.android.library.injection.exceptions.InjectionException;
 import de.fhconfig.android.library.injection.exceptions.ViewIdNotFoundException;
+import de.fhconfig.android.library.reflection.FieldAnnotationPredicate;
 import de.fhconfig.android.library.reflection.Reflection;
 
 import static android.os.Build.VERSION.SDK_INT;
@@ -92,7 +94,7 @@ public abstract class XmlInjector<T> {
 	}
 
 	public void injectViews() throws ViewIdNotFoundException {
-		List<Field> viewFields = Reflection.getAllFields(getObjectClass(), field -> field.isAnnotationPresent(InjectView.class));
+		List<Field> viewFields = Reflection.getAllFields(getObjectClass(), new FieldAnnotationPredicate(InjectView.class));
 
 		for (Field field : viewFields) {
 			field.setAccessible(true);
@@ -104,7 +106,7 @@ public abstract class XmlInjector<T> {
 	}
 
 	public void injectAnnotations() {
-		List<Field> annotationFields = Reflection.getAllFields(getObjectClass(), field -> field.isAnnotationPresent(InjectAnnotation.class));
+		List<Field> annotationFields = Reflection.getAllFields(getObjectClass(), new FieldAnnotationPredicate(InjectAnnotation.class));
 
 		for (Field field : annotationFields) {
 			InjectAnnotation injectAnnotation = field.getAnnotation(InjectAnnotation.class);
@@ -143,7 +145,7 @@ public abstract class XmlInjector<T> {
 
 	public void injectAttributes() {
 		log.debug("injectAttributes()");
-		List<Field> attrFields = Reflection.getAllFields(getObjectClass(), field -> field.isAnnotationPresent(InjectAttribute.class));
+		List<Field> attrFields = Reflection.getAllFields(getObjectClass(), new FieldAnnotationPredicate(InjectAttribute.class));
 		log.debug(attrFields.toString());
 		int[] attrIds = new int[attrFields.size()];
 
@@ -286,7 +288,7 @@ public abstract class XmlInjector<T> {
 	@TargetApi(LOLLIPOP)
 	public void injectResources() {
 		log.debug("injectResources()");
-		List<Field> resourceFields = Reflection.getAllFields(getObjectClass(), Object.class, field -> field.isAnnotationPresent(InjectResource.class));
+		List<Field> resourceFields = Reflection.getAllFields(getObjectClass(), Object.class, new FieldAnnotationPredicate(InjectResource.class));
 		log.debug(resourceFields.toString());
 
 		Resources resources = getResources();

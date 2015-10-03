@@ -20,12 +20,7 @@ public class ReflectionTest {
 
 	@Test
 	public void testGetDeclaredFields() throws Exception {
-		List<Field> declaredFields = Reflection.getAllFields(ClassC.class, Optional.of(Object.class), new Predicate<Field>() {
-			@Override
-			public boolean apply(Field input) {
-				return input.isAnnotationPresent(InjectView.class);
-			}
-		});
+		List<Field> declaredFields = Reflection.getAllFields(ClassC.class, Object.class, new FieldAnnotationPredicate(InjectView.class));
 
 		assertEquals(2, declaredFields.size());
 

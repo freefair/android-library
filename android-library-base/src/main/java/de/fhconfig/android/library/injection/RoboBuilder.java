@@ -43,7 +43,7 @@ public class RoboBuilder
 		factories.add(factory);
 	}
 
-	public <T> void registerSupplier(@NotNull Class<T> clazz, @NotNull Supplier<T> supplier){
+	public <T> void registerSupplier(@NotNull final Class<T> clazz, @NotNull final Supplier<T> supplier){
 
 		factories.add(new IRoboFactory() {
 			@Override

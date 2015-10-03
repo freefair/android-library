@@ -59,7 +59,7 @@ public class GeneralEventListener
 				Class<?> aClass = method.getParameterTypes()[0];
 				Object o = Proxy.newProxyInstance(aClass.getClassLoader(), new Class[]{aClass}, new ListenerInvocationHandler(methodName));
 				method.invoke(view, o);
-				listeners.put(methodName, new ArrayList<>());
+				listeners.put(methodName, new ArrayList<EventListener>());
 				return;
 			}
 		}

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -20,7 +21,7 @@ public class Reflection {
 	private static Logger log = Logger.forClass(Reflection.class);
 
 	public static <T> List<Field> getAllFields(Class<T> clazz){
-		return getAllFields(clazz, Optional.absent(), (x) -> true);
+		return getAllFields(clazz, Predicates.<Field>alwaysTrue());
 	}
 
 	public static <T> List<Field> getAllFields(Class<T> clazz, Predicate<Field> filter){
@@ -28,11 +29,11 @@ public class Reflection {
 	}
 
 	public static <T> List<Field> getDeclaredFields(Class<T> clazz, Class<? super T> upToExcluding){
-		return getAllFields(clazz, Optional.<Class<? super T>>fromNullable(upToExcluding), (x) -> true);
+		return getAllFields(clazz, Optional.<Class<? super T>>fromNullable(upToExcluding), Predicates.alwaysTrue());
 	}
 
-	public static <T> List<Field> getAllFields(Class<T> clazz, Optional<Class<? super T>> upToExcluding){
-		return getAllFields(clazz, upToExcluding, (x) -> true);
+	public static <T> List<Field> getAllFields(Class<T> clazz, Class<? super T> upToExcluding){
+		return getAllFields(clazz, upToExcluding, Predicates.alwaysTrue());
 	}
 
 	public static <T> List<Field> getAllFields(Class<T> clazz, Class<? super T> upToExcluding, Predicate<? super Field> filter){
