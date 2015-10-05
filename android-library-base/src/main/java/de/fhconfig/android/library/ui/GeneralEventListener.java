@@ -9,6 +9,7 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import de.fhconfig.android.library.R;
@@ -32,7 +33,7 @@ public class GeneralEventListener
 	}
 
 	public static String buildMethodName(String name){
-		return "set" + name.substring(0, 1).toUpperCase() + name.substring(1) + "Listener";
+		return "set" + name.substring(0, 1).toUpperCase(Locale.US) + name.substring(1) + "Listener";
 	}
 
 	public void bindEvent(String name, EventListener listener) {
