@@ -1,7 +1,5 @@
 package de.fhconfig.android.library.fader;
 
-import static com.google.common.base.MoreObjects.*;
-
 public class IntFader extends BaseFader<Integer> {
 
 	int delta;
@@ -20,10 +18,5 @@ public class IntFader extends BaseFader<Integer> {
 	@Override
 	public Integer getValue(double weight) {
 		return from + (int) Math.round(delta * weight);
-	}
-
-	@Override
-	protected ToStringHelper getToStringHelper() {
-		return super.getToStringHelper().add("delta", delta);
 	}
 }

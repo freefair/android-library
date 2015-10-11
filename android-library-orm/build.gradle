@@ -37,6 +37,7 @@ dependencies {
 	compile 'com.j256.ormlite:ormlite-android:4.48'
 	compile 'com.google.dexmaker:dexmaker:1.2'
 	compile 'com.github.jsqlparser:jsqlparser:0.9'
+	compile 'org.jetbrains:annotations:13.0'
 }
 
 if (rootProject.name.equals("android-library")) {

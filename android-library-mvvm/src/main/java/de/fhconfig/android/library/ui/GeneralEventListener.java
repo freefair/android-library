@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import de.fhconfig.android.library.R;
+import de.fhconfig.android.binding.R;
 
 public class GeneralEventListener
 {

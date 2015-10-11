@@ -8,10 +8,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -34,6 +30,8 @@ import de.fhconfig.android.library.annotations.specific.EventNames;
 import de.fhconfig.android.library.injection.annotation.InjectAnnotation;
 import de.fhconfig.android.library.ui.GeneralEventListener;
 import de.fhconfig.android.library.ui.injection.InjectionAppCompatActivity;
+import de.fhconfig.android.library.util.Function;
+import de.fhconfig.android.library.util.Optional;
 
 public class BindingActivity extends InjectionAppCompatActivity implements android.support.v7.widget.Toolbar.OnMenuItemClickListener {
 
@@ -47,7 +45,7 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 	@InjectAnnotation
 	private Optional<DrawerToggle> drawerToggleAnnotation;
 
-	private Optional<ActionBarDrawerToggle> drawerToggle = Optional.absent();
+	private Optional<ActionBarDrawerToggle> drawerToggle = Optional.empty();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -170,12 +168,12 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 
 	private void inflateAndBind() {
 		try {
-			ViewDataBinding binding = DataBindingUtil.setContentView(this, layoutAnnotation.transform(new Function<Layout, Integer>() {
+			ViewDataBinding binding = DataBindingUtil.setContentView(this, layoutAnnotation.map(new Function<Layout, Integer>() {
 				@Override
 				public Integer apply(Layout layout) {
 					return layout.value();
 				}
-			}).or(-1));
+			}).orElse(-1));
 			bindAll(binding);
 			binding.addOnRebindCallback(new OnRebindCallback() {
 				@Override
@@ -276,12 +274,12 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
-		return drawerToggle.transform(new Function<ActionBarDrawerToggle, Boolean>() {
+		return drawerToggle.map(new Function<ActionBarDrawerToggle, Boolean>() {
 			@Override
 			public Boolean apply(ActionBarDrawerToggle dt) {
 				return dt.onOptionsItemSelected(item);
 			}
-		}).or(false) || onMenuItemClick(item);
+		}).orElse(false) || onMenuItemClick(item);
 	}
 
 	@SuppressWarnings("TryWithIdenticalCatches")

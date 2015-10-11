@@ -8,11 +8,10 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.common.base.Optional;
-
 import de.fhconfig.android.library.injection.annotation.InjectAnnotation;
 import de.fhconfig.android.library.injection.annotation.XmlMenu;
 import de.fhconfig.android.library.injection.xml.ActivityXmlInjector;
+import de.fhconfig.android.library.util.Optional;
 
 public class InjectionAppCompatActivity extends AppCompatActivity {
 	ActivityXmlInjector injector;

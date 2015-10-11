@@ -1,7 +1,5 @@
 package de.fhconfig.android.library.util;
 
-import com.google.common.base.Supplier;
-
 /**
  * Created by larsgrefer on 23.06.15.
  */

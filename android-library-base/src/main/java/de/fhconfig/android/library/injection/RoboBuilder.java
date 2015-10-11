@@ -2,12 +2,10 @@ package de.fhconfig.android.library.injection;
 
 import android.content.Context;
 
-import com.google.common.base.Supplier;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Collection;
+
+import de.fhconfig.android.library.util.Supplier;
 
 public class RoboBuilder
 {
@@ -43,7 +41,7 @@ public class RoboBuilder
 		factories.add(factory);
 	}
 
-	public <T> void registerSupplier(@NotNull final Class<T> clazz, @NotNull final Supplier<T> supplier){
+	public <T> void registerSupplier(final Class<T> clazz, final Supplier<T> supplier){
 
 		factories.add(new IRoboFactory() {
 			@Override

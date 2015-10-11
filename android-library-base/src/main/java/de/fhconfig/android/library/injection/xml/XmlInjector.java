@@ -10,12 +10,8 @@ import android.graphics.Movie;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.MenuRes;
 import android.util.TypedValue;
 import android.view.View;
-
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -28,11 +24,11 @@ import de.fhconfig.android.library.injection.annotation.InjectAttribute;
 import de.fhconfig.android.library.injection.annotation.InjectResource;
 import de.fhconfig.android.library.injection.annotation.InjectView;
 import de.fhconfig.android.library.injection.annotation.XmlLayout;
-import de.fhconfig.android.library.injection.annotation.XmlMenu;
 import de.fhconfig.android.library.injection.exceptions.InjectionException;
 import de.fhconfig.android.library.injection.exceptions.ViewIdNotFoundException;
 import de.fhconfig.android.library.reflection.FieldAnnotationPredicate;
 import de.fhconfig.android.library.reflection.Reflection;
+import de.fhconfig.android.library.util.Optional;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -134,7 +130,7 @@ public abstract class XmlInjector<T> {
 		field.setAccessible(true);
 		try {
 			if(field.getType().equals(Optional.class)){
-				field.set(getObject(), Optional.fromNullable(value));
+				field.set(getObject(), Optional.ofNullable(value));
 			} else {
 				field.set(getObject(), value);
 			}
@@ -251,8 +247,8 @@ public abstract class XmlInjector<T> {
 						field.set(object, textArray);
 						break;
 					case TYPED_VALUE:
-						TypedValue typedValue = Optional.fromNullable((TypedValue) field.get(object))
-														.or(new TypedValue());
+						TypedValue typedValue = Optional.ofNullable((TypedValue) field.get(object))
+														.orElse(new TypedValue());
 						typedArray.getValue(index, typedValue);
 						logFieldInjection(field, typedValue);
 						field.set(object, typedValue);
@@ -394,8 +390,8 @@ public abstract class XmlInjector<T> {
 						field.set(object, textArray);
 						break;
 					case TYPED_VALUE:
-						TypedValue typedValue = Optional.fromNullable((TypedValue) field.get(object))
-														.or(new TypedValue());
+						TypedValue typedValue = Optional.ofNullable((TypedValue) field.get(object))
+														.orElse(new TypedValue());
 						resources.getValue(resourceId, typedValue, true);
 						logFieldInjection(field, typedValue);
 						field.set(object, typedValue);

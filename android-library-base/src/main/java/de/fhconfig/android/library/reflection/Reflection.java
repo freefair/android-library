@@ -2,11 +2,6 @@ package de.fhconfig.android.library.reflection;
 
 import android.support.annotation.Nullable;
 
-
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -15,6 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.fhconfig.android.library.Logger;
+import de.fhconfig.android.library.util.Optional;
+import de.fhconfig.android.library.util.Predicate;
+import de.fhconfig.android.library.util.Predicates;
 
 public class Reflection {
 
@@ -25,11 +23,11 @@ public class Reflection {
 	}
 
 	public static <T> List<Field> getAllFields(Class<T> clazz, Predicate<Field> filter){
-		return getAllFields(clazz, Optional.<Class<? super T>>absent(), filter);
+		return getAllFields(clazz, Optional.<Class<? super T>>empty(), filter);
 	}
 
 	public static <T> List<Field> getDeclaredFields(Class<T> clazz, Class<? super T> upToExcluding){
-		return getAllFields(clazz, Optional.<Class<? super T>>fromNullable(upToExcluding), Predicates.alwaysTrue());
+		return getAllFields(clazz, Optional.<Class<? super T>>ofNullable(upToExcluding), Predicates.alwaysTrue());
 	}
 
 	public static <T> List<Field> getAllFields(Class<T> clazz, Class<? super T> upToExcluding){
@@ -37,12 +35,12 @@ public class Reflection {
 	}
 
 	public static <T> List<Field> getAllFields(Class<T> clazz, Class<? super T> upToExcluding, Predicate<? super Field> filter){
-		return getAllFields(clazz, Optional.<Class<? super T>>fromNullable(upToExcluding), filter);
+		return getAllFields(clazz, Optional.<Class<? super T>>ofNullable(upToExcluding), filter);
 	}
 
 	public static <T> List<Field> getAllFields(Class<T> clazz, Optional<Class<? super T>> upToExcluding, Predicate<? super Field> filter){
 
-		List<Field> fields = new LinkedList<>();
+		List<Field> fields = new ArrayList<>();
 
 		Class<?> currentClass = clazz;
 
@@ -50,7 +48,7 @@ public class Reflection {
 			log.verbose("Now checking class " + clazz.getName());
 			for (Field field : currentClass.getDeclaredFields()){
 				log.verbose("Checking field " + field.getName());
-				if(filter.apply(field)) {
+				if(filter.test(field)) {
 					fields.add(field);
 				}
 			}

@@ -1,8 +1,5 @@
 package de.fhconfig.android.library.reflection;
 
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
-
 import org.junit.Test;
 
 import java.lang.reflect.Field;

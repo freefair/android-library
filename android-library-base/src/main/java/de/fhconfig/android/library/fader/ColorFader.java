@@ -2,8 +2,6 @@ package de.fhconfig.android.library.fader;
 
 import android.graphics.Color;
 
-import static com.google.common.base.MoreObjects.*;
-
 /**
  * Created by larsgrefer on 30.01.15.
  */
@@ -32,14 +30,5 @@ public class ColorFader extends BaseFader<Integer> {
 								 greenFader.getValue(weight),
 								 blueFader.getValue(weight)
 		);
-	}
-
-	@Override
-	protected ToStringHelper getToStringHelper() {
-		return super.getToStringHelper()
-					   .add("redFader", redFader)
-					   .add("greenFader", greenFader)
-					   .add("blueFader", blueFader)
-					   .add("alphaFader", alphaFader);
 	}
 }
