@@ -1,0 +1,89 @@
+  {% include head.html %}
+  <style>
+  .post .postbar {
+    margin: 0em;
+    padding: 1rem;
+  }
+  
+  .post .postbar .column {
+    margin-bottom: 1em;
+  }
+  
+  .post .image {
+    margin-bottom: 1em;
+  }
+
+  </style>
+
+  </head>
+  
+  <body class="global post">
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    {% if site.facebook %}
+      {% include fb-setup.html %}
+    {% endif %}
+    
+    {% if site.pagebar %}
+    {% include page-bar.html %}
+    <div class="pusher">
+    {% endif %}
+        {% include post-header.html %}
+        <div class="ui vertical segment">
+          <div class="ui very relaxed stackable page grid">
+            {% if site.postbar %}
+            <div class="ten wide column">
+            {% else %}
+            <div class="sixteen wide column">
+            {% endif %}
+                {% if page.image %}
+                <img class="ui rounded image" src="{{ page.image }}" alt="{{ page.title }}">
+                {% endif %}
+                {{ content }}
+                {% include posts-paginator.html %}
+
+                {% if site.comments == 'disqus' %}
+                  <div class="ui divider"></div>
+                  {% include disqus.html %}
+                {% elsif site.facebook and site.comments == 'facebook' %}
+                  <div class="ui divider"></div>
+                  {% include fb-comments.html %}
+                {% endif %}
+
+            </div>
+            {% if site.postbar %}
+            <div class="six wide column">
+                {% include post-bar.html %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% include footer.html %}
+    {% if site.pagebar %}
+    </div> <!-- pusher -->
+    {% endif %}
+
+    {% include js.html %}
+
+    <script>
+    $(document).ready(function() {
+    
+      $(".time").text(function (index, value) {
+        return Math.round(parseFloat(value));
+      });
+      
+    });
+    </script>
+    
+    {% if site.addthis_pubid %}
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid={{ site.addthis_pubid }}" async="async"></script>
+    {% endif %}
+    
+    {% include embed-google-analytics.html %}
+
+ </body>
+
+</html>

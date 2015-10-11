@@ -1,0 +1,17 @@
+<div class="ui form">
+  <div class="field">
+    <div class="ui right action input fluid">
+      <input type="text" id="fusion-grid-filter" placeholder="{{ page.where | capitalize }}" onchange="drawTable()">
+      <div class="ui right teal mini labeled icon button" onclick="drawTable()">
+        <i class="search icon"></i>
+        Filter
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="fusion-grid"> </div>
+
+{% if page.chart == 'bar' %}
+<div id="fusion-bar-chart"></div>
+{% endif %}

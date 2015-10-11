@@ -1,0 +1,24 @@
+/*--------------
+    Ribbons
+---------------*/
+
+.global .segment h1 {
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.global .vertical.segment {
+  padding: 3rem 0;
+}
+
+.global .feature.segment {
+  margin: 0;
+  padding: 3rem 0;
+}
+.global .feature.segment p {
+  min-height: 50px;
+}
+
+.global .selection.list {
+  margin: 0 -0.5em;
+}

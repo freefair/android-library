@@ -1,0 +1,51 @@
+---
+layout: landing
+title: Tags
+description: Recent posts listed by tags.
+---
+
+<div class="ui inverted purple vertical segment">
+  <div class="ui very relaxed stackable page grid">
+    <div class="row">
+      <div class="column">
+          {% include site-tags.html %}
+      </div>
+    </div> <!-- /row -->
+  </div>
+</div>
+
+{% for tag in site.tags %}
+  {% capture inverted %}{{ forloop.index | modulo:2 }}{% endcapture %}
+  <div class="ui {% if inverted == '0' %}inverted purple {% endif %}vertical segment">
+    <div class="ui very relaxed stackable page grid">
+      <div class="row">
+        <div class="column">
+          <a id="{{ tag.first }}"></a>
+          <h1 class="left aligned ui {% if inverted == '0' %}inverted {% endif %}header">
+          {{ tag.first | capitalize }}
+          </h1>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="column">
+          <div class="ui {% if inverted == '0' %}inverted {% endif %}animated selection list">
+          {% for post in site.tags[tag.first] %}
+            <a class="item" href="{{ post.url }}">
+              <div class="recent-posts-title">{{ post.title }}</div>
+              {% if post.image %}
+              <div class="thumb-img">
+                <img class="ui rounded image" src="{{ post.image }}" alt="{{ post.title }}">
+              </div>
+              {% else %}
+              <small> {{post.excerpt}} </small>
+              {% endif %}
+              <div class="right floated"><small>{{ post.date | date: "%b %-d, %Y" }}</small></div>
+            </a>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}

@@ -1,0 +1,29 @@
+---
+layout: landing
+title: Search
+description: Search OpenTheme content using Google Custom Search Engine.
+---
+
+<div class="ui vertical segment">
+  <div class="ui very relaxed stackable page grid">
+    <div class="row">
+      <div class="column">
+        {% if site.google_cse_id %}
+        <script>
+          (function() {
+            var cx = '{{ site.google_cse_id }}';
+            var gcse = document.createElement('script');
+            gcse.type = 'text/javascript';
+            gcse.async = true;
+            gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                '//www.google.com/cse/cse.js?cx=' + cx;
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(gcse, s);
+          })();
+        </script>
+        <gcse:searchresults-only></gcse:searchresults-only>
+        {% endif %}
+      </div>
+    </div> <!-- /row -->
+  </div>
+</div>
