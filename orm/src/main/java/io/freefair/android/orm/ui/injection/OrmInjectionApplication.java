@@ -2,8 +2,8 @@ package io.freefair.android.orm.ui.injection;
 
 import java.util.List;
 
+import io.freefair.android.injection.ui.InjectionApplication;
 import io.freefair.android.orm.OpenHelper;
-import io.freefair.android.ui.injection.InjectionApplication;
 
 public class OrmInjectionApplication extends InjectionApplication
 {

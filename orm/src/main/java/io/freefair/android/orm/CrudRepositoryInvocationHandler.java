@@ -4,9 +4,9 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import io.freefair.android.injection.reflection.Reflection;
 import io.freefair.android.orm.annotation.Transactional;
 import io.freefair.android.orm.orm_light.UnitOfWorkType;
-import io.freefair.android.reflection.Reflection;
 
 public class CrudRepositoryInvocationHandler implements InvocationHandler {
 	private CrudRepositoryImpl obj;

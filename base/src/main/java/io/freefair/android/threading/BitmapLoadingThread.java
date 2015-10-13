@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import io.freefair.android.Logger;
+import io.freefair.android.util.Logger;
 
 public class BitmapLoadingThread implements Runnable
 {

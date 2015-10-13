@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.freefair.android.injection.ui.InjectionAppCompatActivity;
 import io.freefair.android.mvvm.annotations.BindTo;
 import io.freefair.android.mvvm.annotations.Binding;
 import io.freefair.android.mvvm.annotations.DrawerToggle;
@@ -27,10 +28,9 @@ import io.freefair.android.mvvm.annotations.MenuItemClick;
 import io.freefair.android.mvvm.annotations.Toolbar;
 import io.freefair.android.mvvm.annotations.specific.EventName;
 import io.freefair.android.mvvm.annotations.specific.EventNames;
-import io.freefair.android.Logger;
+import io.freefair.android.util.Logger;
 import io.freefair.android.injection.annotation.Inject;
 import io.freefair.android.mvvm.ui.GeneralEventListener;
-import io.freefair.android.ui.injection.InjectionAppCompatActivity;
 import io.freefair.android.util.Function;
 import io.freefair.android.util.Optional;
 

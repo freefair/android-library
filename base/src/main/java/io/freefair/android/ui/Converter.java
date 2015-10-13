@@ -4,14 +4,13 @@ import android.content.res.Resources;
 import android.util.TypedValue;
 import android.view.View;
 
-import io.freefair.android.injection.annotation.Inject;
-
 /**
  * Created by larsgrefer on 04.02.15.
  */
 public class Converter {
 
-	@Inject
+	//@Inject
+	//TODO
 	Resources resources;
 
 	public float pxToDip(float px){

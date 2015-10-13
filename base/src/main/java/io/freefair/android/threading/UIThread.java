@@ -2,7 +2,7 @@ package io.freefair.android.threading;
 
 import android.os.Handler;
 
-import io.freefair.android.Logger;
+import io.freefair.android.util.Logger;
 
 public abstract class UIThread implements Runnable
 {

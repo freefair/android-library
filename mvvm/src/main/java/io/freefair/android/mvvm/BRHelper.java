@@ -5,7 +5,7 @@ import android.support.annotation.AnyRes;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.freefair.android.Logger;
+import io.freefair.android.util.Logger;
 
 /**
  * Created by Dennis on 18.06.2015.
