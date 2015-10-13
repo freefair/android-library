@@ -17,10 +17,11 @@ deploy:
   api_key:
     secure: V35m6Mzyieg5jMI6OJo4fi4DjpuxxZ2JTj2E8xAPjAWerymccc4Qlp6bLUgTLU19oQI2ADOEgawqP/sGPpHST+rM0ypXiEKNo2UnK+Pt7oan7Q1j3jVKs5ts8wwlPlA7EJW1Pguryyc+Zq0XybYq9tcgjb7LfxVkFZD7EpiK/9Y=
   file:
-    - android-library-base/build/outputs/aar/android-library-base-release.aar
-    - android-library-mvvm/build/outputs/aar/android-library-mvvm-release.aar
-    - android-library-orm/build/outputs/aar/android-library-orm-release.aar
+    - base/build/outputs/aar/base-release.aar
+    - mvvm/build/outputs/aar/mvvm-release.aar
+    - orm/build/outputs/aar/orm-release.aar
+    - material-colors/build/outputs/aar/material-colors.aar
   skip_cleanup: true
   on:
-    repo: larsgrefer/android-library
+    repo: freefair/android-library
     tags: true
