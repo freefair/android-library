@@ -1,5 +1,5 @@
 <manifest
-    package="de.fhconfig.android.library"
+    package="io.freefair.android"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 

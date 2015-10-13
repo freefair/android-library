@@ -1,5 +1,5 @@
 <manifest
-    package="de.fhconfig.android.binding"
+    package="io.freefair.android.mvvm"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application android:allowBackup="true">

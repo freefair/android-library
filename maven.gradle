@@ -1,7 +1,7 @@
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group = 'de.larsgrefer'
+group = 'io.freefair'
 
 dependencies {
     testCompile 'junit:junit:4.12'
@@ -39,7 +39,7 @@ uploadArchives {
                 authentication(userName: bintray_user, password: bintray_api_key)
                 //set via ~/.gradle/gradle.properties
             }
-            pom.groupId = 'de.larsgrefer'
+            pom.groupId = 'io.freefair'
         }
     }
 }
@@ -58,9 +58,9 @@ bintray {
         repo = 'maven'
 
         name = project.name
-        websiteUrl = 'https://github.com/larsgrefer/android-library'
-        issueTrackerUrl = 'https://github.com/larsgrefer/android-library/issues'
-        vcsUrl = 'https://github.com/bintray/android-library.git'
+        websiteUrl = 'https://github.com/freefair/android-library'
+        issueTrackerUrl = 'https://github.com/freefair/android-library/issues'
+        vcsUrl = 'https://github.com/freefair/android-library.git'
         //licenses = ['Apache-2.0']
         //labels = ['gear', 'gore', 'gorilla']
         publicDownloadNumbers = true
