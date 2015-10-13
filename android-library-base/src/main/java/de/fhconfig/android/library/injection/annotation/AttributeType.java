@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 
 /**
- * Created by larsgrefer on 21.04.15.
+ * Types of attributes which may be injected using {@link InjectAttribute}
  */
 public enum AttributeType {
 	BOOLEAN(boolean.class),

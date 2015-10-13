@@ -27,7 +27,7 @@ import de.fhconfig.android.library.annotations.MenuItemClick;
 import de.fhconfig.android.library.annotations.Toolbar;
 import de.fhconfig.android.library.annotations.specific.EventName;
 import de.fhconfig.android.library.annotations.specific.EventNames;
-import de.fhconfig.android.library.injection.annotation.InjectAnnotation;
+import de.fhconfig.android.library.injection.annotation.Inject;
 import de.fhconfig.android.library.ui.GeneralEventListener;
 import de.fhconfig.android.library.ui.injection.InjectionAppCompatActivity;
 import de.fhconfig.android.library.util.Function;
@@ -38,11 +38,11 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 
 	private Map<Integer, Method> menuListeners = new HashMap<>();
 
-	@InjectAnnotation
+	@Inject
 	private Optional<Layout> layoutAnnotation;
-	@InjectAnnotation
+	@Inject
 	private Optional<Toolbar> toolbarAnnotation;
-	@InjectAnnotation
+	@Inject
 	private Optional<DrawerToggle> drawerToggleAnnotation;
 
 	private Optional<ActionBarDrawerToggle> drawerToggle = Optional.empty();

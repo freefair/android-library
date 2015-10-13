@@ -8,7 +8,7 @@ public class OrmInjectionApplication extends InjectionApplication
 {
 	@Override
 	public void onCreate() {
-		addModule(new MainModule());
+		new MainModule().configure(getInjector());
 		super.onCreate();
 	}
 

@@ -1,6 +1,5 @@
 package de.fhconfig.android.library.ui.injection;
 
-import android.app.Application;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -12,28 +11,38 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import de.fhconfig.android.library.injection.annotation.InjectAnnotation;
+import de.fhconfig.android.library.injection.Injector;
+import de.fhconfig.android.library.injection.InjectorProvider;
+import de.fhconfig.android.library.injection.annotation.Inject;
 import de.fhconfig.android.library.injection.annotation.XmlMenu;
-import de.fhconfig.android.library.injection.xml.FragmentXmlInjector;
-import de.fhconfig.android.library.injection.xml.IViewFinder;
 import de.fhconfig.android.library.injection.exceptions.ViewIdNotFoundException;
+import de.fhconfig.android.library.injection.xml.FragmentInjector;
+import de.fhconfig.android.library.injection.xml.IViewFinder;
 import de.fhconfig.android.library.util.Optional;
 
 /**
  * Created by larsgrefer on 24.11.14.
  */
-public class InjectionFragment extends Fragment {
+public class InjectionFragment extends Fragment implements InjectorProvider{
 
-	@InjectAnnotation
+	@Inject
 	Optional<XmlMenu> menuAnnotation;
 
-	FragmentXmlInjector injector;
+	FragmentInjector injector;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		injector = new FragmentXmlInjector(this);
-		injector.injectAnnotations();
+
+		Injector parentInjector = null;
+		if(getActivity() instanceof InjectorProvider) {
+			parentInjector = ((InjectorProvider) getActivity()).getInjector();
+		}
+		if(injector == null && getActivity().getApplication() instanceof InjectorProvider) {
+			parentInjector = ((InjectorProvider) getActivity().getApplication()).getInjector();
+		}
+		injector = new FragmentInjector(this, parentInjector);
+		injector.inject(this);
 		if(menuAnnotation.isPresent()){
 			setHasOptionsMenu(true);
 		}
@@ -41,9 +50,7 @@ public class InjectionFragment extends Fragment {
 		injector.injectResources();
 		injector.injectAttributes();
 
-		Application app = getActivity().getApplication();
-		if(app instanceof InjectionApplication)
-			((InjectionApplication)app).getInjector().inject(this);
+
 	}
 
 	@Override
@@ -84,5 +91,10 @@ public class InjectionFragment extends Fragment {
 		super.onConfigurationChanged(newConfig);
 		injector.injectResources();
 		injector.injectAttributes();
+	}
+
+	@Override
+	public Injector getInjector() {
+		return null;
 	}
 }

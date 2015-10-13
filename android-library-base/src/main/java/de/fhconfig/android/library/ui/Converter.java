@@ -4,16 +4,15 @@ import android.content.res.Resources;
 import android.util.TypedValue;
 import android.view.View;
 
+import de.fhconfig.android.library.injection.annotation.Inject;
+
 /**
  * Created by larsgrefer on 04.02.15.
  */
-public class Convert {
+public class Converter {
 
+	@Inject
 	Resources resources;
-
-	public Convert(Resources resources){
-		this.resources = resources;
-	}
 
 	public float pxToDip(float px){
 		return pxToDip(px, resources);

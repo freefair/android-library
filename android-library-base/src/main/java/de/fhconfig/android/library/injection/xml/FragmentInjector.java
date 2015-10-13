@@ -6,31 +6,18 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import de.fhconfig.android.library.injection.Injector;
 import de.fhconfig.android.library.injection.helper.RClassHelper;
 
 /**
  * Created by larsgrefer on 24.11.14.
  */
-public class FragmentXmlInjector extends XmlInjector<Fragment> {
+public class FragmentInjector extends AndroidInjector<Fragment> {
 
 	private IViewFinder viewFinder;
 
-	public FragmentXmlInjector(Fragment fragment){
-		this(fragment, RClassHelper.getRClassFromFragment(fragment));
-	}
-
-	public FragmentXmlInjector(Fragment fragment, Class<?> rClass){
-		super(fragment, rClass);
-	}
-
-	@Override
-	protected Context getContext() {
-		return getObject().getActivity();
-	}
-
-	@Override
-	protected Resources.Theme getTheme() {
-		return getObject().getActivity().getTheme();
+	public FragmentInjector(Fragment fragment, Injector parentInjector){
+		super(parentInjector, fragment, RClassHelper.getRClassFromFragment(fragment));
 	}
 
 	@Override

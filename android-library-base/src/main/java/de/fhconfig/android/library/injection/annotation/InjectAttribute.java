@@ -8,14 +8,13 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-/**
- * Created by larsgrefer on 24.02.15.
- */
 @Target(FIELD)
 @Retention(RUNTIME)
 public @interface InjectAttribute {
 	@AttrRes int id();
 
+	/**
+	 * The type of attribute to inject
+	 */
 	AttributeType type();
-
 }

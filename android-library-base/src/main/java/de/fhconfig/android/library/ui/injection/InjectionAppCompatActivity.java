@@ -8,22 +8,32 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
-import de.fhconfig.android.library.injection.annotation.InjectAnnotation;
+import de.fhconfig.android.library.injection.Injector;
+import de.fhconfig.android.library.injection.InjectorProvider;
+import de.fhconfig.android.library.injection.annotation.Inject;
 import de.fhconfig.android.library.injection.annotation.XmlMenu;
-import de.fhconfig.android.library.injection.xml.ActivityXmlInjector;
+import de.fhconfig.android.library.injection.xml.ActivityInjector;
 import de.fhconfig.android.library.util.Optional;
 
-public class InjectionAppCompatActivity extends AppCompatActivity {
-	ActivityXmlInjector injector;
 
-	@InjectAnnotation
+/**
+ * An {@link AppCompatActivity} with support for dependency injection
+ */
+public class InjectionAppCompatActivity extends AppCompatActivity implements InjectorProvider {
+	ActivityInjector injector;
+
+	@Inject
 	private Optional<XmlMenu> xmlMenuAnnotation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		injector = new ActivityXmlInjector(this);
-		injector.injectAnnotations();
+		Injector parentInjector = null;
+		if(getApplication() instanceof InjectorProvider){
+			parentInjector = ((InjectorProvider)getApplication()).getInjector();
+		}
+		injector = new ActivityInjector(this, parentInjector);
+		injector.inject(this);
 
 		injector.tryInjectLayout();
 
@@ -81,5 +91,10 @@ public class InjectionAppCompatActivity extends AppCompatActivity {
 			return true;
 		}
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public Injector getInjector() {
+		return injector;
 	}
 }

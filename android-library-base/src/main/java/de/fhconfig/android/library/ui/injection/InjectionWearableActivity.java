@@ -1,23 +1,25 @@
 package de.fhconfig.android.library.ui.injection;
 
 import android.app.Activity;
-import android.app.Application;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
 
+import de.fhconfig.android.library.injection.Injector;
+import de.fhconfig.android.library.injection.InjectorProvider;
 import de.fhconfig.android.library.injection.exceptions.ViewIdNotFoundException;
-import de.fhconfig.android.library.injection.xml.WatchViewStubActivityXmlInjector;
+import de.fhconfig.android.library.injection.xml.WatchViewStubActivityInjector;
 
-public abstract class InjectionWearableActivity extends Activity {
-	WatchViewStubActivityXmlInjector injector;
+public abstract class InjectionWearableActivity extends Activity implements InjectorProvider {
+	WatchViewStubActivityInjector injector;
 
+	Injector parentInjector;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		Application app = getApplication();
-		if (app instanceof InjectionApplication)
-			((InjectionApplication) app).getInjector().inject(this);
+		if(getApplication() instanceof InjectorProvider){
+			parentInjector = ((InjectorProvider)getApplication()).getInjector();
+			parentInjector.inject(this);
+		}
 	}
 
 	public void setContentView(int layoutResID, int viewStubID) {
@@ -27,7 +29,7 @@ public abstract class InjectionWearableActivity extends Activity {
 		stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
 			@Override
 			public void onLayoutInflated(WatchViewStub stub) {
-				injector = new WatchViewStubActivityXmlInjector(InjectionWearableActivity.this, stub);
+				injector = new WatchViewStubActivityInjector(InjectionWearableActivity.this, stub, parentInjector);
 
 				injector.injectResources();
 				injector.injectAttributes();
@@ -48,4 +50,9 @@ public abstract class InjectionWearableActivity extends Activity {
 	}
 
 	protected abstract void onLayoutReady();
+
+	@Override
+	public WatchViewStubActivityInjector getInjector() {
+		return injector;
+	}
 }
