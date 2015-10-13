@@ -8,14 +8,9 @@ repositories {
 }
 
 android {
-	compileSdkVersion 23
-	buildToolsVersion "23.0.1"
 
 	defaultConfig {
 		minSdkVersion 9
-		targetSdkVersion 23
-		versionCode 1
-		versionName version
 	}
 
 	buildTypes {
