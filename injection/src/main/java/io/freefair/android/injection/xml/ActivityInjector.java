@@ -24,15 +24,6 @@ public class ActivityInjector extends AndroidInjector<Activity> {
 		return super.resolveValue(type, instance);
 	}
 
-	public boolean tryInjectLayout(){
-		int layoutId = getLayoutId();
-		if(layoutId != 0){
-			getObject().setContentView(layoutId);
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	protected View findViewById(@IdRes int id) {
 		return getObject().findViewById(id);

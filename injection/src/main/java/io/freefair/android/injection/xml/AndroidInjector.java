@@ -9,7 +9,6 @@ import android.content.res.XmlResourceParser;
 import android.graphics.Movie;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.View;
@@ -17,15 +16,14 @@ import android.view.View;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import io.freefair.android.injection.reflection.FieldAnnotationPredicate;
-import io.freefair.android.injection.reflection.Reflection;
-import io.freefair.android.util.Logger;
 import io.freefair.android.injection.Injector;
 import io.freefair.android.injection.annotation.InjectAttribute;
 import io.freefair.android.injection.annotation.InjectResource;
 import io.freefair.android.injection.annotation.InjectView;
-import io.freefair.android.injection.annotation.XmlLayout;
 import io.freefair.android.injection.exceptions.ViewIdNotFoundException;
+import io.freefair.android.injection.reflection.FieldAnnotationPredicate;
+import io.freefair.android.injection.reflection.Reflection;
+import io.freefair.android.util.Logger;
 import io.freefair.android.util.Optional;
 
 import static android.os.Build.VERSION.SDK_INT;
@@ -36,8 +34,6 @@ public abstract class AndroidInjector<T> extends Injector {
 	private T object;
 	private Class<?> rClass;
 	private Logger log = Logger.forObject(this);
-	@LayoutRes
-	private int layoutId;
 
 	public AndroidInjector(Injector parentInjector, T object, Class<?> rClass) {
 		super(parentInjector);
@@ -70,23 +66,11 @@ public abstract class AndroidInjector<T> extends Injector {
 
 	protected void setObject(T object) {
 		this.object = object;
-		if (getObjectClass().isAnnotationPresent(XmlLayout.class)) {
-			setLayoutId(getObjectClass().getAnnotation(XmlLayout.class).value());
-		}
 	}
 
 	@SuppressWarnings("unchecked")
 	protected Class<T> getObjectClass() {
 		return (Class<T>) getObject().getClass();
-	}
-
-	@LayoutRes
-	public int getLayoutId() {
-		return this.layoutId;
-	}
-
-	public void setLayoutId(@LayoutRes int layoutId) {
-		this.layoutId = layoutId;
 	}
 
 	public void injectViews() throws ViewIdNotFoundException {

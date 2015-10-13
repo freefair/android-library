@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import io.freefair.android.injection.Injector;
 import io.freefair.android.injection.InjectorProvider;
 import io.freefair.android.injection.annotation.Inject;
+import io.freefair.android.injection.annotation.XmlLayout;
 import io.freefair.android.injection.annotation.XmlMenu;
 import io.freefair.android.injection.xml.ActivityInjector;
 import io.freefair.android.util.Optional;
@@ -22,8 +23,8 @@ import io.freefair.android.util.Optional;
 public class InjectionAppCompatActivity extends AppCompatActivity implements InjectorProvider {
 	ActivityInjector injector;
 
-	@Inject
-	private Optional<XmlMenu> xmlMenuAnnotation;
+	@Inject private Optional<XmlMenu> xmlMenuAnnotation;
+	@Inject private Optional<XmlLayout> xmlLayoutAnnotation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +36,12 @@ public class InjectionAppCompatActivity extends AppCompatActivity implements Inj
 		injector = new ActivityInjector(this, parentInjector);
 		injector.inject(this);
 
-		injector.tryInjectLayout();
+		if(xmlLayoutAnnotation.isPresent()){
+			setContentView(xmlLayoutAnnotation.get().value());
+		}
 
 		injector.injectResources();
 		injector.injectAttributes();
-
-		Application app = getApplication();
-		if (app instanceof InjectionApplication)
-			((InjectionApplication) app).getInjector().inject(this);
 	}
 
 	@Override
@@ -94,7 +93,7 @@ public class InjectionAppCompatActivity extends AppCompatActivity implements Inj
 	}
 
 	@Override
-	public Injector getInjector() {
+	public ActivityInjector getInjector() {
 		return injector;
 	}
 }

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import io.freefair.android.injection.Injector;
 import io.freefair.android.injection.InjectorProvider;
 import io.freefair.android.injection.annotation.Inject;
+import io.freefair.android.injection.annotation.XmlLayout;
 import io.freefair.android.injection.annotation.XmlMenu;
 import io.freefair.android.injection.exceptions.ViewIdNotFoundException;
 import io.freefair.android.injection.xml.FragmentInjector;
@@ -25,8 +26,8 @@ import io.freefair.android.util.Optional;
  */
 public class InjectionFragment extends Fragment implements InjectorProvider{
 
-	@Inject
-	Optional<XmlMenu> menuAnnotation;
+	@Inject Optional<XmlMenu> xmlMenuAnnotation;
+	@Inject Optional<XmlLayout> xmlLayoutAnnotation;
 
 	FragmentInjector injector;
 
@@ -43,7 +44,7 @@ public class InjectionFragment extends Fragment implements InjectorProvider{
 		}
 		injector = new FragmentInjector(this, parentInjector);
 		injector.inject(this);
-		if(menuAnnotation.isPresent()){
+		if(xmlMenuAnnotation.isPresent()){
 			setHasOptionsMenu(true);
 		}
 
@@ -55,9 +56,8 @@ public class InjectionFragment extends Fragment implements InjectorProvider{
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		if (injector.getLayoutId() != 0) {
-			final View view = inflater.inflate(injector.getLayoutId(), container, false);
-			return view;
+		if (xmlLayoutAnnotation.isPresent()) {
+			return inflater.inflate(xmlLayoutAnnotation.get().value(), container, false);
 		}
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
@@ -80,8 +80,8 @@ public class InjectionFragment extends Fragment implements InjectorProvider{
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		if (menuAnnotation.isPresent()) {
-			inflater.inflate(menuAnnotation.get().value(), menu);
+		if (xmlMenuAnnotation.isPresent()) {
+			inflater.inflate(xmlMenuAnnotation.get().value(), menu);
 		}
 		super.onCreateOptionsMenu(menu, inflater);
 	}
