@@ -31,7 +31,7 @@ android {
 
 dependencies {
 	compile fileTree(include: ['*.jar'], dir: 'libs')
-	compile project(':android-library-base')
+	compile project(':base')
 }
 
 if(rootProject.name.equals("android-library")){
