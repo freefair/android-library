@@ -1,1 +1,3 @@
-include ':material-colors', ':base', ':orm', ':mvvm'
+include ':material-colors'
+include ':holo-colors'
+include ':base', ':orm', ':mvvm'
