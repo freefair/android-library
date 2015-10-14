@@ -1,7 +1,7 @@
 include ':material-colors'
 include ':holo-colors'
 include ':util'
-include ':base'
+include ':playground'
 include ':injection'
 include ':mvvm'
 include ':orm'
