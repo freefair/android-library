@@ -1,4 +1,4 @@
-android-library
+android-library [![Release](https://img.shields.io/github/release/freefair/android-library.svg?label=JitPack)](https://jitpack.io/#freefair/android-library)
 ===============
 ##Structure
 
