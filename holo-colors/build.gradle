@@ -12,7 +12,3 @@ android {
 		}
 	}
 }
-
-if(rootProject.name.equals("android-library")){
-	apply from: '../maven.gradle'
-}

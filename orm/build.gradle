@@ -34,7 +34,3 @@ dependencies {
 	compile 'org.jetbrains:annotations:13.0'
 	compile project(':injection')
 }
-
-if (rootProject.name.equals("android-library")) {
-	apply from: '../maven.gradle'
-}

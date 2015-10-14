@@ -29,7 +29,3 @@ dependencies {
 	compile project(':injection')
 	compile 'com.android.support:design:23.0.1'
 }
-
-if(rootProject.name.equals("android-library")){
-	apply from: '../maven.gradle'
-}
