@@ -7,7 +7,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
 
-import io.freefair.android.R;
+import io.freefair.android.playground.R;
 
 public class MaxHeightScrollView extends ScrollView {
 
