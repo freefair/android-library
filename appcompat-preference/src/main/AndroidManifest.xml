@@ -1,9 +1,7 @@
 <manifest
     package="io.freefair.android.appcompatPreference"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-sdk tools:overrideLibrary="android.support.wearable"/>
     <application android:allowBackup="true">
     </application>
 </manifest>
