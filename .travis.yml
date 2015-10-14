@@ -5,13 +5,9 @@ android:
   components:
   - build-tools-23.0.1
   - android-23
-  - android-7
   - extra
-script:
-- "./gradlew build check"
-after_success:
-- if [ "$TRAVIS_BRANCH" == "develop" ] && [ "$TRAVIS_SECURE_ENV_VARS" == "true" ]
-  ; then ./gradlew --stacktrace uploadArchives ; fi
+script: "./gradlew build check"
+
 deploy:
   provider: releases
   api_key:
