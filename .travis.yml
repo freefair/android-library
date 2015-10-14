@@ -20,7 +20,7 @@ deploy:
     - appcompat-preference/build/outputs/aar/appcompat-preference-release.aar
     - playground/build/outputs/aar/playground-release.aar
     - util/build/outputs/aar/util-release.aar
-    - base/build/outputs/aar/base-release.aar
+    - injection/build/outputs/aar/injection-release.aar
     - mvvm/build/outputs/aar/mvvm-release.aar
     - orm/build/outputs/aar/orm-release.aar
     - material-colors/build/outputs/aar/material-colors.aar
