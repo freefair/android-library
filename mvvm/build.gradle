@@ -1,12 +1,3 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath "com.android.databinding:dataBinder:1.0-rc2"
-    }
-}
-
 apply plugin: 'com.android.library'
 apply plugin: 'com.android.databinding'
 
