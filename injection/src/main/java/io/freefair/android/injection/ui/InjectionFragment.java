@@ -17,8 +17,8 @@ import io.freefair.android.injection.annotation.Inject;
 import io.freefair.android.injection.annotation.XmlLayout;
 import io.freefair.android.injection.annotation.XmlMenu;
 import io.freefair.android.injection.exceptions.ViewIdNotFoundException;
-import io.freefair.android.injection.xml.FragmentInjector;
-import io.freefair.android.injection.xml.IViewFinder;
+import io.freefair.android.injection.platform.FragmentInjector;
+import io.freefair.android.injection.platform.IViewFinder;
 import io.freefair.android.util.Optional;
 
 /**

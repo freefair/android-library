@@ -1,4 +1,4 @@
-package io.freefair.android.injection.xml;
+package io.freefair.android.injection.platform;
 
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
