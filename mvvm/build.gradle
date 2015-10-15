@@ -1,31 +1,40 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "com.android.databinding:dataBinder:1.0-rc2"
+    }
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'com.android.databinding'
 
 android {
 
-	defaultConfig {
-		minSdkVersion 9
-	}
+    defaultConfig {
+        minSdkVersion 9
+    }
 
-	buildTypes {
-		release {
-			minifyEnabled false
+    buildTypes {
+        release {
+            minifyEnabled false
 //			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-		}
-	}
+        }
+    }
 
-	lintOptions{
-		warning 'InvalidPackage'
-	}
+    lintOptions {
+        warning 'InvalidPackage'
+    }
 
-	compileOptions {
-		sourceCompatibility JavaVersion.VERSION_1_7
-		targetCompatibility JavaVersion.VERSION_1_7
-	}
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 dependencies {
-	compile fileTree(include: ['*.jar'], dir: 'libs')
-	compile project(':injection')
-	compile 'com.android.support:design:23.0.1'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':injection')
+    compile 'com.android.support:design:23.0.1'
 }

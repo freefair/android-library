@@ -18,29 +18,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.freefair.android.injection.annotation.Inject;
+import io.freefair.android.injection.annotation.XmlLayout;
 import io.freefair.android.injection.ui.InjectionAppCompatActivity;
 import io.freefair.android.mvvm.annotations.BindTo;
 import io.freefair.android.mvvm.annotations.Binding;
 import io.freefair.android.mvvm.annotations.DrawerToggle;
 import io.freefair.android.mvvm.annotations.Event;
-import io.freefair.android.mvvm.annotations.Layout;
 import io.freefair.android.mvvm.annotations.MenuItemClick;
 import io.freefair.android.mvvm.annotations.Toolbar;
 import io.freefair.android.mvvm.annotations.specific.EventName;
 import io.freefair.android.mvvm.annotations.specific.EventNames;
-import io.freefair.android.util.Logger;
-import io.freefair.android.injection.annotation.Inject;
 import io.freefair.android.mvvm.ui.GeneralEventListener;
 import io.freefair.android.util.Function;
+import io.freefair.android.util.Logger;
 import io.freefair.android.util.Optional;
 
 public class BindingActivity extends InjectionAppCompatActivity implements android.support.v7.widget.Toolbar.OnMenuItemClickListener {
 
 
+	@Inject
+	private Logger log;
+
 	private Map<Integer, Method> menuListeners = new HashMap<>();
 
-	@Inject
-	private Optional<Layout> layoutAnnotation;
 	@Inject
 	private Optional<Toolbar> toolbarAnnotation;
 	@Inject
@@ -76,17 +77,17 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 					event = method.getName();
 				}
 				View view = findViewById(value);
-				if(view == null && !annotation.required())
+				if (view == null && !annotation.required())
 					continue;
 				else if (view == null && annotation.required())
-					throw new RuntimeException("View with id "  + value +  " not found");
+					throw new RuntimeException("View with id " + value + " not found");
 				bindEventToView(method, event, view);
 				continue;
 			}
 			List<AnnotationHolder> collect = new ArrayList<>();
 			for (Annotation annot : method.getAnnotations()) {
 				AnnotationHolder annotationHolder = new AnnotationHolder(annot, annot.annotationType().getAnnotation(EventName.class));
-				if(annotationHolder.name != null)
+				if (annotationHolder.name != null)
 					collect.add(annotationHolder);
 			}
 
@@ -96,7 +97,7 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 					int invoke = (int) value.invoke(a.a);
 					String event = a.name.value().getName();
 					View viewById = findViewById(invoke);
-					if(viewById == null && a.name.required())
+					if (viewById == null && a.name.required())
 						throw new RuntimeException("View with id " + invoke + " not found");
 					else if (viewById == null && !a.name.required())
 						continue;
@@ -146,7 +147,7 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 
 	private void bindEventToView(Method method, String event, View view) {
 		GeneralEventListener byView = GeneralEventListener.getByView(view);
-		if(hasListenerForMethod(byView, event, method)) return;
+		if (hasListenerForMethod(byView, event, method)) return;
 		method.setAccessible(true);
 		byView.bindEvent(event, new MethodListener(method));
 	}
@@ -154,13 +155,12 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 	private boolean hasListenerForMethod(GeneralEventListener byView, String event, Method method) {
 		Map<String, List<GeneralEventListener.EventListener>> events = byView.getListeners();
 		String methodName = GeneralEventListener.buildMethodName(event);
-		if(!events.containsKey(methodName)) return false;
+		if (!events.containsKey(methodName)) return false;
 		List<GeneralEventListener.EventListener> listeners = events.get(methodName);
 		for (GeneralEventListener.EventListener listener :
 				listeners) {
-			if (listener instanceof MethodListener)
-			{
-				if(((MethodListener) listener).method == method)
+			if (listener instanceof MethodListener) {
+				if (((MethodListener) listener).method == method)
 					return true;
 			}
 		}
@@ -169,9 +169,9 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 
 	private void inflateAndBind() {
 		try {
-			ViewDataBinding binding = DataBindingUtil.setContentView(this, layoutAnnotation.map(new Function<Layout, Integer>() {
+			ViewDataBinding binding = DataBindingUtil.setContentView(this, xmlLayoutAnnotation.map(new Function<XmlLayout, Integer>() {
 				@Override
-				public Integer apply(Layout layout) {
+				public Integer apply(XmlLayout layout) {
 					return layout.value();
 				}
 			}).orElse(-1));
@@ -183,20 +183,20 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 						bindAll(binding);
 						createEventListener();
 					} catch (IllegalAccessException ex) {
-						Logger.error(this, "Error while set binding to annotated field", ex);
+						log.error( "Error while set binding to annotated field", ex);
 					} catch (InstantiationException ex) {
-						Logger.error(this, "Error while creating view model", ex);
+						log.error( "Error while creating view model", ex);
 					} catch (NoSuchFieldException ex) {
-						Logger.error(this, "Error while set view model to binding", ex);
+						log.error( "Error while set view model to binding", ex);
 					}
 				}
 			});
 		} catch (IllegalAccessException ex) {
-			Logger.error(this, "Error while set binding to annotated field", ex);
+			log.error("Error while set binding to annotated field", ex);
 		} catch (InstantiationException ex) {
-			Logger.error(this, "Error while creating view model", ex);
+			log.error("Error while creating view model", ex);
 		} catch (NoSuchFieldException ex) {
-			Logger.error(this, "Error while set view model to binding", ex);
+			log.error("Error while set view model to binding", ex);
 		}
 	}
 
@@ -233,13 +233,14 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 	}
 
 	private boolean viewmodelsCreated = false;
+
 	private void createViewModels(ViewDataBinding binding) throws IllegalAccessException, InstantiationException, NoSuchFieldException {
-		if(viewmodelsCreated) return;
+		if (viewmodelsCreated) return;
 
 		Class<? extends BindingActivity> aClass = this.getClass();
 		Field[] fields = aClass.getDeclaredFields();
 		for (Field field : fields) {
-			if(!field.isAccessible()) field.setAccessible(true);
+			if (!field.isAccessible()) field.setAccessible(true);
 
 			if (field.getAnnotation(Binding.class) != null) {
 				field.set(this, binding);
@@ -262,14 +263,14 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		if(drawerToggle.isPresent())
+		if (drawerToggle.isPresent())
 			drawerToggle.get().syncState();
 	}
 
 	@Override
 	public void onConfigurationChanged(android.content.res.Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		if(drawerToggle.isPresent())
+		if (drawerToggle.isPresent())
 			drawerToggle.get().onConfigurationChanged(newConfig);
 	}
 
@@ -293,9 +294,9 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 				return true;
 			}
 		} catch (InvocationTargetException e) {
-			Logger.error(this, "Error while invoke menu item click listener", e);
+			log.error( "Error while invoke menu item click listener", e);
 		} catch (IllegalAccessException e) {
-			Logger.error(this, "Error while invoke menu item click listener", e);
+			log.error( "Error while invoke menu item click listener", e);
 		}
 		return false;
 	}

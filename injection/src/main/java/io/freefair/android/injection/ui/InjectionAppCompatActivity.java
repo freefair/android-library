@@ -23,8 +23,8 @@ import io.freefair.android.util.Optional;
 public class InjectionAppCompatActivity extends AppCompatActivity implements InjectorProvider {
 	ActivityInjector injector;
 
-	@Inject private Optional<XmlMenu> xmlMenuAnnotation;
-	@Inject private Optional<XmlLayout> xmlLayoutAnnotation;
+	@Inject protected Optional<XmlMenu> xmlMenuAnnotation;
+	@Inject protected Optional<XmlLayout> xmlLayoutAnnotation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
