@@ -9,10 +9,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.WeakHashMap;
 
-import io.freefair.android.injection.reflection.Reflection;
-import io.freefair.android.util.Logger;
 import io.freefair.android.injection.annotation.Inject;
 import io.freefair.android.injection.exceptions.InjectionException;
+import io.freefair.android.injection.reflection.Reflection;
+import io.freefair.android.util.Logger;
 import io.freefair.android.util.Optional;
 
 /**
@@ -42,10 +42,13 @@ public abstract class Injector {
 
 	public void inject(@NonNull Object instance, @NonNull Class<?> clazz) {
 		if (!alreadyInjectedInstances.containsKey(instance)) {
+			long start = System.currentTimeMillis();
 			alreadyInjectedInstances.put(instance, clazz);
 			for (Field field : Reflection.getAllFields(clazz, Object.class)) {
 				inject(instance, field);
 			}
+			long end = System.currentTimeMillis();
+			log.debug("Injection of " + instance + " took " + (end - start) + "ms");
 		}
 	}
 
