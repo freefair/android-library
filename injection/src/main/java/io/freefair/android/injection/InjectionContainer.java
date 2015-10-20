@@ -57,7 +57,7 @@ public class InjectionContainer extends Injector {
 										  ? resolveTargetType(field)
 										  : injectAnnotation.value();
 
-			Object value = resolveValue(targetType, instance);
+			Object value = getInjector(instance).resolveValue(targetType, instance);
 
 			if (value == null) {
 				if (!injectAnnotation.optional() && !field.getType().equals(Optional.class)) {

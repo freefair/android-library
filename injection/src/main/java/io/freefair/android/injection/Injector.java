@@ -7,6 +7,7 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.util.Objects;
 import java.util.WeakHashMap;
 
 import io.freefair.android.injection.annotation.Inject;
@@ -30,17 +31,26 @@ public abstract class Injector {
 	}
 
 	private WeakHashMap<Object, Class<?>> alreadyInjectedInstances;
+	private static WeakHashMap<Object, Injector> responsibleInjectors = new WeakHashMap<>();
+
+	protected Injector getInjector(Object instance){
+		Injector injector = responsibleInjectors.get(instance);
+		if(injector != null)
+			return injector;
+		return this;
+	}
 
 	/**
 	 * Injects as much as possible into the given object
 	 *
 	 * @param instance The object to inject into
 	 */
-	public void inject(@NonNull Object instance) {
+	public final void inject(@NonNull Object instance) {
 		inject(instance, instance.getClass());
 	}
 
-	public void inject(@NonNull Object instance, @NonNull Class<?> clazz) {
+	public final void inject(@NonNull Object instance, @NonNull Class<?> clazz) {
+		responsibleInjectors.put(instance, this);
 		if (!alreadyInjectedInstances.containsKey(instance)) {
 			long start = System.currentTimeMillis();
 			alreadyInjectedInstances.put(instance, clazz);
@@ -77,12 +87,10 @@ public abstract class Injector {
 	@Nullable
 	public <T> T resolveValue(@NonNull Class<T> type, @Nullable Object instance) {
 		if (parentInjector.isPresent()) {
-			T resolveValue = parentInjector.get().resolveValue(type, instance);
-			inject(this);
-			return resolveValue;
+			return parentInjector.get().resolveValue(type, instance);
 		} else {
 			try {
-				return createInjectedInstance(type);
+				return createNewInstance(type, instance);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
@@ -91,19 +99,12 @@ public abstract class Injector {
 	}
 
 	@Nullable
-	protected <T> T createInjectedInstance(@NonNull Class<T> type) {
-		T newInstance = createNewInstance(type);
-		if (newInstance != null) {
-			inject(newInstance);
-		}
-		return newInstance;
-	}
-
-	@Nullable
 	@SuppressWarnings("unchecked")
-	private <T> T createNewInstance(@NonNull Class<T> type) {
+	private <T> T createNewInstance(@NonNull Class<T> type, Object instance) {
+
+		T newInstance = null;
 		try {
-			return type.newInstance();
+			newInstance = type.newInstance();
 		} catch (Exception e) {
 			//Look for constructor annotated with @Inject
 			for (Constructor<?> constructor : type.getConstructors()) {
@@ -113,18 +114,20 @@ public abstract class Injector {
 					Class<?>[] parameterTypes = constructor.getParameterTypes();
 					Object[] parameterValues = new Object[parameterTypes.length];
 					for (int i = 0; i < parameterTypes.length; i++) {
-						parameterValues[i] = resolveValue(parameterTypes[i], null);
+						parameterValues[i] = getInjector(instance).resolveValue(parameterTypes[i], null);
 					}
 
 					try {
-						return (T) constructor.newInstance(parameterValues);
+						newInstance = (T) constructor.newInstance(parameterValues);
 					} catch (Exception e1) {
 						log.error("Error while calling constructor " + constructor.toString(), e1);
 					}
 				}
 			}
 		}
-		return null;
+		if(newInstance != null)
+			getInjector(instance).inject(newInstance);
+		return newInstance;
 	}
 
 	/**

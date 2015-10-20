@@ -17,7 +17,7 @@ public class InjectorTest {
 
 	@Before
 	public void setUp(){
-		injector = new InjectionContainer(null);
+		injector = InjectionContainer.getInstance();
 		injector.registerSupplier(String.class, Suppliers.of("FOO"));
 	}
 
