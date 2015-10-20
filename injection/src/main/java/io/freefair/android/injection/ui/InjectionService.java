@@ -1,17 +1,17 @@
 package io.freefair.android.injection.ui;
 
-import android.app.Application;
 import android.app.Service;
 import android.content.Intent;
-import android.os.IBinder;
 
+import io.freefair.android.injection.InjectionContainer;
 import io.freefair.android.injection.Injector;
 import io.freefair.android.injection.InjectorProvider;
 
 /**
  * A {@link Service} with support for dependency injection
  */
-public class InjectionService extends Service implements InjectorProvider {
+public abstract class InjectionService extends Service implements InjectorProvider {
+
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 
@@ -23,16 +23,7 @@ public class InjectionService extends Service implements InjectorProvider {
 	}
 
 	@Override
-	public IBinder onBind(Intent intent) {
-		return null;
-	}
-
-	@Override
 	public Injector getInjector() {
-		Application application = getApplication();
-		if(application instanceof InjectorProvider){
-			return ((InjectorProvider)application).getInjector();
-		}
-		return null;
+		return InjectionContainer.getInstance();
 	}
 }

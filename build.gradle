@@ -9,11 +9,18 @@ buildscript {
     }
 }
 
+def tempVersion = 'git describe --abbrev=0 --tags'.execute([],rootProject.projectDir).text.trim() + "-SNAPSHOT"
+
+if(hasProperty('version') && !'unspecified'.equals(version)) {
+    tempVersion = version
+}
+
 allprojects {
     repositories {
         jcenter()
     }
     group = 'io.freefair'
+    version = tempVersion
 }
 
 subprojects {

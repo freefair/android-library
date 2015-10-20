@@ -12,24 +12,12 @@ import io.freefair.android.util.Suppliers;
 /**
  * An {@link Application} with support for dependency injection
  */
-public class InjectionApplication extends Application implements InjectorProvider {
+public class InjectionApplication extends Application {
 	private InjectionContainer injector;
 
 	public InjectionApplication() {
-		injector = new InjectionContainer(null);
+		injector = InjectionContainer.getInstance();
 		injector.registerSupplier(InjectionApplication.class, Suppliers.of(this));
-		injector.registerProvider(new InjectionProvider() {
-			@Override
-			public boolean canProvide(Class<?> clazz) {
-				return clazz.isAssignableFrom(Logger.class);
-			}
-
-			@Override
-			@SuppressWarnings("unchecked")
-			public <T> T provide(Class<T> clazz, Object instance, Injector injector) {
-				return (T) Logger.forObject(instance);
-			}
-		});
 	}
 
 	@Override
@@ -41,5 +29,4 @@ public class InjectionApplication extends Application implements InjectorProvide
 	public InjectionContainer getInjector() {
 		return injector;
 	}
-
 }

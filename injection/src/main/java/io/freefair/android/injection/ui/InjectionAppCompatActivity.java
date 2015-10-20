@@ -28,11 +28,7 @@ public class InjectionAppCompatActivity extends AppCompatActivity implements Inj
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Injector parentInjector = null;
-		if(getApplication() instanceof InjectorProvider){
-			parentInjector = ((InjectorProvider)getApplication()).getInjector();
-		}
-		injector = new ActivityInjector(this, parentInjector);
+		injector = new ActivityInjector(this);
 		injector.inject(this);
 
 		if(xmlLayoutAnnotation.isPresent()){

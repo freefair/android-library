@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import io.freefair.android.injection.InjectionContainer;
 import io.freefair.android.injection.Injector;
 import io.freefair.android.injection.annotation.InjectAttribute;
 import io.freefair.android.injection.annotation.InjectResource;
@@ -38,7 +39,7 @@ public abstract class AndroidInjector<T> extends Injector {
 	private Logger log = Logger.forObject(this);
 
 	public AndroidInjector(Injector parentInjector, T object, Class<?> rClass) {
-		super(parentInjector);
+		super(parentInjector == null ? InjectionContainer.getInstance() : parentInjector);
 		this.setObject(object);
 		this.rClass = rClass;
 	}

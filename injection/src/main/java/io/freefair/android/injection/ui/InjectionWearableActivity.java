@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
 
+import io.freefair.android.injection.InjectionContainer;
 import io.freefair.android.injection.Injector;
 import io.freefair.android.injection.InjectorProvider;
 import io.freefair.android.injection.exceptions.ViewIdNotFoundException;
@@ -13,18 +14,18 @@ public abstract class InjectionWearableActivity extends Activity implements Inje
 	WatchViewStubActivityInjector injector;
 
 	Injector parentInjector;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(getApplication() instanceof InjectorProvider){
-			parentInjector = ((InjectorProvider)getApplication()).getInjector();
-			parentInjector.inject(this);
-		}
+		parentInjector = InjectionContainer.getInstance();
+		parentInjector.inject(this);
+
 	}
 
 	public void setContentView(int layoutResID, int viewStubID) {
 		super.setContentView(layoutResID);
-		final WatchViewStub stub = (WatchViewStub)findViewById(viewStubID);
+		final WatchViewStub stub = (WatchViewStub) findViewById(viewStubID);
 
 		stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
 			@Override

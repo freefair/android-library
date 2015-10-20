@@ -39,9 +39,6 @@ public class InjectionFragment extends Fragment implements InjectorProvider{
 		if(getActivity() instanceof InjectorProvider) {
 			parentInjector = ((InjectorProvider) getActivity()).getInjector();
 		}
-		if(injector == null && getActivity().getApplication() instanceof InjectorProvider) {
-			parentInjector = ((InjectorProvider) getActivity().getApplication()).getInjector();
-		}
 		injector = new FragmentInjector(this, parentInjector);
 		injector.inject(this);
 		if(xmlMenuAnnotation.isPresent()){

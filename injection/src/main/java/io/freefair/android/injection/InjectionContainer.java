@@ -17,11 +17,21 @@ import io.freefair.android.util.Supplier;
 
 public class InjectionContainer extends Injector {
 
+	private static InjectionContainer instance;
+
+	public static InjectionContainer getInstance() {
+		if (instance == null) {
+			instance = new InjectionContainer();
+			new DefaultModule().configure(instance);
+		}
+		return instance;
+	}
+
 	private Map<Class<?>, Supplier<?>> injectionSupplier;
 	private Set<InjectionProvider> injectionFactories;
 
-	public InjectionContainer(Injector parentInjector) {
-		super(parentInjector);
+	private InjectionContainer() {
+		super(null);
 		injectionSupplier = new HashMap<>();
 		injectionFactories = new HashSet<>();
 	}
@@ -49,9 +59,9 @@ public class InjectionContainer extends Injector {
 
 			Object value = resolveValue(targetType, instance);
 
-			if(value == null){
+			if (value == null) {
 				if (!injectAnnotation.optional() && !field.getType().equals(Optional.class)) {
-					throw new InjectionException("Unable to resolve value of type " + targetType.toString() + " for Field "+ field.toString());
+					throw new InjectionException("Unable to resolve value of type " + targetType.toString() + " for Field " + field.toString());
 				}
 			}
 
