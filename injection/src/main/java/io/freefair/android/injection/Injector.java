@@ -1,13 +1,17 @@
 package io.freefair.android.injection;
 
+import android.app.Activity;
+import android.app.Application;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.WeakHashMap;
 
 import io.freefair.android.injection.annotation.Inject;
@@ -28,6 +32,10 @@ public abstract class Injector {
 		log = Logger.forObject(this);
 		this.parentInjector = Optional.ofNullable(parentInjector);
 		alreadyInjectedInstances = new WeakHashMap<>();
+		topClasses = new HashSet<>();
+		topClasses.add(Activity.class);
+		topClasses.add(Fragment.class);
+		topClasses.add(Application.class);
 	}
 
 	private WeakHashMap<Object, Class<?>> alreadyInjectedInstances;
@@ -54,12 +62,24 @@ public abstract class Injector {
 		if (!alreadyInjectedInstances.containsKey(instance)) {
 			long start = System.currentTimeMillis();
 			alreadyInjectedInstances.put(instance, clazz);
-			for (Field field : Reflection.getAllFields(clazz, Object.class)) {
+			for (Field field : Reflection.getAllFields(clazz, getUpToExcluding(clazz))) {
 				inject(instance, field);
 			}
 			long end = System.currentTimeMillis();
 			log.debug("Injection of " + instance + " took " + (end - start) + "ms");
 		}
+	}
+
+	private Set<Class<?>> topClasses;
+
+	@NonNull
+	@SuppressWarnings("unchecked")
+	private <X> Class<X> getUpToExcluding(Class<? extends X> clazz) {
+		for (Class<?> topClazz : topClasses) {
+			if(topClazz.isAssignableFrom(clazz))
+				return (Class<X>) topClazz;
+		}
+		return (Class<X>) Object.class;
 	}
 
 	/**
