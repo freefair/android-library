@@ -10,7 +10,9 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.util.Deque;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.WeakHashMap;
 
@@ -31,14 +33,13 @@ public abstract class Injector {
 	public Injector(@Nullable Injector parentInjector) {
 		log = Logger.forObject(this);
 		this.parentInjector = Optional.ofNullable(parentInjector);
-		alreadyInjectedInstances = new WeakHashMap<>();
 		topClasses = new HashSet<>();
 		topClasses.add(Activity.class);
 		topClasses.add(Fragment.class);
 		topClasses.add(Application.class);
 	}
 
-	private WeakHashMap<Object, Class<?>> alreadyInjectedInstances;
+	private WeakHashMap<Object, Class<?>> alreadyInjectedInstances = new WeakHashMap<>();
 	private static WeakHashMap<Object, Injector> responsibleInjectors = new WeakHashMap<>();
 
 	protected Injector getInjector(Object instance){
@@ -57,14 +58,20 @@ public abstract class Injector {
 		inject(instance, instance.getClass());
 	}
 
+	Deque<Object> instancesStack = new LinkedList<>();
+
 	public final void inject(@NonNull Object instance, @NonNull Class<?> clazz) {
 		responsibleInjectors.put(instance, this);
 		if (!alreadyInjectedInstances.containsKey(instance)) {
 			long start = System.currentTimeMillis();
+
+			instancesStack.addLast(instance);
 			alreadyInjectedInstances.put(instance, clazz);
 			for (Field field : Reflection.getAllFields(clazz, getUpToExcluding(clazz))) {
 				inject(instance, field);
 			}
+			instancesStack.removeLast();
+
 			long end = System.currentTimeMillis();
 			log.debug("Injection of " + instance + " took " + (end - start) + "ms");
 		}
@@ -106,6 +113,11 @@ public abstract class Injector {
 	 */
 	@Nullable
 	public <T> T resolveValue(@NonNull Class<T> type, @Nullable Object instance) {
+		for (Object inst : instancesStack) {
+			if(type.isInstance(inst))
+				return (T) inst;
+		}
+
 		if (parentInjector.isPresent()) {
 			return parentInjector.get().resolveValue(type, instance);
 		} else {
@@ -145,8 +157,9 @@ public abstract class Injector {
 				}
 			}
 		}
-		if(newInstance != null)
+		if(newInstance != null) {
 			getInjector(instance).inject(newInstance);
+		}
 		return newInstance;
 	}
 

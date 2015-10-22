@@ -29,9 +29,7 @@ public class InjectorTest {
 		injector.inject(a);
 
 		assertEquals("FOO", a.getB().getTest());
-
 	}
-
 
 	public static class A {
 
@@ -51,6 +49,57 @@ public class InjectorTest {
 		public String getTest() {
 			return test;
 		}
+	}
+
+	@Test
+	public void testConstructorInjection(){
+		C c = new C();
+
+		injector.inject(c);
+	}
+
+	public static class C {
+		@Inject
+		ConstructorInjectionTest cit;
+
+		public ConstructorInjectionTest getCit() {
+			return cit;
+		}
+	}
+
+	public static class ConstructorInjectionTest {
+
+		@Inject
+		public ConstructorInjectionTest(A a, B b, String string){
+			assertNotNull(a);
+			assertNotNull(b);
+			assertNotNull(string);
+
+			assertEquals(string, b.getTest());
+			assertEquals(string, a.getB().getTest());
+		}
+	}
+
+	@Test
+	public void testCircleInjection(){
+		Circle circle = new Circle();
+
+		injector.inject(circle);
+	}
+
+	public static class Circle{
+		@Inject
+		Circle1 c;
+	}
+
+	public static class Circle1{
+		@Inject
+		Circle2 c2;
+	}
+
+	public static class Circle2{
+		@Inject
+		Circle1 c1;
 	}
 
 }
