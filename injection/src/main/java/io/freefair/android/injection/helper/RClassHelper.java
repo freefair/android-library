@@ -57,8 +57,7 @@ public class RClassHelper {
 		try {
 			return Class.forName(rClassName);
 		} catch (ClassNotFoundException e) {
-			log.error("No R class found for given package name " + packageName, e);
-			e.printStackTrace();
+			log.warn("No R class found for given package name " + packageName, e);
 		}
 		return null;
 	}
