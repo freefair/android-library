@@ -9,18 +9,12 @@ buildscript {
     }
 }
 
-def tempVersion = 'git describe --abbrev=0 --tags'.execute([],rootProject.projectDir).text.trim() + "-SNAPSHOT"
-
-if(hasProperty('version') && !'unspecified'.equals(version)) {
-    tempVersion = version
-}
-
 allprojects {
     repositories {
         jcenter()
     }
     group = 'io.freefair'
-    version = tempVersion
+    apply from: 'https://gist.githubusercontent.com/larsgrefer/30b36bd74b162631f143/raw/d4155e673d7908193eb65f9bb6640250d7f282d8/git-version.gradle'
 }
 
 subprojects {
