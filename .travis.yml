@@ -19,8 +19,6 @@ deploy:
     - injection/build/outputs/aar/injection-release.aar
     - mvvm/build/outputs/aar/mvvm-release.aar
     - orm/build/outputs/aar/orm-release.aar
-    - material-colors/build/outputs/aar/material-colors.aar
-    - holo-colors/build/outputs/aar/holo-colors.aar
   skip_cleanup: true
   on:
     repo: freefair/android-library

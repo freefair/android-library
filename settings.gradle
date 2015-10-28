@@ -1,7 +1,5 @@
 rootProject.name = "android-library"
 
-include ':material-colors'
-include ':holo-colors'
 include ':util'
 include ':playground'
 include ':injection'
