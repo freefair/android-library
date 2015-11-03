@@ -9,8 +9,6 @@ The library consist of different modules:
 - [orm](orm)
 - [util](util)
 - [playground](playground)
-- [material-colors](material-colors)
-- [holo-colors](holo-colors)
 
 ##How to include:
 ###Gradle
