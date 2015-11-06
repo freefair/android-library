@@ -19,19 +19,19 @@ import java.util.WeakHashMap;
 import io.freefair.android.injection.annotation.Inject;
 import io.freefair.android.injection.exceptions.InjectionException;
 import io.freefair.android.injection.reflection.Reflection;
-import io.freefair.android.util.Logger;
 import io.freefair.android.util.Optional;
+import io.freefair.android.util.log.Logger;
+import io.freefair.android.util.log.Loggers;
 
 /**
  * Abstact implementation of a dependency injector
  */
 public abstract class Injector {
 
-	private final Logger log;
+	private final Logger log = Loggers.forClass(Injector.class);
 	private Optional<Injector> parentInjector;
 
 	public Injector(@Nullable Injector parentInjector) {
-		log = Logger.forObject(this);
 		this.parentInjector = Optional.ofNullable(parentInjector);
 		topClasses = new HashSet<>();
 		topClasses.add(Activity.class);

@@ -26,8 +26,9 @@ import io.freefair.android.injection.annotation.InjectView;
 import io.freefair.android.injection.exceptions.InjectionException;
 import io.freefair.android.injection.exceptions.ViewIdNotFoundException;
 import io.freefair.android.injection.reflection.Reflection;
-import io.freefair.android.util.Logger;
 import io.freefair.android.util.Optional;
+import io.freefair.android.util.log.Logger;
+import io.freefair.android.util.log.Loggers;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -36,7 +37,7 @@ public abstract class AndroidInjector<T> extends Injector {
 
 	private T object;
 	private Class<?> rClass;
-	private Logger log = Logger.forObject(this);
+	private Logger log = Loggers.forClass(AndroidInjector.class);
 
 	public AndroidInjector(Injector parentInjector, T object, Class<?> rClass) {
 		super(parentInjector == null ? InjectionContainer.getInstance() : parentInjector);

@@ -5,30 +5,30 @@ import android.support.annotation.AnyRes;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.freefair.android.util.Logger;
+import io.freefair.android.util.log.Logger;
+import io.freefair.android.util.log.Loggers;
 
 /**
  * Created by Dennis on 18.06.2015.
  */
-public class BRHelper
-{
+public class BRHelper {
 	private static List<Class<?>> brClasses = new ArrayList<>();
+	private static Logger log = Loggers.forClass(BRHelper.class);
 
 	@AnyRes
-	public static int getBrByName(String name){
-		for (Class<?> brClass :
-				brClasses) {
+	public static int getBrByName(String name) {
+		for (Class<?> brClass : brClasses) {
 			try {
 				return (Integer) brClass.getDeclaredField(name).get(null);
-			}catch (Exception ex){
-				Logger.error(BRHelper.class, "Error while getDeclaredField: ", ex);
+			} catch (Exception ex) {
+				log.error("Error while getDeclaredField: ", ex);
 			}
 		}
 		return -1;
 	}
 
-	public static void addBrClass(Class<?> brClass){
-		if(!brClasses.contains(brClass))
+	public static void addBrClass(Class<?> brClass) {
+		if (!brClasses.contains(brClass))
 			brClasses.add(brClass);
 	}
 }

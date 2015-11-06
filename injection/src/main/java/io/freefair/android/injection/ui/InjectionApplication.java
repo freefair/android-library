@@ -2,11 +2,7 @@ package io.freefair.android.injection.ui;
 
 import android.app.Application;
 
-import io.freefair.android.util.Logger;
 import io.freefair.android.injection.InjectionContainer;
-import io.freefair.android.injection.InjectionProvider;
-import io.freefair.android.injection.Injector;
-import io.freefair.android.injection.InjectorProvider;
 import io.freefair.android.util.Suppliers;
 
 /**

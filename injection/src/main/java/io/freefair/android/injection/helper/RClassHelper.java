@@ -5,15 +5,16 @@ import android.app.Application;
 import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
 
-import io.freefair.android.util.Logger;
 import io.freefair.android.injection.annotation.RClass;
+import io.freefair.android.util.log.Logger;
+import io.freefair.android.util.log.Loggers;
 
 /**
  * Created by larsgrefer on 27.11.14.
  */
 public class RClassHelper {
 
-	protected static Logger log = Logger.forClass(RClassHelper.class);
+	protected static Logger log = Loggers.forClass(RClassHelper.class);
 
 	static Class<?> getRClassFromAnnotation(Object object) {
 		if (object.getClass().isAnnotationPresent(RClass.class)) {
@@ -57,7 +58,7 @@ public class RClassHelper {
 		try {
 			return Class.forName(rClassName);
 		} catch (ClassNotFoundException e) {
-			log.warn("No R class found for given package name " + packageName, e);
+			log.info("No R class found for given package name " + packageName, e);
 		}
 		return null;
 	}

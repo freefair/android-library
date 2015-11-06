@@ -2,29 +2,28 @@ package io.freefair.android.threading;
 
 import android.os.Handler;
 
-import io.freefair.android.util.Logger;
+import io.freefair.android.util.log.Logger;
+import io.freefair.android.util.log.Loggers;
+import io.freefair.android.util.log.ObjectLogger;
 
-public abstract class UIThread implements Runnable
-{
+public abstract class UIThread implements Runnable {
+	private Logger log = Loggers.forClass(UIThread.class);
+
 	private Handler _handler;
 	private Thread _thread;
 
-	public UIThread()
-	{
+	public UIThread() {
 		_handler = new Handler();
 	}
 
-	public void start()
-	{
-		if(_thread == null)
-		{
+	public void start() {
+		if (_thread == null) {
 			_thread = new Thread(this);
 			_thread.start();
 		}
 	}
 
-	public void run()
-	{
+	public void run() {
 		try {
 			onRun();
 			_handler.post(new Runnable() {
@@ -33,10 +32,8 @@ public abstract class UIThread implements Runnable
 					UIThread.this.onFinish();
 				}
 			});
-		}
-		catch (final Exception ex)
-		{
-			Logger.error(this, "Error while UIThread execution.", ex);
+		} catch (final Exception ex) {
+			log.error("Error while UIThread execution.", ex);
 			_handler.post(new Runnable() {
 				@Override
 				public void run() {
@@ -47,10 +44,10 @@ public abstract class UIThread implements Runnable
 	}
 
 	public abstract void onRun();
+
 	public abstract void onFinish();
 
-	protected void onError(Exception ex)
-	{
+	protected void onError(Exception ex) {
 
 	}
 }

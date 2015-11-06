@@ -1,6 +1,7 @@
 package io.freefair.android.injection;
 
-import io.freefair.android.util.Logger;
+import io.freefair.android.util.log.Logger;
+import io.freefair.android.util.log.Loggers;
 
 /**
  * Created by larsgrefer on 19.10.15.
@@ -17,7 +18,7 @@ public class DefaultModule implements InjectionModule {
 			@Override
 			@SuppressWarnings("unchecked")
 			public <T> T provide(Class<T> clazz, Object instance, Injector injector) {
-				return (T) Logger.forObject(instance);
+				return (T) Loggers.forObject(instance);
 			}
 		});
 	}
