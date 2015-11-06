@@ -4,6 +4,7 @@ android {
 
 	defaultConfig {
 		minSdkVersion 1
+		consumerProguardFiles 'proguard-rules.pro'
 	}
 
 	compileOptions {
