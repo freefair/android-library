@@ -1,3 +1,4 @@
+# Needed for Reflection
 -keepattributes Signature,*Annotation*
 -keepclassmembers class * {
     @io.freefair.android.injection.annotation.Inject* *;

@@ -5,6 +5,7 @@ android {
 
     defaultConfig {
         minSdkVersion 9
+        consumerProguardFiles 'proguard-rules.pro'
     }
 
     lintOptions {
