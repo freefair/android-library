@@ -20,12 +20,12 @@ repositories {
 ####All at once
 ```gradle
 dependencies {
-    compile 'com.github.freefair:android-library:0.9.0'
+    compile 'io.freefair:android-library:0.9.0'
 }
 ```
 ####Only one module
 ```gradle
 dependencies {
-     compile 'com.github.freefair.android-library:MODULE-NAME:0.9.0'
+     compile 'io.freefair.android-library:MODULE-NAME:0.9.0'
 }
 ```
