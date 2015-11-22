@@ -17,6 +17,8 @@ allprojects {
     apply from: 'https://gist.githubusercontent.com/larsgrefer/30b36bd74b162631f143/raw/d4155e673d7908193eb65f9bb6640250d7f282d8/git-version.gradle'
 }
 
+def isCi = "true".equals(System.getenv("CI"))
+
 subprojects {
     apply plugin: 'com.android.library'
 
@@ -28,6 +30,13 @@ subprojects {
             minSdkVersion 1
             versionCode 1
             versionName project.version
+        }
+
+        lintOptions {
+            xmlReport !isCi
+            htmlReport !isCi
+            textOutput 'stdout'
+            textReport isCi
         }
     }
 
