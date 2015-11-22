@@ -2,8 +2,7 @@ package io.freefair.android.injection.reflection;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-
-import io.freefair.android.util.Predicate;
+import io.freefair.android.util.function.Predicate;
 
 /**
  * Created by larsgrefer on 16.03.15.

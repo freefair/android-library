@@ -8,15 +8,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.freefair.android.util.Optional;
-import io.freefair.android.util.Predicate;
-import io.freefair.android.util.Predicates;
-import io.freefair.android.util.log.Logger;
-import io.freefair.android.util.log.Loggers;
+import io.freefair.android.util.logging.*;
+import io.freefair.android.util.function.*;
 
 public class Reflection {
 
-	private static Logger log = Loggers.forClass(Reflection.class);
+	private static Logger log = AndroidLogger.forClass(Reflection.class);
 
 	public static <T> List<Field> getAllFields(Class<T> clazz){
 		return getAllFields(clazz, Predicates.<Field>alwaysTrue());

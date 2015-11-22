@@ -19,11 +19,9 @@ import io.freefair.android.injection.annotation.XmlMenu;
 import io.freefair.android.injection.exceptions.ViewIdNotFoundException;
 import io.freefair.android.injection.platform.FragmentInjector;
 import io.freefair.android.injection.platform.IViewFinder;
-import io.freefair.android.util.Optional;
+import io.freefair.android.util.function.Optional;
 
-/**
- * Created by larsgrefer on 24.11.14.
- */
+
 public class InjectionFragment extends Fragment implements InjectorProvider{
 
 	@Inject Optional<XmlMenu> xmlMenuAnnotation;

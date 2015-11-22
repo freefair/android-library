@@ -6,15 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
 
 import io.freefair.android.injection.annotation.RClass;
-import io.freefair.android.util.log.Logger;
-import io.freefair.android.util.log.Loggers;
+import io.freefair.android.util.logging.*;
 
 /**
  * Created by larsgrefer on 27.11.14.
  */
 public class RClassHelper {
 
-	protected static Logger log = Loggers.forClass(RClassHelper.class);
+	protected static Logger log = AndroidLogger.forClass(RClassHelper.class);
 
 	static Class<?> getRClassFromAnnotation(Object object) {
 		if (object.getClass().isAnnotationPresent(RClass.class)) {

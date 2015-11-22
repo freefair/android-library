@@ -30,9 +30,9 @@ import io.freefair.android.mvvm.annotations.Toolbar;
 import io.freefair.android.mvvm.annotations.specific.EventName;
 import io.freefair.android.mvvm.annotations.specific.EventNames;
 import io.freefair.android.mvvm.ui.GeneralEventListener;
-import io.freefair.android.util.Function;
-import io.freefair.android.util.log.Logger;
-import io.freefair.android.util.Optional;
+import io.freefair.android.util.function.Function;
+import io.freefair.android.util.function.Optional;
+import io.freefair.android.util.logging.Logger;
 
 public class BindingActivity extends InjectionAppCompatActivity implements android.support.v7.widget.Toolbar.OnMenuItemClickListener {
 

@@ -19,16 +19,15 @@ import java.util.WeakHashMap;
 import io.freefair.android.injection.annotation.Inject;
 import io.freefair.android.injection.exceptions.InjectionException;
 import io.freefair.android.injection.reflection.Reflection;
-import io.freefair.android.util.Optional;
-import io.freefair.android.util.log.Logger;
-import io.freefair.android.util.log.Loggers;
+import io.freefair.android.util.logging.*;
+import io.freefair.android.util.function.Optional;
 
 /**
  * Abstact implementation of a dependency injector
  */
 public abstract class Injector {
 
-	private final Logger log = Loggers.forClass(Injector.class);
+	private final Logger log = AndroidLogger.forClass(Injector.class);
 	private Optional<Injector> parentInjector;
 
 	public Injector(@Nullable Injector parentInjector) {

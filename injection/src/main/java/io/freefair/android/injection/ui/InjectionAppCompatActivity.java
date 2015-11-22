@@ -13,7 +13,7 @@ import io.freefair.android.injection.annotation.Inject;
 import io.freefair.android.injection.annotation.XmlLayout;
 import io.freefair.android.injection.annotation.XmlMenu;
 import io.freefair.android.injection.platform.ActivityInjector;
-import io.freefair.android.util.Optional;
+import io.freefair.android.util.function.Optional;
 
 
 /**

@@ -10,10 +10,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import io.freefair.android.util.function.Supplier;
+import io.freefair.android.util.function.Optional;
 import io.freefair.android.injection.annotation.Inject;
 import io.freefair.android.injection.exceptions.InjectionException;
-import io.freefair.android.util.Optional;
-import io.freefair.android.util.Supplier;
 
 public class InjectionContainer extends Injector {
 

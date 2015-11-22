@@ -2,12 +2,11 @@ package io.freefair.android.threading;
 
 import android.os.Handler;
 
-import io.freefair.android.util.log.Logger;
-import io.freefair.android.util.log.Loggers;
-import io.freefair.android.util.log.ObjectLogger;
+import io.freefair.android.util.logging.AndroidLogger;
+import io.freefair.android.util.logging.Logger;
 
 public abstract class UIThread implements Runnable {
-	private Logger log = Loggers.forClass(UIThread.class);
+	private Logger log = AndroidLogger.forClass(UIThread.class);
 
 	private Handler _handler;
 	private Thread _thread;
