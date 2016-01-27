@@ -20,7 +20,7 @@ import java.util.Map;
 
 import io.freefair.android.injection.annotation.Inject;
 import io.freefair.android.injection.annotation.XmlLayout;
-import io.freefair.android.injection.ui.InjectionAppCompatActivity;
+import io.freefair.android.injection.app.InjectionAppCompatActivity;
 import io.freefair.android.mvvm.annotations.BindTo;
 import io.freefair.android.mvvm.annotations.Binding;
 import io.freefair.android.mvvm.annotations.DrawerToggle;

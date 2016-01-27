@@ -15,7 +15,6 @@ deploy:
     secure: V35m6Mzyieg5jMI6OJo4fi4DjpuxxZ2JTj2E8xAPjAWerymccc4Qlp6bLUgTLU19oQI2ADOEgawqP/sGPpHST+rM0ypXiEKNo2UnK+Pt7oan7Q1j3jVKs5ts8wwlPlA7EJW1Pguryyc+Zq0XybYq9tcgjb7LfxVkFZD7EpiK/9Y=
   file:
     - playground/build/outputs/aar/playground-release.aar
-    - injection/build/outputs/aar/injection-release.aar
     - mvvm/build/outputs/aar/mvvm-release.aar
     - orm/build/outputs/aar/orm-release.aar
   skip_cleanup: true

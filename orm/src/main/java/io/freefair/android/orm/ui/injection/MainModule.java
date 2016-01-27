@@ -8,6 +8,10 @@ import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.freefair.android.injection.InjectionModule;
+import io.freefair.android.injection.InjectionProvider;
+import io.freefair.android.injection.injector.InjectionContainer;
+import io.freefair.android.injection.injector.Injector;
 import io.freefair.android.orm.CrudRepository;
 import io.freefair.android.orm.CrudRepositoryInvocationHandler;
 import io.freefair.android.orm.IRepositoryFactory;
@@ -17,10 +21,6 @@ import io.freefair.android.orm.annotation.Repository;
 import io.freefair.android.orm.annotation.Service;
 import io.freefair.android.orm.orm_light.RepositoryFactory;
 import io.freefair.android.orm.orm_light.UnitOfWorkFactory;
-import io.freefair.android.injection.InjectionContainer;
-import io.freefair.android.injection.InjectionModule;
-import io.freefair.android.injection.InjectionProvider;
-import io.freefair.android.injection.Injector;
 
 public class MainModule implements InjectionModule {
 
@@ -41,8 +41,7 @@ public class MainModule implements InjectionModule {
 		}
 
 		@Override
-		@SuppressWarnings("unchecked")
-		public <T> T provide(Class<T> clazz, Object instance, Injector injector) {
+		public <T> T provide(Class<? super T> clazz, Object instance, Injector injector) {
 			return (T) Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz}, new CrudRepositoryInvocationHandler(clazz));
 		}
 	}
@@ -57,8 +56,7 @@ public class MainModule implements InjectionModule {
 		}
 
 		@Override
-		@SuppressWarnings("unchecked")
-		public <T> T provide(Class<T> clazz, Object instance, Injector injector) {
+		public <T> T provide(Class<? super T> clazz, Object instance, Injector injector) {
 			try {
 				if (!proxyClasses.containsKey(clazz)) {
 					Class<?> cls = ProxyBuilder.forClass(clazz)
