@@ -20,6 +20,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'io.freefair.android-injection:injection:1.0.0-rc2'
+    compile 'io.freefair.android-injection:injection:1.1.0'
     compile 'com.android.support:design:23.1.1'
 }
