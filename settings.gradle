@@ -2,4 +2,3 @@ rootProject.name = "android-library"
 
 include ':playground'
 include ':mvvm'
-include ':orm'
