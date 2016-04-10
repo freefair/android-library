@@ -6,19 +6,16 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.0.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
-        classpath 'io.freefair:gradle-plugins:2.0.0-beta2'
+        classpath 'io.freefair:gradle-plugins:2.0.0-beta3'
     }
 }
-
-apply plugin: 'io.freefair.git-version'
 
 allprojects {
     repositories {
         jcenter()
         maven { url "https://jitpack.io" }
     }
-    group = 'io.freefair'
-    version = rootProject.version
+    apply plugin: 'io.freefair.git-version'
 }
 
 def isCi = "true".equals(System.getenv("CI"))
