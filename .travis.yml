@@ -17,7 +17,6 @@ deploy:
   file:
     - playground/build/outputs/aar/playground-release.aar
     - mvvm/build/outputs/aar/mvvm-release.aar
-    - orm/build/outputs/aar/orm-release.aar
   skip_cleanup: true
   on:
     repo: freefair/android-library
