@@ -15,20 +15,20 @@ import io.freefair.android.mvvm.viewmodels.Page;
 
 @SuppressLint("ValidFragment")
 public class SimplePageFragment extends Fragment {
-	private Page page;
+    private Page page;
 
-	public SimplePageFragment() {
-	}
+    public SimplePageFragment() {
+    }
 
-	public SimplePageFragment(Page page) {
-		this.page = page;
-	}
+    public SimplePageFragment(Page page) {
+        this.page = page;
+    }
 
-	@Nullable
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		ViewDataBinding inflate = DataBindingUtil.inflate(inflater, page.layout.get(), container, false);
-		inflate.setVariable(BRHelper.getBrByName("item"), page.model.get());
-		return inflate.getRoot();
-	}
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ViewDataBinding inflate = DataBindingUtil.inflate(inflater, page.layout.get(), container, false);
+        inflate.setVariable(BRHelper.getBrByName("item"), page.model.get());
+        return inflate.getRoot();
+    }
 }
