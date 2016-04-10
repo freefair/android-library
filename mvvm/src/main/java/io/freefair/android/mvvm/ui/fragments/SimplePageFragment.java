@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import io.freefair.android.mvvm.BRHelper;
+import io.freefair.android.mvvm.BrHelper;
 import io.freefair.android.mvvm.viewmodels.Page;
 
 @SuppressLint("ValidFragment")
@@ -28,7 +28,7 @@ public class SimplePageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewDataBinding inflate = DataBindingUtil.inflate(inflater, page.layout.get(), container, false);
-        inflate.setVariable(BRHelper.getBrByName("item"), page.model.get());
+        inflate.setVariable(BrHelper.getBrByName("item"), page.model.get());
         return inflate.getRoot();
     }
 }

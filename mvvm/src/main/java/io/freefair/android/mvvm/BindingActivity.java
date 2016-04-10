@@ -250,8 +250,8 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
                 field.set(this, value);
                 Class<?> value1 = annotation.value();
                 if (value1 != BindTo.class)
-                    BRHelper.addBrClass(value1);
-                Integer o = BRHelper.getBrByName(field.getName());
+                    BrHelper.addBrClass(value1);
+                Integer o = BrHelper.getBrByName(field.getName());
                 binding.setVariable(o, value);
             }
         }

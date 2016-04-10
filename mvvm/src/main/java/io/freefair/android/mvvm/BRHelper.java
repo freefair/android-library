@@ -2,15 +2,15 @@ package io.freefair.android.mvvm;
 
 import android.support.annotation.AnyRes;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import io.freefair.android.util.logging.AndroidLogger;
 import io.freefair.android.util.logging.Logger;
 
-public class BRHelper {
-    private static List<Class<?>> brClasses = new ArrayList<>();
-    private static Logger log = AndroidLogger.forClass(BRHelper.class);
+public class BrHelper {
+    private static Set<Class<?>> brClasses = new HashSet<>();
+    private static Logger log = AndroidLogger.forClass(BrHelper.class);
 
     @AnyRes
     public static int getBrByName(String name) {
@@ -25,7 +25,6 @@ public class BRHelper {
     }
 
     public static void addBrClass(Class<?> brClass) {
-        if (!brClasses.contains(brClass))
-            brClasses.add(brClass);
+        brClasses.add(brClass);
     }
 }

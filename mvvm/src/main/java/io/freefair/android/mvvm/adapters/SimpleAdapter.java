@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import io.freefair.android.mvvm.BRHelper;
+import io.freefair.android.mvvm.BrHelper;
 
 public class SimpleAdapter extends BaseAdapter {
 	private final ListView view;
@@ -76,7 +76,7 @@ public class SimpleAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewDataBinding inflate = DataBindingUtil.inflate(LayoutInflater.from(view.getContext()).cloneInContext(view.getContext()), layout, parent, false);
-		inflate.setVariable(BRHelper.getBrByName("item"), list.get(position));
+		inflate.setVariable(BrHelper.getBrByName("item"), list.get(position));
 		return inflate.getRoot();
 	}
 
