@@ -10,6 +10,8 @@ buildscript {
     }
 }
 
+group = "io.freefair"
+
 allprojects {
     repositories {
         jcenter()

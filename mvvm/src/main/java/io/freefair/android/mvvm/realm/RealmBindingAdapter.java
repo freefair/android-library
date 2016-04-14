@@ -1,4 +1,4 @@
-package io.freefair.android.mvvm.adapters;
+package io.freefair.android.mvvm.realm;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
