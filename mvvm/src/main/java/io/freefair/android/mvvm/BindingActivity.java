@@ -3,6 +3,7 @@ package io.freefair.android.mvvm;
 import android.databinding.DataBindingUtil;
 import android.databinding.OnRebindCallback;
 import android.databinding.ViewDataBinding;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -279,8 +280,10 @@ public class BindingActivity extends InjectionAppCompatActivity implements andro
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		if(treeObserver != null) {
-			treeObserver.removeOnGlobalLayoutListener(this);
+		if(treeObserver != null && treeObserver.isAlive()) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				treeObserver.removeOnGlobalLayoutListener(this);
+			}
 		}
 		treeObserver = null;
 	}
