@@ -1,6 +1,6 @@
 #android-library 
 [![](https://jitpack.io/v/io.freefair/android-library.svg)](https://jitpack.io/#io.freefair/android-library)
-===============
+
 ##Structure
 
 The library consist of different modules:
