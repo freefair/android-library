@@ -29,12 +29,11 @@ public class RealmBindingAdapter<T extends RealmObject, B extends ViewDataBindin
     /**
      * @param context
      * @param realmResults The realmResults to display
-     * @param automaticUpdate
      * @param bindingClass {@code MyItemLayoutBinding.class}
      * @param bindingVariableId {@code BR.item}
      */
-    public RealmBindingAdapter(Context context, RealmResults<T> realmResults, boolean automaticUpdate, Class<B> bindingClass, int bindingVariableId) {
-        super(context, realmResults, automaticUpdate);
+    public RealmBindingAdapter(Context context, RealmResults<T> realmResults, Class<B> bindingClass, int bindingVariableId) {
+        super(context, realmResults);
         this.bindingClass = bindingClass;
         this.bindingVariableId = bindingVariableId;
     }
