@@ -1,7 +1,0 @@
-<manifest
-    package="io.freefair.android.injection"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <uses-sdk tools:overrideLibrary="android.support.wearable"/>
-</manifest>
-

@@ -1,8 +1,4 @@
 rootProject.name = "android-library"
 
-include ':util'
 include ':playground'
-include ':injection'
 include ':mvvm'
-include ':orm'
-include ':appcompat-preference'

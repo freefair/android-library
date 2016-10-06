@@ -9,14 +9,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import io.freefair.android.util.Logger;
+import io.freefair.android.util.logging.AndroidLogger;
+import io.freefair.android.util.logging.Logger;
 
 public class BitmapLoadingThread implements Runnable
 {
 	private IBitmapLoadingCompleteListener _listener;
 	private Handler _handler = new Handler();
 	private Uri _uri;
-	private Logger log = Logger.forObject(this);
+	private Logger log = AndroidLogger.forClass(BitmapLoadingThread.class);
 
 	public BitmapLoadingThread(IBitmapLoadingCompleteListener listener, Uri uri)
 	{
